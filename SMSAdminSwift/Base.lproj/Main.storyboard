@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6211" systemVersion="14A298i" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vXZ-lx-hvc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="DkF-Vq-Cgo">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6204"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Main Menu View Controller-->
         <scene sceneID="ufC-wZ-h7g">
             <objects>
-                <viewController id="vXZ-lx-hvc" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="vXZ-lx-hvc" customClass="MainMenuViewController" customModule="SMSAdminSwift" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="jyV-Pf-zRb"/>
                         <viewControllerLayoutGuide type="bottom" id="2fi-mo-0CV"/>
@@ -15,11 +16,353 @@
                     <view key="view" contentMode="scaleToFill" id="kh9-bI-dsS">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lgu-Gv-lHe">
+                                <rect key="frame" x="16" y="72" width="568" height="27"/>
+                                <fontDescription key="fontDescription" name="HiraKakuProN-W3" family="Hiragino Kaku Gothic ProN" pointSize="15"/>
+                                <state key="normal" title="SMS送信">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="showSendSMS:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="7E0-vF-MG3"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VFC-X4-mhH">
+                                <rect key="frame" x="16" y="107" width="568" height="27"/>
+                                <fontDescription key="fontDescription" name="HiraKakuProN-W3" family="Hiragino Kaku Gothic ProN" pointSize="15"/>
+                                <state key="normal" title="送信履歴">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="showHistory:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="4uM-Kt-pb1"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Tl-4Z-xcO">
+                                <rect key="frame" x="16" y="142" width="568" height="27"/>
+                                <fontDescription key="fontDescription" name="HiraKakuProN-W3" family="Hiragino Kaku Gothic ProN" pointSize="15"/>
+                                <state key="normal" title="テンプレート管理">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="showTemplateAdmin:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="iFS-HJ-Jbk"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mwL-rl-gLv">
+                                <rect key="frame" x="16" y="177" width="568" height="27"/>
+                                <fontDescription key="fontDescription" name="HiraKakuProN-W3" family="Hiragino Kaku Gothic ProN" pointSize="15"/>
+                                <state key="normal" title="受信者管理">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="showRecipientAdmin:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="eHv-1R-E03"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="lgu-Gv-lHe" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="8" id="04B-h6-fU2"/>
+                            <constraint firstItem="0Tl-4Z-xcO" firstAttribute="top" secondItem="VFC-X4-mhH" secondAttribute="bottom" constant="8" id="2IP-TQ-iAK"/>
+                            <constraint firstItem="0Tl-4Z-xcO" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" id="3W4-Af-Cqv"/>
+                            <constraint firstItem="mwL-rl-gLv" firstAttribute="leading" secondItem="0Tl-4Z-xcO" secondAttribute="leading" id="6x6-4F-760"/>
+                            <constraint firstAttribute="centerX" secondItem="lgu-Gv-lHe" secondAttribute="centerX" id="Ptz-Iy-TrK"/>
+                            <constraint firstItem="mwL-rl-gLv" firstAttribute="top" secondItem="0Tl-4Z-xcO" secondAttribute="bottom" constant="8" symbolic="YES" id="V8h-AE-ebs"/>
+                            <constraint firstItem="mwL-rl-gLv" firstAttribute="trailing" secondItem="0Tl-4Z-xcO" secondAttribute="trailing" id="ft1-8c-7sV"/>
+                            <constraint firstAttribute="centerX" secondItem="VFC-X4-mhH" secondAttribute="centerX" id="i8g-H9-Tgj"/>
+                            <constraint firstAttribute="centerX" secondItem="0Tl-4Z-xcO" secondAttribute="centerX" id="lkR-DY-9g6"/>
+                            <constraint firstItem="VFC-X4-mhH" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" id="o4i-sh-peV"/>
+                            <constraint firstItem="lgu-Gv-lHe" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" id="qr0-vR-xvt"/>
+                            <constraint firstItem="VFC-X4-mhH" firstAttribute="top" secondItem="lgu-Gv-lHe" secondAttribute="bottom" constant="8" id="re0-nA-h71"/>
+                        </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="GTq-cs-YvJ"/>
+                    <connections>
+                        <segue destination="k0h-YG-xUT" kind="show" identifier="showHistorySMS" id="mKl-8n-jvN"/>
+                        <segue destination="sSK-tB-JS0" kind="show" identifier="showSendSMS" id="h63-tU-O9H"/>
+                        <segue destination="Q5d-ov-PZU" kind="show" identifier="showTemplateAdmin" id="xbE-6p-FS5"/>
+                        <segue destination="Rkv-uP-rwf" kind="show" identifier="showRecipientAdmin" id="EIL-OM-vAa"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="399" y="555"/>
+        </scene>
+        <!--Template Admin View Controller-->
+        <scene sceneID="b0Q-4d-FLW">
+            <objects>
+                <viewController id="Q5d-ov-PZU" customClass="TemplateAdminViewController" customModule="SMSAdminSwift" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Tpv-SB-xWe"/>
+                        <viewControllerLayoutGuide type="bottom" id="cxz-KV-HE7"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Tym-c4-9R1">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="Zv0-9H-Abn">
+                                <rect key="frame" x="0.0" y="64" width="600" height="600"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="templateTableCell" id="Xtp-to-yeD" customClass="TemplateTableViewCell" customModule="SMSAdminSwift" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Xtp-to-yeD" id="2kq-Uk-Nk1">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="タイトル" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CTA-Xk-PQ1">
+                                                    <rect key="frame" x="8" y="12" width="44" height="11"/>
+                                                    <fontDescription key="fontDescription" name="HiraKakuProN-W3" family="Hiragino Kaku Gothic ProN" pointSize="11"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="概要" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dlJ-8V-BHd">
+                                                    <rect key="frame" x="60" y="12" width="22" height="11"/>
+                                                    <fontDescription key="fontDescription" name="HiraKakuProN-W3" family="Hiragino Kaku Gothic ProN" pointSize="11"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="dlJ-8V-BHd" firstAttribute="leading" secondItem="CTA-Xk-PQ1" secondAttribute="trailing" constant="8" id="5Tg-3q-lx9"/>
+                                                <constraint firstItem="CTA-Xk-PQ1" firstAttribute="top" secondItem="2kq-Uk-Nk1" secondAttribute="topMargin" constant="4" id="Tse-QO-tWG"/>
+                                                <constraint firstItem="CTA-Xk-PQ1" firstAttribute="leading" secondItem="2kq-Uk-Nk1" secondAttribute="leadingMargin" id="Vu6-oN-BlP"/>
+                                                <constraint firstItem="dlJ-8V-BHd" firstAttribute="top" secondItem="2kq-Uk-Nk1" secondAttribute="topMargin" constant="4" id="e30-kO-Q9V"/>
+                                                <constraint firstItem="CTA-Xk-PQ1" firstAttribute="top" secondItem="dlJ-8V-BHd" secondAttribute="top" id="ycC-t5-dGK"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="template_summary" destination="dlJ-8V-BHd" id="Mz1-al-vlR"/>
+                                            <outlet property="template_title" destination="CTA-Xk-PQ1" id="QBI-cI-DH8"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="templateTableHeaderCell" id="XuI-AV-4mM" customClass="TemplateTableViewHeaderCell" customModule="SMSAdminSwift" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="XuI-AV-4mM" id="BNM-Ea-jeH">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="タイトル" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lpf-61-b5k">
+                                                    <rect key="frame" x="8" y="16" width="44" height="11"/>
+                                                    <fontDescription key="fontDescription" name="HiraKakuProN-W3" family="Hiragino Kaku Gothic ProN" pointSize="11"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="概要" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PJL-TN-dx0">
+                                                    <rect key="frame" x="60" y="16" width="22" height="11"/>
+                                                    <fontDescription key="fontDescription" name="HiraKakuProN-W3" family="Hiragino Kaku Gothic ProN" pointSize="11"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="Lpf-61-b5k" firstAttribute="leading" secondItem="BNM-Ea-jeH" secondAttribute="leadingMargin" id="Cvv-H0-4d7"/>
+                                                <constraint firstItem="PJL-TN-dx0" firstAttribute="leading" secondItem="Lpf-61-b5k" secondAttribute="trailing" constant="8" id="Olm-BB-k5P"/>
+                                                <constraint firstItem="Lpf-61-b5k" firstAttribute="top" secondItem="PJL-TN-dx0" secondAttribute="top" id="UZ5-JZ-XbB"/>
+                                                <constraint firstItem="Lpf-61-b5k" firstAttribute="top" secondItem="BNM-Ea-jeH" secondAttribute="topMargin" constant="8" id="jLC-uu-sUL"/>
+                                                <constraint firstItem="PJL-TN-dx0" firstAttribute="top" secondItem="BNM-Ea-jeH" secondAttribute="topMargin" constant="8" id="yrl-NX-tzg"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hlD-8i-HdD" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="721" y="-390"/>
+        </scene>
+        <!--Recipient Admin View Controller-->
+        <scene sceneID="g5e-Af-Aj0">
+            <objects>
+                <viewController id="Rkv-uP-rwf" customClass="RecipientAdminViewController" customModule="SMSAdminSwift" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="mTY-ki-VYe"/>
+                        <viewControllerLayoutGuide type="bottom" id="ipa-PJ-dSy"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="xmw-Xi-Qmd">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0e4-fR-ety" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1247" y="311"/>
+        </scene>
+        <!--HistorySMS View Controller-->
+        <scene sceneID="pop-Hd-up6">
+            <objects>
+                <viewController id="k0h-YG-xUT" customClass="HistorySMSViewController" customModule="SMSAdminSwift" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="eaA-QS-SWI"/>
+                        <viewControllerLayoutGuide type="bottom" id="JfS-HI-RT0"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="FU6-wf-V4b">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="FwM-3g-shQ">
+                                <rect key="frame" x="0.0" y="64" width="600" height="600"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="hisotryTableCell" id="IvC-My-2Xj" customClass="HistoryTableViewCell" customModule="SMSAdminSwift" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="IvC-My-2Xj" id="DIY-bE-gL9">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2015/01/06" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OWF-ie-y0u">
+                                                    <rect key="frame" x="8" y="20" width="69" height="11"/>
+                                                    <fontDescription key="fontDescription" name="HiraKakuProN-W3" family="Hiragino Kaku Gothic ProN" pointSize="11"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="24基本案内" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sj3-Ne-yEf">
+                                                    <rect key="frame" x="85" y="20" width="59" height="11"/>
+                                                    <fontDescription key="fontDescription" name="HiraKakuProN-W3" family="Hiragino Kaku Gothic ProN" pointSize="11"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="２６年度新人リスト" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J01-b3-Wd4">
+                                                    <rect key="frame" x="152" y="20" width="99" height="11"/>
+                                                    <fontDescription key="fontDescription" name="HiraKakuProN-W3" family="Hiragino Kaku Gothic ProN" pointSize="11"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="J01-b3-Wd4" firstAttribute="leading" secondItem="Sj3-Ne-yEf" secondAttribute="trailing" constant="8" id="EVj-ja-WBa"/>
+                                                <constraint firstItem="Sj3-Ne-yEf" firstAttribute="top" secondItem="DIY-bE-gL9" secondAttribute="topMargin" constant="4" id="Ich-DV-w5O"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="OWF-ie-y0u" secondAttribute="bottom" constant="4" id="KiD-lo-XkD"/>
+                                                <constraint firstItem="J01-b3-Wd4" firstAttribute="top" secondItem="OWF-ie-y0u" secondAttribute="top" id="Mwo-Xo-JN4"/>
+                                                <constraint firstItem="J01-b3-Wd4" firstAttribute="top" secondItem="Sj3-Ne-yEf" secondAttribute="top" id="NzS-6s-AEb"/>
+                                                <constraint firstItem="OWF-ie-y0u" firstAttribute="leading" secondItem="DIY-bE-gL9" secondAttribute="leadingMargin" id="RFP-mK-Nym"/>
+                                                <constraint firstItem="OWF-ie-y0u" firstAttribute="top" secondItem="DIY-bE-gL9" secondAttribute="topMargin" constant="3" id="S5N-gu-3Qw"/>
+                                                <constraint firstItem="J01-b3-Wd4" firstAttribute="height" secondItem="Sj3-Ne-yEf" secondAttribute="height" id="ZDj-qO-Fwb"/>
+                                                <constraint firstItem="Sj3-Ne-yEf" firstAttribute="leading" secondItem="OWF-ie-y0u" secondAttribute="trailing" constant="8" id="rhY-h6-CJ2"/>
+                                                <constraint firstItem="J01-b3-Wd4" firstAttribute="height" secondItem="OWF-ie-y0u" secondAttribute="height" id="vio-rg-7yY"/>
+                                                <constraint firstItem="J01-b3-Wd4" firstAttribute="top" secondItem="DIY-bE-gL9" secondAttribute="topMargin" constant="4" id="z1J-TM-3pr"/>
+                                            </constraints>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="S5N-gu-3Qw"/>
+                                                    <exclude reference="Ich-DV-w5O"/>
+                                                    <exclude reference="z1J-TM-3pr"/>
+                                                </mask>
+                                            </variation>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="sendDate" destination="OWF-ie-y0u" id="F7r-58-756"/>
+                                            <outlet property="sendList" destination="J01-b3-Wd4" id="xix-xf-YPq"/>
+                                            <outlet property="sendTitle" destination="Sj3-Ne-yEf" id="vDY-3R-764"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="hisotryTableHeaderCell" id="CLY-Uf-WaV" customClass="HistoryTableViewHeaderCell" customModule="SMSAdminSwift" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="CLY-Uf-WaV" id="b9o-U2-Hcs">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="送信日" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dE7-om-any">
+                                                    <rect key="frame" x="8" y="20" width="33" height="11"/>
+                                                    <fontDescription key="fontDescription" name="HiraKakuProN-W3" family="Hiragino Kaku Gothic ProN" pointSize="11"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="タイトル" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RMy-LN-Cjy">
+                                                    <rect key="frame" x="86" y="20" width="44" height="11"/>
+                                                    <fontDescription key="fontDescription" name="HiraKakuProN-W3" family="Hiragino Kaku Gothic ProN" pointSize="11"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="送信先" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kTi-nj-JHX">
+                                                    <rect key="frame" x="155" y="20" width="33" height="11"/>
+                                                    <fontDescription key="fontDescription" name="HiraKakuProN-W3" family="Hiragino Kaku Gothic ProN" pointSize="11"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="kTi-nj-JHX" firstAttribute="top" secondItem="b9o-U2-Hcs" secondAttribute="topMargin" constant="4" id="1MZ-Sv-EYc"/>
+                                                <constraint firstItem="kTi-nj-JHX" firstAttribute="height" secondItem="RMy-LN-Cjy" secondAttribute="height" id="1ax-Kq-j0V"/>
+                                                <constraint firstItem="RMy-LN-Cjy" firstAttribute="leading" secondItem="dE7-om-any" secondAttribute="trailing" constant="45" id="73y-kU-qbO"/>
+                                                <constraint firstItem="dE7-om-any" firstAttribute="leading" secondItem="b9o-U2-Hcs" secondAttribute="leadingMargin" id="KJi-rm-6Vg"/>
+                                                <constraint firstItem="kTi-nj-JHX" firstAttribute="top" secondItem="RMy-LN-Cjy" secondAttribute="top" id="OOg-Qr-lXI"/>
+                                                <constraint firstItem="dE7-om-any" firstAttribute="top" secondItem="b9o-U2-Hcs" secondAttribute="topMargin" constant="3" id="T6H-LF-d04"/>
+                                                <constraint firstItem="kTi-nj-JHX" firstAttribute="top" secondItem="dE7-om-any" secondAttribute="top" id="VKP-fq-jQz"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="dE7-om-any" secondAttribute="bottom" constant="4" id="aiP-zq-DqK"/>
+                                                <constraint firstItem="RMy-LN-Cjy" firstAttribute="top" secondItem="b9o-U2-Hcs" secondAttribute="topMargin" constant="4" id="fYQ-6B-2Ii"/>
+                                                <constraint firstItem="kTi-nj-JHX" firstAttribute="height" secondItem="dE7-om-any" secondAttribute="height" id="wh5-EJ-AgX"/>
+                                                <constraint firstItem="kTi-nj-JHX" firstAttribute="leading" secondItem="RMy-LN-Cjy" secondAttribute="trailing" constant="25" id="zVs-hm-A8h"/>
+                                            </constraints>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="T6H-LF-d04"/>
+                                                    <exclude reference="fYQ-6B-2Ii"/>
+                                                    <exclude reference="1MZ-Sv-EYc"/>
+                                                </mask>
+                                            </variation>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="k0h-YG-xUT" id="rf6-dn-jA4"/>
+                                    <outlet property="delegate" destination="k0h-YG-xUT" id="PnY-bx-pqO"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="FwM-3g-shQ" firstAttribute="top" secondItem="eaA-QS-SWI" secondAttribute="bottom" id="DWR-mb-xke"/>
+                            <constraint firstItem="FwM-3g-shQ" firstAttribute="width" secondItem="FU6-wf-V4b" secondAttribute="width" id="QVj-Jn-9Q9"/>
+                            <constraint firstItem="FwM-3g-shQ" firstAttribute="leading" secondItem="FU6-wf-V4b" secondAttribute="leading" id="Wm5-u7-hX6"/>
+                            <constraint firstAttribute="bottomMargin" secondItem="FwM-3g-shQ" secondAttribute="bottom" constant="-64" id="kVL-Cb-gWM"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="historyTableView" destination="FwM-3g-shQ" id="5OW-pa-xPZ"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Y28-ai-Pxm" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="424" y="1445"/>
+        </scene>
+        <!--SendSMS View Controller-->
+        <scene sceneID="4qk-eI-158">
+            <objects>
+                <viewController id="sSK-tB-JS0" customClass="SendSMSViewController" customModule="SMSAdminSwift" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="hNU-FD-xci"/>
+                        <viewControllerLayoutGuide type="bottom" id="6qW-NQ-yn4"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="wTX-Gy-suL">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Nz6-eD-zeP" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1219" y="1462"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="5ru-qi-XWT">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="DkF-Vq-Cgo" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="ouH-gf-7c8">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="vXZ-lx-hvc" kind="relationship" relationship="rootViewController" id="2yh-aJ-eLb"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="u2F-Be-EKZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-395" y="555"/>
         </scene>
     </scenes>
 </document>
