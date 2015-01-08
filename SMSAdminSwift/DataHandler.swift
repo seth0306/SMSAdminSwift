@@ -32,5 +32,23 @@ class DataHandler: NSObject {
             return nil;
         }
     }
+    
+    func deleteSpecifiedEntity(managedObject: NSManagedObject) {
+        
+        /* Get ManagedObjectContext from AppDelegate */
+        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        let managedContext: NSManagedObjectContext = appDelegate.managedObjectContext!
+        
+        /* Delete managedObject from managed context */
+        managedContext.deleteObject(managedObject)
+        
+        /* Save value to managed context */
+        var error: NSError?
+        if !managedContext.save(&error) {
+            println("Could not update \(error), \(error!.userInfo)")
+        }
+        println("Object deleted")
+        
+    }
 
 }

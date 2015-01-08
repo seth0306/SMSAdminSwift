@@ -6,7 +6,7 @@
 //  Copyright (c) 2015年 Information Shower, Inc. All rights reserved.
 //
 
-import Cocoa
+import UIKit
 
 class TemplateTableViewHeaderCell: UITableViewCell {
 

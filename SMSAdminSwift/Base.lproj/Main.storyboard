@@ -58,7 +58,7 @@
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.73575979339999997" green="0.91499255950000002" blue="0.86877779259999999" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="lgu-Gv-lHe" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="8" id="04B-h6-fU2"/>
                             <constraint firstItem="0Tl-4Z-xcO" firstAttribute="top" secondItem="VFC-X4-mhH" secondAttribute="bottom" constant="8" id="2IP-TQ-iAK"/>
@@ -99,7 +99,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="Zv0-9H-Abn">
-                                <rect key="frame" x="0.0" y="64" width="600" height="600"/>
+                                <rect key="frame" x="0.0" y="64" width="320" height="600"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="templateTableCell" id="Xtp-to-yeD" customClass="TemplateTableViewCell" customModule="SMSAdminSwift" customModuleProvider="target">
@@ -163,14 +163,133 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="Q5d-ov-PZU" id="p3T-NW-Epo"/>
+                                    <outlet property="delegate" destination="Q5d-ov-PZU" id="HK0-nq-y0D"/>
+                                </connections>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <connections>
+                        <outlet property="templateTableView" destination="Zv0-9H-Abn" id="2IX-yj-kkm"/>
+                        <segue destination="C1O-6Q-Cer" kind="show" identifier="showNewTemplate" id="LCl-6h-Ac8"/>
+                        <segue destination="C1O-6Q-Cer" kind="show" identifier="showTemplateModify" id="AqL-JU-zP1"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hlD-8i-HdD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="721" y="-390"/>
+        </scene>
+        <!--Template Modify View Controller-->
+        <scene sceneID="evy-Zm-HS0">
+            <objects>
+                <viewController id="C1O-6Q-Cer" customClass="TemplateModifyViewController" customModule="SMSAdminSwift" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="7Fo-vr-evV"/>
+                        <viewControllerLayoutGuide type="bottom" id="ceH-mZ-2w2"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="qp2-9Y-2IP">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="タイトル" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uDa-Kk-KSQ">
+                                <rect key="frame" x="16" y="72" width="44" height="11"/>
+                                <fontDescription key="fontDescription" name="HiraKakuProN-W3" family="Hiragino Kaku Gothic ProN" pointSize="11"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="サマリー" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MUM-Y8-RWj">
+                                <rect key="frame" x="16" y="129" width="44" height="11"/>
+                                <fontDescription key="fontDescription" name="HiraKakuProN-W3" family="Hiragino Kaku Gothic ProN" pointSize="11"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="テンプレート（短文）" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PQs-Qa-rng">
+                                <rect key="frame" x="16" y="204" width="110" height="11"/>
+                                <fontDescription key="fontDescription" name="HiraKakuProN-W3" family="Hiragino Kaku Gothic ProN" pointSize="11"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="ああああああ" translatesAutoresizingMaskIntoConstraints="NO" id="kc1-ZM-cyZ">
+                                <rect key="frame" x="16" y="223" width="300" height="100"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="100" id="AbP-u4-D1i"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="HiraKakuProN-W3" family="Hiragino Kaku Gothic ProN" pointSize="11"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
+                            </textView>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="タイトルを入力してください" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gHk-DQ-7Fd">
+                                <rect key="frame" x="16" y="91" width="300" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="300" id="t1n-hj-fcj"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="HiraKakuProN-W3" family="Hiragino Kaku Gothic ProN" pointSize="11"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="テンプレート（長文）" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lbd-Lj-bZF">
+                                <rect key="frame" x="16" y="331" width="110" height="11"/>
+                                <fontDescription key="fontDescription" name="HiraKakuProN-W3" family="Hiragino Kaku Gothic ProN" pointSize="11"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="ああああああ" translatesAutoresizingMaskIntoConstraints="NO" id="o4n-vq-KyF">
+                                <rect key="frame" x="16" y="350" width="300" height="190"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" name="HiraKakuProN-W3" family="Hiragino Kaku Gothic ProN" pointSize="11"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
+                            </textView>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="あああああああ" translatesAutoresizingMaskIntoConstraints="NO" id="rP7-E2-aIM">
+                                <rect key="frame" x="16" y="148" width="300" height="48"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="48" id="YgP-e4-bWn"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="HiraKakuProN-W3" family="Hiragino Kaku Gothic ProN" pointSize="11"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
+                            </textView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.73575979341729592" green="0.91499255952380953" blue="0.86877779259346277" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="MUM-Y8-RWj" firstAttribute="top" secondItem="gHk-DQ-7Fd" secondAttribute="bottom" constant="8" symbolic="YES" id="1h8-dT-xX5"/>
+                            <constraint firstItem="uDa-Kk-KSQ" firstAttribute="top" secondItem="7Fo-vr-evV" secondAttribute="bottom" constant="8" symbolic="YES" id="4Nt-Yr-uxS"/>
+                            <constraint firstItem="rP7-E2-aIM" firstAttribute="top" secondItem="MUM-Y8-RWj" secondAttribute="bottom" constant="8" symbolic="YES" id="4ff-ej-EkV"/>
+                            <constraint firstItem="kc1-ZM-cyZ" firstAttribute="trailing" secondItem="rP7-E2-aIM" secondAttribute="trailing" id="7pU-6s-3fo"/>
+                            <constraint firstItem="kc1-ZM-cyZ" firstAttribute="leading" secondItem="PQs-Qa-rng" secondAttribute="leading" id="9xy-zC-4Ae"/>
+                            <constraint firstItem="gHk-DQ-7Fd" firstAttribute="top" secondItem="uDa-Kk-KSQ" secondAttribute="bottom" constant="8" symbolic="YES" id="GTa-O7-wp7"/>
+                            <constraint firstItem="gHk-DQ-7Fd" firstAttribute="trailing" secondItem="rP7-E2-aIM" secondAttribute="trailing" id="Gsu-OB-Zyn"/>
+                            <constraint firstItem="gHk-DQ-7Fd" firstAttribute="leading" secondItem="MUM-Y8-RWj" secondAttribute="leading" id="N4H-re-xTA"/>
+                            <constraint firstItem="kc1-ZM-cyZ" firstAttribute="trailing" secondItem="o4n-vq-KyF" secondAttribute="trailing" id="NHy-Nj-jYq"/>
+                            <constraint firstItem="Lbd-Lj-bZF" firstAttribute="leading" secondItem="kc1-ZM-cyZ" secondAttribute="leading" id="QW2-ga-zop"/>
+                            <constraint firstItem="ceH-mZ-2w2" firstAttribute="top" secondItem="o4n-vq-KyF" secondAttribute="bottom" constant="60" id="TP4-t4-1pJ"/>
+                            <constraint firstItem="kc1-ZM-cyZ" firstAttribute="top" secondItem="PQs-Qa-rng" secondAttribute="bottom" constant="8" symbolic="YES" id="VZT-BA-abz"/>
+                            <constraint firstItem="rP7-E2-aIM" firstAttribute="leading" secondItem="MUM-Y8-RWj" secondAttribute="leading" id="ZO0-CY-fEx"/>
+                            <constraint firstItem="rP7-E2-aIM" firstAttribute="width" secondItem="gHk-DQ-7Fd" secondAttribute="width" id="br5-47-c3B"/>
+                            <constraint firstItem="Lbd-Lj-bZF" firstAttribute="top" secondItem="kc1-ZM-cyZ" secondAttribute="bottom" constant="8" symbolic="YES" id="dfh-M9-LWS"/>
+                            <constraint firstItem="PQs-Qa-rng" firstAttribute="top" secondItem="rP7-E2-aIM" secondAttribute="bottom" constant="8" symbolic="YES" id="eWm-LG-f4O"/>
+                            <constraint firstItem="o4n-vq-KyF" firstAttribute="leading" secondItem="Lbd-Lj-bZF" secondAttribute="leading" id="kS9-hf-xSz"/>
+                            <constraint firstItem="rP7-E2-aIM" firstAttribute="leading" secondItem="PQs-Qa-rng" secondAttribute="leading" id="r8M-cz-zyu"/>
+                            <constraint firstItem="kc1-ZM-cyZ" firstAttribute="leading" secondItem="qp2-9Y-2IP" secondAttribute="leadingMargin" id="sLL-IS-O2X"/>
+                            <constraint firstItem="gHk-DQ-7Fd" firstAttribute="leading" secondItem="uDa-Kk-KSQ" secondAttribute="leading" id="zcR-Ea-YeD"/>
+                            <constraint firstItem="o4n-vq-KyF" firstAttribute="top" secondItem="Lbd-Lj-bZF" secondAttribute="bottom" constant="8" symbolic="YES" id="zj4-aV-x6V"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="br5-47-c3B"/>
+                            </mask>
+                        </variation>
+                    </view>
+                    <connections>
+                        <outlet property="template_long" destination="o4n-vq-KyF" id="iFr-V1-w3y"/>
+                        <outlet property="template_short" destination="kc1-ZM-cyZ" id="6l0-6F-py1"/>
+                        <outlet property="template_summary" destination="rP7-E2-aIM" id="RGT-vj-Dou"/>
+                        <outlet property="template_title" destination="gHk-DQ-7Fd" id="VU5-JL-z9T"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="OCG-ax-P0I" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1399" y="-392"/>
         </scene>
         <!--Recipient Admin View Controller-->
         <scene sceneID="g5e-Af-Aj0">
@@ -202,8 +321,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="FwM-3g-shQ">
-                                <rect key="frame" x="0.0" y="64" width="600" height="600"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="FwM-3g-shQ">
+                                <rect key="frame" x="0.0" y="64" width="320" height="600"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="hisotryTableCell" id="IvC-My-2Xj" customClass="HistoryTableViewCell" customModule="SMSAdminSwift" customModuleProvider="target">
@@ -313,12 +432,6 @@
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="FwM-3g-shQ" firstAttribute="top" secondItem="eaA-QS-SWI" secondAttribute="bottom" id="DWR-mb-xke"/>
-                            <constraint firstItem="FwM-3g-shQ" firstAttribute="width" secondItem="FU6-wf-V4b" secondAttribute="width" id="QVj-Jn-9Q9"/>
-                            <constraint firstItem="FwM-3g-shQ" firstAttribute="leading" secondItem="FU6-wf-V4b" secondAttribute="leading" id="Wm5-u7-hX6"/>
-                            <constraint firstAttribute="bottomMargin" secondItem="FwM-3g-shQ" secondAttribute="bottom" constant="-64" id="kVL-Cb-gWM"/>
-                        </constraints>
                     </view>
                     <connections>
                         <outlet property="historyTableView" destination="FwM-3g-shQ" id="5OW-pa-xPZ"/>
@@ -365,4 +478,7 @@
             <point key="canvasLocation" x="-395" y="555"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="AqL-JU-zP1"/>
+    </inferredMetricsTieBreakers>
 </document>
