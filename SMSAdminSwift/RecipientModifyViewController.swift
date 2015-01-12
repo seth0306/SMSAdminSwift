@@ -12,34 +12,83 @@ import CoreData
 
 class RecipientModifyViewController: UIViewController,UITableViewDataSource,UITableViewDelegate {
     /*－－－－－－－－－－　定数　開始　－－－－－－－－－－*/
-    let RCPTableViewTag = 0
-    let ABTableViewTag = 1
+    /* 新規受信者定数*/
+    let STR_SHINKI:NSString = "新規受信者リスト"
     /*－－－－－－－－－－　定数　終了　－－－－－－－－－－*/
     /*－－－－－－－－－－　プロパティ　開始　－－－－－－－－－－*/
-    var recipientArray:Array<AnyObject>? = nil
+    var recipientArray:NSArray? = nil
     var addressBookArray:Array<AnyObject>? = nil
     var recipientObj:NSManagedObject? = nil
+    var targetButtonTitle :String = ""
+    var recipientSet:NSMutableSet? = nil
     /*－－－－－－－－－－　プロパティ　終了　－－－－－－－－－－*/
-    
     /*－－－－－－－－－－　アウトレット　開始　－－－－－－－－－－*/
-    @IBOutlet weak var RCPTableView: UITableView!
     @IBOutlet weak var ABTableView: UITableView!
+    @IBOutlet weak var recipientListName: UITextField!
     /*－－－－－－－－－－　アウトレット　終了　－－－－－－－－－－*/
     
+    func saveData(){
+        /* AddressBookUnitを更新 */
+        recipientObj?.setValue(recipientSet, forKeyPath: "AddressBookUnits")
+        recipientObj?.setValue(recipientListName.text, forKey: "name")
+        /* Get ManagedObjectContext from AppDelegate */
+        let managedContext:NSManagedObjectContext = recipientObj!.managedObjectContext!
+        /* Error handling */
+        var error: NSError?
+        if !managedContext.save(&error) {
+            println("Could not save \(error), \(error?.userInfo)")
+        }
+        println("object saved")
+        /* 保存後元の画面に戻る */
+        self.navigationController?.popViewControllerAnimated(true)
+    }
+    
+    
     override func viewDidLoad() {
-        self.title = "受信者リスト作成"
-        
         /* 保存ボタンを作成 */
-        var right1 = UIBarButtonItem(title: "電話帳", style: .Plain, target: self, action: "showPeoplePicker")
+        var right1 = UIBarButtonItem(title: targetButtonTitle, style: .Plain, target: self, action: "saveData")
         if let font = UIFont(name: "HiraKakuProN-W6", size: 14) {
             right1.setTitleTextAttributes([NSFontAttributeName: font], forState: UIControlState.Normal)
         }
         /* 追加ボタンをナビゲーションバーに追加 */
         self.navigationItem.rightBarButtonItems = [right1];
         
-        /* CoreDataよりHistoryテーブルを読み出す */
-        let dh = DataHandler()
-        addressBookArray = dh.fetchEntityData("AddressBook")!
+        /* 受信者リスト */
+        if recipientObj != nil {
+            /*　既存リストの修正の場合　*/
+            //self.title = "受信者リスト修正"
+            recipientListName.text = recipientObj!.valueForKey("name") as NSString
+            recipientSet = recipientObj!.mutableSetValueForKey("addressBookUnits") as NSMutableSet
+            recipientArray = recipientSet!.allObjects
+        } else {
+            /* DataHandler */
+            let dh = DataHandler()
+            /* 新規作成の場合 */
+            //self.title = "受信者リスト作成"
+            /* 新規受信リスト作成 */
+            recipientObj = dh.createNewEntity("Recipient")
+            recipientObj?.setValue(STR_SHINKI, forKey: "name")
+            recipientSet = recipientObj!.mutableSetValueForKey("addressBookUnits") as NSMutableSet
+            /* CoreDataよりAddressBookテーブルを読み出す */
+            addressBookArray = dh.fetchEntityData("AddressBook")!
+            for v in addressBookArray! {
+                let rcp_abrecord_id:NSNumber? = v.valueForKey("abrecord_id") as? NSNumber
+                let rcp_id:NSNumber? = v.valueForKey("id") as? NSNumber
+                let rcp_name:NSString? = v.valueForKey("name") as? NSString
+                let rcp_phone:NSString? = v.valueForKey("phone") as? NSString
+                /* 新しいAdressBookUnitを追加 */
+                let newObj = dh.createNewEntity("AddressBookUnit")
+                newObj.setValue(rcp_abrecord_id, forKey: "abrecord_id")
+                newObj.setValue(rcp_id, forKey: "id")
+                newObj.setValue(rcp_name, forKey: "name")
+                newObj.setValue(rcp_phone, forKey: "phone")
+                /* Recipientに追加 */
+                recipientSet!.addObject(newObj)
+                
+            }
+            recipientArray = recipientSet!.allObjects
+            recipientListName.text = STR_SHINKI
+        }
     }
     
     /*－－－－－－－－－－　テーブル関係　開始　－－－－－－－－－－*/
@@ -52,36 +101,26 @@ class RecipientModifyViewController: UIViewController,UITableViewDataSource,UITa
     /* TableView内のCellの表示 */
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        if tableView.tag == RCPTableViewTag {
-            /* Recipient */
-            let  cell = tableView.dequeueReusableCellWithIdentifier("RCPListTableViewCell") as RecipientListTableViewCell
-            var row = indexPath.row
-            
-            return cell
-        } else if tableView.tag == ABTableViewTag {
-            /* AddressBook */
-            let  cell = tableView.dequeueReusableCellWithIdentifier("ABListTableViewCell") as AddressBookTableViewCell
-            var row = indexPath.row
-            let ab_name:NSString? = addressBookArray![row].valueForKey("name") as? NSString
-            let ab_phone:NSString? = addressBookArray![row].valueForKey("phone") as? NSString
-            /* セルに値を設定 */
-            cell.name.text = ab_name
-            cell.phone.text = ab_phone
-            
-            return cell
+         /* AddressBook */
+        let  cell = tableView.dequeueReusableCellWithIdentifier("ABListTableViewCell") as AddressBookTableViewCell
+        var row = indexPath.row
+        let ab_name:NSString? = recipientArray![row].valueForKey("name") as? NSString
+        let ab_phone:NSString? = recipientArray![row].valueForKey("phone") as? NSString
+        let ab_selected:Bool = recipientArray![row].valueForKey("selected") as? Bool ?? false
+        /* セルに値を設定 */
+        cell.name.text = ab_name
+        cell.phone.text = ab_phone
+        /* セルのアクセサリにチェックマークを指定 */
+        if ab_selected {
+            cell.accessoryType = UITableViewCellAccessoryType.Checkmark
+        } else {
+            cell.accessoryType = UITableViewCellAccessoryType.None
         }
-        return UITableViewCell()
+        return cell
     }
-    
     /* TableView内のセクション内の行数を返す */
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if tableView.tag == RCPTableViewTag {
-            //return recipientArray!.count
-            return 0
-        } else if tableView.tag == ABTableViewTag {
-            return addressBookArray!.count
-        }
-        return 0
+        return recipientArray!.count
     }
     
     /* headerの高さを指定 */
@@ -91,46 +130,61 @@ class RecipientModifyViewController: UIViewController,UITableViewDataSource,UITa
     
     /* headerを作成 */
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        if tableView.tag == RCPTableViewTag {
-            let  headerCell1 = tableView.dequeueReusableCellWithIdentifier("RCPListTableViewCell") as RecipientListTableViewHeaderCell
-            headerCell1.backgroundColor = UIColor.cyanColor()
-            return headerCell1
-        } else {
-            let  headerCell2 = tableView.dequeueReusableCellWithIdentifier("ABListTableViewHeaderCell") as AddressBookTableViewHeaderCell
-            headerCell2.backgroundColor = UIColor.cyanColor()
-            return headerCell2
-        }
+        let  headerCell = tableView.dequeueReusableCellWithIdentifier("ABListTableViewHeaderCell") as AddressBookTableViewHeaderCell
+        headerCell.backgroundColor = UIColor.cyanColor()
+        return headerCell
     }
     
     //セルが選択された場合の処理
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        /* 変更対象オブジェクトの取得 */
+        //var modifyObj:NSManagedObject = recipientArray![indexPath.row] as NSManagedObject;
+        var modifyObj:NSManagedObject = recipientArray![indexPath.row] as NSManagedObject;
+        modifyObj = recipientSet?.member(modifyObj) as NSManagedObject
+        
+        /* 選択フラグを取得 */
+        let ab_selected:Bool = modifyObj.valueForKey("selected") as? Bool ?? false
+        /* 選択フラグを反転してセット */
+        modifyObj.setValue(!ab_selected, forKey: "selected")
         /*
-        var row = indexPath.row
-        templateObj = templateArray![row] as? NSManagedObject
-        showTemplateModify()
+        /* 選択されたセルを取得 */
+        var cell:AddressBookTableViewCell = tableView.cellForRowAtIndexPath(indexPath) as AddressBookTableViewCell
+        /* セルのアクセサリにチェックマークを指定 */
+        if cell.accessoryType == UITableViewCellAccessoryType.Checkmark {
+           cell.accessoryType = UITableViewCellAccessoryType.None
+        } else {
+           cell.accessoryType = UITableViewCellAccessoryType.Checkmark
+        }
         */
+        tableView.reloadData()
     }
     
     //UITableViewDelegateに追加されたメソッド
+    /*
     func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle {
         return UITableViewCellEditingStyle.Delete
     }
-    
+    */
+    /*
     func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
         if tableView.tag == RCPTableViewTag {
             return true
         }
         return false
     }
+    */
     
     /* 編集モード */
+    /*
     override func setEditing(editing: Bool, animated: Bool) {
         super.setEditing(editing, animated: animated)
         println(__FUNCTION__)
-        self.RCPTableView.setEditing(editing, animated: animated)
+        self.ABTableView.setEditing(editing, animated: animated)
     }
+    */
     
     /* 編集・削除処理 */
+    /*
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == UITableViewCellEditingStyle.Delete {
             if tableView.tag == RCPTableViewTag {
@@ -145,7 +199,7 @@ class RecipientModifyViewController: UIViewController,UITableViewDataSource,UITa
             }
         }
     }
-    
+    */
     /*－－－－－－－－－－　テーブル関係　終了　－－－－－－－－－－*/
-
+    
 }

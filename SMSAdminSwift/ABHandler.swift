@@ -66,6 +66,9 @@ class ABHandler: NSObject {
             /* 名前を取得 */
             let first = ABRecordCopyValue(contactPerson, kABPersonFirstNameProperty)?.takeRetainedValue() as String? ?? ""
             let last  = ABRecordCopyValue(contactPerson, kABPersonLastNameProperty)?.takeRetainedValue() as String? ?? ""
+            /* ABRecordIDを取得 */
+            let abrecord_id = ABRecordGetRecordID(contactPerson)
+            
             println ("contactName \(last + first)")
             /* 電話番号を取得 */
             var phoneArray:ABMultiValueRef = extractABPhoneRef(ABRecordCopyValue(contactPerson, kABPersonPhoneProperty))!
@@ -79,6 +82,10 @@ class ABHandler: NSObject {
                 let ABObject = NSManagedObject(entity: entity!, insertIntoManagedObjectContext: managedContext)
                 ABObject.setValue("\(last + first)", forKey: "name")
                 ABObject.setValue(myString!, forKey: "phone")
+                /* idを保存 */
+                ABObject.setValue(j, forKey: "id")
+                /* ABRecordIDを保存 */
+                ABObject.setValue(NSNumber(int: abrecord_id), forKey: "abrecord_id")
                 /* Entitiyを保存*/
                 var error: NSError?
                 if !managedContext.save(&error) {

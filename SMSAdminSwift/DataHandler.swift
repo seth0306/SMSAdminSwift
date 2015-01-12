@@ -33,6 +33,17 @@ class DataHandler: NSObject {
         }
     }
     
+    /* entityの新規作成 */
+    func createNewEntity(entityName:NSString) -> NSManagedObject{
+        /* Get ManagedObjectContext from AppDelegate */
+        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        let managedContext: NSManagedObjectContext = appDelegate.managedObjectContext!
+        /* Create new ManagedObject */
+        let entityDesc = NSEntityDescription.entityForName(entityName, inManagedObjectContext: managedContext)
+        let newObject = NSManagedObject(entity: entityDesc!, insertIntoManagedObjectContext: managedContext)
+        return newObject
+    }
+    
     func deleteSpecifiedEntity(managedObject: NSManagedObject) {
         
         /* Get ManagedObjectContext from AppDelegate */
