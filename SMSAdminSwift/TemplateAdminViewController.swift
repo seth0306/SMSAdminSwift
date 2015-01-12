@@ -31,7 +31,7 @@ class TemplateAdminViewController: UIViewController,UITableViewDelegate,UITableV
         self.navigationItem.rightBarButtonItems = [right1,editButtonItem()];
         
         /* CoreDataよりHistoryテーブルを読み出す */
-        var dh = DataHandler()
+        let dh = DataHandler()
         templateArray = dh.fetchEntityData("Template")!
         
     }

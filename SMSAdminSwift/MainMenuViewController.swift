@@ -17,7 +17,7 @@ class MainMenuViewController: UIViewController {
         /* タイトルを設定 */
         self.title = "SMSAdminメニュー"
         /* AddressBookを取得 */
-        abh.startManagingAB()
+        //abh.startManagingAB()
     }
     
     /*　SMS送信画面表示　*/
@@ -36,5 +36,8 @@ class MainMenuViewController: UIViewController {
     /*　受信者管理画面表示　*/
     @IBAction func showRecipientAdmin(sender: UIButton) {
         performSegueWithIdentifier("showRecipientAdmin", sender: nil)
+    }
+    @IBAction func getDataFromAB(sender: UIButton) {
+        abh.saveToCoreData()
     }
 }

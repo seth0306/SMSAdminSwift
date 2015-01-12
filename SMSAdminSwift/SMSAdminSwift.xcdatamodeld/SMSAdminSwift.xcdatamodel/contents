@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6254" systemVersion="14B25" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="AddressBook" syncable="YES">
+        <attribute name="abrecord_id" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="created_date" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="modified_date" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="phone" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
     <entity name="History" syncable="YES">
         <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="sent_date" optional="YES" attributeType="Date" syncable="YES"/>
@@ -25,6 +33,7 @@
         <relationship name="history" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="History" inverseName="template" inverseEntity="History" syncable="YES"/>
     </entity>
     <elements>
+        <element name="AddressBook" positionX="-162" positionY="-333" width="128" height="135"/>
         <element name="History" positionX="-135" positionY="-472" width="128" height="103"/>
         <element name="Recipient" positionX="-369" positionY="-315" width="128" height="133"/>
         <element name="Template" positionX="124" positionY="-324" width="128" height="163"/>

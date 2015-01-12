@@ -8,6 +8,7 @@
 
 import UIKit
 import AddressBook
+import CoreData
 
 class ABHandler: NSObject {
     
@@ -43,6 +44,53 @@ class ABHandler: NSObject {
         }
     }
     
+    
+    /* AddressBookのデータをCoreDataに保存 */
+    func saveToCoreData(){
+        /* Get ManagedObjectContext from AppDelegate */
+        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        let managedContext: NSManagedObjectContext = appDelegate.managedObjectContext!
+        
+        /* Create new ManagedObject */
+        let entity = NSEntityDescription.entityForName("AddressBook", inManagedObjectContext: managedContext)
+        
+        /* Error handling */
+        var errorRef: Unmanaged<CFError>?
+        addressBook = extractABAddressBookRef(ABAddressBookCreateWithOptions(nil, &errorRef))
+        
+        var contactList: NSArray = ABAddressBookCopyArrayOfAllPeople(addressBook).takeRetainedValue()
+        println("records in the array \(contactList.count)")
+        
+        for record:ABRecordRef in contactList {
+            var contactPerson: ABRecordRef = record
+            /* 名前を取得 */
+            let first = ABRecordCopyValue(contactPerson, kABPersonFirstNameProperty)?.takeRetainedValue() as String? ?? ""
+            let last  = ABRecordCopyValue(contactPerson, kABPersonLastNameProperty)?.takeRetainedValue() as String? ?? ""
+            println ("contactName \(last + first)")
+            /* 電話番号を取得 */
+            var phoneArray:ABMultiValueRef = extractABPhoneRef(ABRecordCopyValue(contactPerson, kABPersonPhoneProperty))!
+            
+            for (var j = 0; j < ABMultiValueGetCount(phoneArray); ++j)
+            {
+                var phoneNumber = ABMultiValueCopyValueAtIndex(phoneArray, j)
+                var myString = extractABPhoneNumber(phoneNumber)
+                println("phone: \(myString)")
+                /* 電話番号の個数分Entityを追加 */
+                let ABObject = NSManagedObject(entity: entity!, insertIntoManagedObjectContext: managedContext)
+                ABObject.setValue("\(last + first)", forKey: "name")
+                ABObject.setValue(myString!, forKey: "phone")
+                /* Entitiyを保存*/
+                var error: NSError?
+                if !managedContext.save(&error) {
+                    println("Could not save \(error), \(error?.userInfo)")
+                }
+                println("object saved")
+            }
+        }
+
+        
+    }
+    
     func getContactNames()
     {
         var errorRef: Unmanaged<CFError>?
@@ -60,16 +108,31 @@ class ABHandler: NSObject {
             
             println ("contactName \(last + first)")
             
-            var emailArray:ABMultiValueRef = extractABEmailRef(ABRecordCopyValue(contactPerson, kABPersonEmailProperty))!
+            var phoneArray:ABMultiValueRef = extractABPhoneRef(ABRecordCopyValue(contactPerson, kABPersonPhoneProperty))!
             
-            for (var j = 0; j < ABMultiValueGetCount(emailArray); ++j)
+            for (var j = 0; j < ABMultiValueGetCount(phoneArray); ++j)
             {
-                var emailAdd = ABMultiValueCopyValueAtIndex(emailArray, j)
-                var myString = extractABEmailAddress(emailAdd)
-                println("email: \(myString)")
+                var phoneNumber = ABMultiValueCopyValueAtIndex(phoneArray, j)
+                var myString = extractABPhoneNumber(phoneNumber)
+                println("phone: \(myString)")
             }
         }
     }
+    
+    func extractABPhoneRef (abPhoneRef: Unmanaged<ABMultiValueRef>!) -> ABMultiValueRef? {
+        if let ab = abPhoneRef {
+            return Unmanaged<NSObject>.fromOpaque(ab.toOpaque()).takeUnretainedValue()
+        }
+        return nil
+    }
+    
+    func extractABPhoneNumber (abPhoneNumber: Unmanaged<AnyObject>!) -> String? {
+        if let ab = abPhoneNumber {
+            return Unmanaged.fromOpaque(abPhoneNumber.toOpaque()).takeUnretainedValue() as CFStringRef
+        }
+        return nil
+    }
+
     
     func extractABEmailRef (abEmailRef: Unmanaged<ABMultiValueRef>!) -> ABMultiValueRef? {
         if let ab = abEmailRef {
