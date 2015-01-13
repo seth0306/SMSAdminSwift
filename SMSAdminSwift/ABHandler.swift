@@ -28,7 +28,7 @@ class ABHandler: NSObject {
             addressBook = extractABAddressBookRef(ABAddressBookCreateWithOptions(nil, &errorRef))
             ABAddressBookRequestAccessWithCompletion(addressBook, { success, error in
                 if success {
-                    self.getContactNames()
+                    println("success")
                 }
                 else {
                     println("error")

@@ -44,13 +44,44 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
             
         self.presentViewController(picker, animated: true, completion: nil)
     }
-    
-//送信完了後元に戻る
+    /*－－－－－－－－－－　MFMessageComposeView　開始　－－－－－－－－－－*/
+    /* 送信完了後の処理 */
     func messageComposeViewController(controller: MFMessageComposeViewController!, didFinishWithResult result: MessageComposeResult) {
-        self.dismissViewControllerAnimated(true, completion: nil)
+        switch (result.value) {
+        case MessageComposeResultCancelled.value:
+            println("Message was cancelled")
+            self.dismissViewControllerAnimated(true, completion: nil)
+        case MessageComposeResultFailed.value:
+            println("Message failed")
+            self.dismissViewControllerAnimated(true, completion: nil)
+        case MessageComposeResultSent.value:
+            /* 成功した場合 */
+            println("Message was sent")
+            /* 履歴への追加処理 */
+            let dh = DataHandler()
+            let entity = dh.createNewEntity("History")
+            let today = NSDate()
+            /* entityに追加*/
+            entity.setValue(today, forKey: "sent_date")
+            entity.setValue(selectedRCP, forKey: "recipient")
+            entity.setValue(selectedTMP, forKey: "template")
+            let context = entity.managedObjectContext
+            /* Get ManagedObjectContext from AppDelegate */
+            let managedContext:NSManagedObjectContext = entity.managedObjectContext!
+            /* Error handling */
+            var error: NSError?
+            if !managedContext.save(&error) {
+                println("Could not save \(error), \(error?.userInfo)")
+            }
+            println("object saved")
+            /* 保存後元の画面に戻る */
+            self.dismissViewControllerAnimated(true, completion: nil)
+        default:
+            break;
+        }
     }
-
-
+    /*－－－－－－－－－－　MFMessageComposeView　終了　－－－－－－－－－－*/
+    
     override func viewDidLoad() {
         /* タイトルをセット */
         self.title = "SMS送信"
@@ -58,6 +89,14 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
         let dh = DataHandler()
         recipientArray = dh.fetchEntityData("Recipient")!
         templateArray = dh.fetchEntityData("Template")!
+        
+        /* TextFieldに初期値を設定 */
+        recipientListName.text = recipientArray?.first?.valueForKey("name") as NSString
+        templateListName.text = templateArray?.first?.valueForKey("title") as NSString
+        /* 選択されたEntitiyに初期値を設定 */
+        selectedRCP = recipientArray?.first as? NSManagedObject
+        selectedTMP = templateArray?.first as? NSManagedObject
+        
         /* 受信者リスト用PikcerView */
         let rcpPicker = UIPickerView()
         rcpPicker.delegate = self

@@ -228,7 +228,7 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="ああああああ" translatesAutoresizingMaskIntoConstraints="NO" id="kc1-ZM-cyZ">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kc1-ZM-cyZ">
                                 <rect key="frame" x="16" y="223" width="300" height="100"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -251,13 +251,13 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="ああああああ" translatesAutoresizingMaskIntoConstraints="NO" id="o4n-vq-KyF">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="o4n-vq-KyF">
                                 <rect key="frame" x="16" y="350" width="300" height="190"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" name="HiraKakuProN-W3" family="Hiragino Kaku Gothic ProN" pointSize="11"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
                             </textView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="あああああああ" translatesAutoresizingMaskIntoConstraints="NO" id="rP7-E2-aIM">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rP7-E2-aIM">
                                 <rect key="frame" x="16" y="148" width="300" height="48"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -590,9 +590,9 @@
                                             </variation>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="sendDate" destination="OWF-ie-y0u" id="F7r-58-756"/>
-                                            <outlet property="sendList" destination="J01-b3-Wd4" id="xix-xf-YPq"/>
-                                            <outlet property="sendTitle" destination="Sj3-Ne-yEf" id="vDY-3R-764"/>
+                                            <outlet property="sentDate" destination="OWF-ie-y0u" id="dvw-L6-0H4"/>
+                                            <outlet property="sentRcpName" destination="J01-b3-Wd4" id="wa0-IN-dg2"/>
+                                            <outlet property="sentTitle" destination="Sj3-Ne-yEf" id="6qN-ue-KLv"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="hisotryTableHeaderCell" id="CLY-Uf-WaV" customClass="HistoryTableViewHeaderCell" customModule="SMSAdminSwift" customModuleProvider="target">

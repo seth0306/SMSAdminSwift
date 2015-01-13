@@ -10,7 +10,7 @@ import UIKit
 
 class HistoryTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var sendDate: UILabel!
-    @IBOutlet weak var sendTitle: UILabel!
-    @IBOutlet weak var sendList: UILabel!
+    @IBOutlet weak var sentDate: UILabel!
+    @IBOutlet weak var sentTitle: UILabel!
+    @IBOutlet weak var sentRcpName: UILabel!
 }

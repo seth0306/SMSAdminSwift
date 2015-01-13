@@ -28,7 +28,7 @@ class TemplateAdminViewController: UIViewController,UITableViewDelegate,UITableV
             right1.setTitleTextAttributes([NSFontAttributeName: font], forState: UIControlState.Normal)
         }
         /* 追加ボタンをナビゲーションバーに追加 */
-        self.navigationItem.rightBarButtonItems = [right1,editButtonItem()];
+        self.navigationItem.rightBarButtonItems = [right1];
         
         /* CoreDataよりHistoryテーブルを読み出す */
         let dh = DataHandler()

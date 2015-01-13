@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class HistorySMSViewController: UIViewController,UITableViewDataSource,UITableViewDelegate {
 
@@ -31,8 +32,10 @@ class HistorySMSViewController: UIViewController,UITableViewDataSource,UITableVi
         
         //let cell: HistoryTableViewCell = HistoryTableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "hisotryTableCell")
         let  cell = tableView.dequeueReusableCellWithIdentifier("hisotryTableCell") as HistoryTableViewCell
-        var row = indexPath.row
-        let send_date:NSDate? = historyArray[row].valueForKey("send_date") as? NSDate
+        let row = indexPath.row
+        let sent_date:NSDate? = historyArray[row].valueForKey("sent_date") as? NSDate
+        let objectRCP:NSManagedObject = historyArray[row].valueForKey("recipient") as NSManagedObject
+        let objectTMP:NSManagedObject = historyArray[row].valueForKey("template") as NSManagedObject
         
         // NSDateFormatter を用意
         let formatter = NSDateFormatter()
@@ -40,9 +43,9 @@ class HistorySMSViewController: UIViewController,UITableViewDataSource,UITableVi
         formatter.timeStyle = .NoStyle
         formatter.dateFormat = "YYYY-MM-dd"
         /* セルに値を設定 */
-        cell.sendTitle.text = "";
-        cell.sendDate.text = formatter.stringFromDate(send_date!);
-        cell.sendList.text = "";
+        cell.sentTitle.text = objectTMP.valueForKey("title")as NSString ?? ""
+        cell.sentDate.text = formatter.stringFromDate(sent_date!);
+        cell.sentRcpName.text = objectRCP.valueForKey("name")as NSString ?? ""
         
         return cell
     }

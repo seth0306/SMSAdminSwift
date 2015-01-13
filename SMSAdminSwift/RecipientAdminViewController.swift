@@ -32,6 +32,10 @@ class RecipientAdminViewController: UIViewController,UITableViewDataSource,UITab
         recipientArray = dh.fetchEntityData("Recipient")!
     }
     
+    override func viewWillAppear(animated: Bool) {
+        recipientTableView.reloadData()
+    }
+    
     /*－－－－－－－－－－　画面遷移　開始　－－－－－－－－－－*/
     
     /* 受信者詳細画面（新規追加）を表示 */
