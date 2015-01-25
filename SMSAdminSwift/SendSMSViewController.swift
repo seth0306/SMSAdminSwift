@@ -10,12 +10,24 @@ import UIKit
 import CoreData
 import MessageUI
 
-class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelegate,UITextFieldDelegate,MFMessageComposeViewControllerDelegate {
+class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelegate,UITextFieldDelegate,MFMessageComposeViewControllerDelegate,MFMailComposeViewControllerDelegate {
+    /*－－－－－－－－－－　定数　開始　－－－－－－－－－－*/
+    /* 送信種別 */
+    enum methodType:NSNumber {
+        case methodTypeMail = 0
+        case methodTypeLongSMS = 1
+        case methodTypeShortSMS = 2
+        case methodTypePhoneOnly = 3
+        case methodTypeUnused = 4
+    }
+    
+    /*－－－－－－－－－－　定数　終了　－－－－－－－－－－*/
     /*－－－－－－－－－－　プロパティ　開始　－－－－－－－－－－*/
     var recipientArray:Array<AnyObject>? = nil
     var templateArray:Array<AnyObject>? = nil
     var selectedRCP:NSManagedObject? = nil
     var selectedTMP:NSManagedObject? = nil
+    var methodString:NSString = ""
     
     /*－－－－－－－－－－　プロパティ　終了　－－－－－－－－－－*/
     /*－－－－－－－－－－　アウトレット　開始　－－－－－－－－－－*/
@@ -23,27 +35,205 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
     @IBOutlet weak var templateListName: UITextField!
     /*－－－－－－－－－－　アウトレット　終了　－－－－－－－－－－*/
     
-    @IBAction func sendSMS(sender: UIButton) {
-        let picker = MFMessageComposeViewController()
-        picker.messageComposeDelegate = self;
+    /*－－－－－－－－－－　Mail　開始　－－－－－－－－－－*/
+    func configuredMailComposeViewController(mailTitle:NSString,mailBody: NSString,bccRecipients:NSMutableArray ) -> MFMailComposeViewController {
+        let mailComposerVC = MFMailComposeViewController()
+        mailComposerVC.mailComposeDelegate = self // Extremely important to set the --mailComposeDelegate-- property, NOT the --delegate-- property
+        mailComposerVC.setToRecipients(["seth0306@gmail.com"])
+        /*　BCCをセット　*/
+        mailComposerVC.setBccRecipients(bccRecipients)
+        /*　件名をセット　*/
+        mailComposerVC.setSubject(mailTitle)
+        /*　本文をセット　*/
+        mailComposerVC.setMessageBody(NSString(UTF8String: "\(mailBody)"), isHTML: false)
+        
+        return mailComposerVC
+    }
+    func showSendMailErrorAlert() {
+        let sendMailErrorAlert = UIAlertView(title: "メール送信失敗", message: "メール設定を確認の上再実行してください", delegate: self, cancelButtonTitle: "OK")
+        sendMailErrorAlert.show()
+    }
+    
+    func showNoDataErrorAlert() {
+        let noDataErrorAlert = UIAlertView(title: "送信対象データなし", message: "送信対象のデータがありません", delegate: self, cancelButtonTitle: "OK")
+        noDataErrorAlert.show()
+    }
+    
+    
+    
+    // MARK: MFMailComposeViewControllerDelegate Method
+    func mailComposeController(controller: MFMailComposeViewController!, didFinishWithResult result: MFMailComposeResult, error: NSError!) {
+        switch (result.value) {
+        case MFMailComposeResultCancelled.value:
+            println("Message was cancelled")
+            controller.dismissViewControllerAnimated(true, completion: nil)
+        case MFMailComposeResultFailed.value:
+            println("Message failed")
+            controller.dismissViewControllerAnimated(true, completion: nil)
+        case MFMailComposeResultSent.value:
+            /* 成功した場合 */
+            println("Message was sent")
+            /* 履歴に保存 */
+            saveToHistory()
+            controller.dismissViewControllerAnimated(true, completion: nil)
+        default:
+            break;
+        }
+    }
+    /*－－－－－－－－－－　Mail　終了　－－－－－－－－－－*/
+    
+    @IBAction func sendEMail(sender: UIButton) {
+        /* 送信種別文字列をセット */
+        methodString = "メール"
         /* Template */
         let temp_short = selectedTMP?.valueForKey("temp_short") as NSString
         let temp_long = selectedTMP?.valueForKey("temp_long") as NSString
         let temp_title = selectedTMP?.valueForKey("title") as NSString
-        picker.body = NSString(UTF8String: "\(temp_short)")
+        
         /* 受信者リスト */
         let recipientSet = selectedRCP!.mutableSetValueForKey("addressBookUnits") as NSMutableSet
-        let phoneArray:NSMutableArray = NSMutableArray()
+        /*　メールリスト　*/
+        let mailArray:NSMutableArray = NSMutableArray()
+        
         for v in recipientSet {
+            /* 選択されている宛先のみ */
             if v.valueForKey("selected") as? Bool ?? false {
-                phoneArray.addObject(v.valueForKey("phone") as NSString)
+                /* 送信種別ごとの処理 */
+                let method_type =  v.valueForKey("method_type") as NSNumber? ?? 0
+                switch method_type {
+                case methodType.methodTypeMail.rawValue:
+                    let targetMail:NSString = v.valueForKey("selected_mail") as NSString? ?? ""
+                    if targetMail.length > 0 {
+                        mailArray.addObject(targetMail)
+                    }
+                default:
+                    break
+                }
             }
         }
-        picker.recipients = phoneArray
-        presentViewController(picker, animated: true, completion: nil)
-            
-        self.presentViewController(picker, animated: true, completion: nil)
+        if ( mailArray.count == 0 ) {
+            showNoDataErrorAlert()
+        } else {
+            /* メール送信 */
+            let mailComposeViewController = configuredMailComposeViewController(temp_title,mailBody: temp_long,bccRecipients: mailArray )
+            if MFMailComposeViewController.canSendMail() {
+                self.presentViewController(mailComposeViewController, animated: true, completion: nil)
+            } else {
+                self.showSendMailErrorAlert()
+            }
+        }
     }
+    
+    
+    @IBAction func sendLongSMS(sender: UIButton) {
+        /* 送信種別文字列をセット */
+        methodString = "長文SMS"
+        /* Template */
+        let temp_long = selectedTMP?.valueForKey("temp_long") as NSString
+        let temp_title = selectedTMP?.valueForKey("title") as NSString
+        
+        /* 受信者リスト */
+        let recipientSet = selectedRCP!.mutableSetValueForKey("addressBookUnits") as NSMutableSet
+        /* 長文SMSリスト */
+        let longArray:NSMutableArray = NSMutableArray()
+        
+        for v in recipientSet {
+            /* 選択されている宛先のみ */
+            if v.valueForKey("selected") as? Bool ?? false {
+                /* 送信種別ごとの処理 */
+                let method_type =  v.valueForKey("method_type") as NSNumber? ?? 0
+                switch method_type {
+                case methodType.methodTypeLongSMS.rawValue:
+                    let targetPhone:NSString = v.valueForKey("selected_phone") as NSString? ?? ""
+                    if targetPhone.length > 0 {
+                        longArray.addObject(targetPhone)
+                    }
+                default:
+                    break
+                }
+            }
+        }
+        if ( longArray.count == 0 ) {
+            showNoDataErrorAlert()
+        } else {
+            /* SMS送信 */
+            let picker = MFMessageComposeViewController()
+            picker.messageComposeDelegate = self;
+            picker.recipients = longArray
+            picker.body = NSString(UTF8String: "\(temp_long)")
+            presentViewController(picker, animated: true, completion: nil)
+            self.presentViewController(picker, animated: true, completion: nil)
+        }
+    }
+    
+    @IBAction func sendShortSMS(sender: UIButton) {
+        /* 送信種別文字列をセット */
+        methodString = "短文SMS"
+        /* Template */
+        let temp_short = selectedTMP?.valueForKey("temp_short") as NSString
+        let temp_title = selectedTMP?.valueForKey("title") as NSString
+        
+        /* 受信者リスト */
+        let recipientSet = selectedRCP!.mutableSetValueForKey("addressBookUnits") as NSMutableSet
+        /* 短文SMSリスト */
+        let shortArray:NSMutableArray = NSMutableArray()
+        
+        for v in recipientSet {
+            /* 選択されている宛先のみ */
+            if v.valueForKey("selected") as? Bool ?? false {
+                /* 送信種別ごとの処理 */
+                let method_type =  v.valueForKey("method_type") as NSNumber? ?? 0
+                switch method_type {
+                case methodType.methodTypeShortSMS.rawValue:
+                    let targetPhone:NSString = v.valueForKey("selected_phone") as NSString? ?? ""
+                    if targetPhone.length > 0 {
+                        shortArray.addObject(targetPhone)
+                    }
+                default:
+                    break
+                }
+            }
+        }
+        
+        if ( shortArray.count == 0 ) {
+            showNoDataErrorAlert()
+        } else {
+            /* SMS送信 */
+            let picker = MFMessageComposeViewController()
+            picker.messageComposeDelegate = self;
+            picker.recipients = shortArray
+            picker.body = NSString(UTF8String: "\(temp_short)")
+            presentViewController(picker, animated: true, completion: nil)
+            self.presentViewController(picker, animated: true, completion: nil)
+        }
+
+    }
+    
+    func saveToHistory() {
+        /* 履歴への追加処理 */
+        let dh = DataHandler()
+        let entity = dh.createNewEntity("History")
+        let today = NSDate()
+        let rcp_name:NSString = selectedRCP?.valueForKey("name") as? NSString ?? ""
+        let tmp_name:NSString = selectedTMP?.valueForKey("title") as? NSString ?? ""
+        /* entityに追加*/
+        entity.setValue(today, forKey: "sent_date")
+        entity.setValue(rcp_name, forKey: "rcp_name")
+        entity.setValue(tmp_name, forKey: "tmp_name")
+        entity.setValue(methodString, forKey: "method")
+        let context = entity.managedObjectContext
+        /* Get ManagedObjectContext from AppDelegate */
+        let managedContext:NSManagedObjectContext = entity.managedObjectContext!
+        /* Error handling */
+        var error: NSError?
+        if !managedContext.save(&error) {
+            println("Could not save \(error), \(error?.userInfo)")
+        }
+        println("object saved")
+        /* 保存後元の画面に戻る */
+    }
+    
+    
     /*－－－－－－－－－－　MFMessageComposeView　開始　－－－－－－－－－－*/
     /* 送信完了後の処理 */
     func messageComposeViewController(controller: MFMessageComposeViewController!, didFinishWithResult result: MessageComposeResult) {
@@ -57,24 +247,8 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
         case MessageComposeResultSent.value:
             /* 成功した場合 */
             println("Message was sent")
-            /* 履歴への追加処理 */
-            let dh = DataHandler()
-            let entity = dh.createNewEntity("History")
-            let today = NSDate()
-            /* entityに追加*/
-            entity.setValue(today, forKey: "sent_date")
-            entity.setValue(selectedRCP, forKey: "recipient")
-            entity.setValue(selectedTMP, forKey: "template")
-            let context = entity.managedObjectContext
-            /* Get ManagedObjectContext from AppDelegate */
-            let managedContext:NSManagedObjectContext = entity.managedObjectContext!
-            /* Error handling */
-            var error: NSError?
-            if !managedContext.save(&error) {
-                println("Could not save \(error), \(error?.userInfo)")
-            }
-            println("object saved")
-            /* 保存後元の画面に戻る */
+            /* 履歴に保存 */
+            saveToHistory()
             self.dismissViewControllerAnimated(true, completion: nil)
         default:
             break;

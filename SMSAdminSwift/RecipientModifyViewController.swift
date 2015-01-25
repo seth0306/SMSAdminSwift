@@ -10,10 +10,19 @@ import UIKit
 import AddressBook
 import CoreData
 
-class RecipientModifyViewController: UIViewController,UITableViewDataSource,UITableViewDelegate {
+class RecipientModifyViewController: UIViewController,UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate {
     /*－－－－－－－－－－　定数　開始　－－－－－－－－－－*/
     /* 新規受信者定数*/
     let STR_SHINKI:NSString = "新規受信者リスト"
+    /* 送信種別 */
+    enum methodType:NSNumber {
+        case methodTypeMail = 0
+        case methodTypeLongSMS = 1
+        case methodTypeShortSMS = 2
+        case methodTypePhoneOnly = 3
+        case methodTypeUnused = 4
+    }
+    
     /*－－－－－－－－－－　定数　終了　－－－－－－－－－－*/
     /*－－－－－－－－－－　プロパティ　開始　－－－－－－－－－－*/
     var recipientArray:NSArray? = nil
@@ -21,6 +30,7 @@ class RecipientModifyViewController: UIViewController,UITableViewDataSource,UITa
     var recipientObj:NSManagedObject? = nil
     var targetButtonTitle :String = ""
     var recipientSet:NSMutableSet? = nil
+    var addressBook: ABAddressBookRef?
     /*－－－－－－－－－－　プロパティ　終了　－－－－－－－－－－*/
     /*－－－－－－－－－－　アウトレット　開始　－－－－－－－－－－*/
     @IBOutlet weak var ABTableView: UITableView!
@@ -69,21 +79,74 @@ class RecipientModifyViewController: UIViewController,UITableViewDataSource,UITa
             recipientObj = dh.createNewEntity("Recipient")
             recipientObj?.setValue(STR_SHINKI, forKey: "name")
             recipientSet = recipientObj!.mutableSetValueForKey("addressBookUnits") as NSMutableSet
-            /* CoreDataよりAddressBookテーブルを読み出す */
-            addressBookArray = dh.fetchEntityData("AddressBook")!
-            for v in addressBookArray! {
-                let rcp_abrecord_id:NSNumber? = v.valueForKey("abrecord_id") as? NSNumber
-                let rcp_id:NSNumber? = v.valueForKey("id") as? NSNumber
-                let rcp_name:NSString? = v.valueForKey("name") as? NSString
-                let rcp_phone:NSString? = v.valueForKey("phone") as? NSString
+            /* AddressBookからデータを読み出す */
+            /* Error handling */
+            let ah = ABHandler()
+            var errorRef: Unmanaged<CFError>?
+            addressBook = ah.extractABAddressBookRef(ABAddressBookCreateWithOptions(nil, &errorRef))
+            
+            var contactList: NSArray = ABAddressBookCopyArrayOfAllPeople(addressBook).takeRetainedValue()
+            println("records in the array \(contactList.count)")
+            
+            for record:ABRecordRef in contactList {
+                var contactPerson: ABRecordRef = record
+                /* 名前を取得 */
+                let first = ABRecordCopyValue(contactPerson, kABPersonFirstNameProperty)?.takeRetainedValue() as String? ?? ""
+                let last  = ABRecordCopyValue(contactPerson, kABPersonLastNameProperty)?.takeRetainedValue() as String? ?? ""
+                /* ABRecordIDを取得 */
+                let abrecord_id = ABRecordGetRecordID(contactPerson)
+                
+                println ("contactName \(last + first)")
+                /* 電話番号とメールアドレスを取得　一番上のもの */
+                
+                var phoneArray:ABMultiValueRef = ah.extractABPhoneRef(ABRecordCopyValue(contactPerson, kABPersonPhoneProperty))!
+                var emailArray:ABMultiValueRef = ah.extractABPhoneRef(ABRecordCopyValue(contactPerson, kABPersonEmailProperty))!
+                let phoneNumber = ABMultiValueCopyValueAtIndex(phoneArray, 0)
+                var emailAddress = ABMultiValueCopyValueAtIndex(emailArray, 0)
+                
+                let myPhone:NSString? = ah.extractABPhoneNumber(phoneNumber) as NSString?
+                let myEMail:NSString? = ah.extractABEmailAddress(emailAddress) as NSString?
+                
+                println("phone: \(myPhone)")
+                println("email: \(myEMail)")
+                
                 /* 新しいAdressBookUnitを追加 */
-                let newObj = dh.createNewEntity("AddressBookUnit")
-                newObj.setValue(rcp_abrecord_id, forKey: "abrecord_id")
-                newObj.setValue(rcp_id, forKey: "id")
-                newObj.setValue(rcp_name, forKey: "name")
-                newObj.setValue(rcp_phone, forKey: "phone")
-                /* Recipientに追加 */
-                recipientSet!.addObject(newObj)
+                var newObj:NSManagedObject? = nil
+                
+                /* 送信方式タイプ */
+                let fullname = last + first
+                if (fullname != "") {
+                    let index = advance(fullname.startIndex, 0)
+                    var method_type:NSNumber = 0
+                    
+                    switch fullname[index] {
+                    case "・":
+                        method_type = methodType.methodTypeLongSMS.rawValue
+                        newObj = dh.createNewEntity("AddressBookUnit")
+                    case "：":
+                        method_type = methodType.methodTypeShortSMS.rawValue
+                        newObj = dh.createNewEntity("AddressBookUnit")
+                    case "、":
+                        method_type = methodType.methodTypePhoneOnly.rawValue
+                    case "X":
+                        method_type = methodType.methodTypeUnused.rawValue
+                    default:
+                        method_type = methodType.methodTypeMail.rawValue
+                        newObj = dh.createNewEntity("AddressBookUnit")
+                        break
+                    }
+                    if (newObj != nil) {
+                        newObj!.setValue(NSNumber(int: abrecord_id), forKey: "abrecord_id")
+                        newObj!.setValue(0, forKey: "selected_phone_index")
+                        newObj!.setValue(0, forKey: "selected_mail_index")
+                        newObj!.setValue("\(fullname)", forKey: "name")
+                        newObj!.setValue(myPhone, forKey: "selected_phone")
+                        newObj!.setValue(myEMail, forKey: "selected_mail")
+                        newObj!.setValue(method_type, forKey: "method_type")
+                        /* Recipientに追加 */
+                        recipientSet!.addObject(newObj!)
+                    }
+                }
                 
             }
             recipientArray = recipientSet!.allObjects
@@ -105,7 +168,7 @@ class RecipientModifyViewController: UIViewController,UITableViewDataSource,UITa
         let  cell = tableView.dequeueReusableCellWithIdentifier("ABListTableViewCell") as AddressBookTableViewCell
         var row = indexPath.row
         let ab_name:NSString? = recipientArray![row].valueForKey("name") as? NSString
-        let ab_phone:NSString? = recipientArray![row].valueForKey("phone") as? NSString
+        let ab_phone:NSString? = recipientArray![row].valueForKey("selected_phone") as? NSString
         let ab_selected:Bool = recipientArray![row].valueForKey("selected") as? Bool ?? false
         /* セルに値を設定 */
         cell.name.text = ab_name

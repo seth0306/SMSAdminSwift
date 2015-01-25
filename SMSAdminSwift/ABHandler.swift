@@ -21,6 +21,7 @@ class ABHandler: NSObject {
         return nil
     }
     
+    /* AddressBookの使用許可確認 */
     func startManagingAB() {
         if (ABAddressBookGetAuthorizationStatus() == ABAuthorizationStatus.NotDetermined) {
             println("requesting access...")
@@ -40,7 +41,7 @@ class ABHandler: NSObject {
         }
         else if (ABAddressBookGetAuthorizationStatus() == ABAuthorizationStatus.Authorized) {
             println("access granted")
-            self.getContactNames()
+            //self.getContactNames()
         }
     }
     
@@ -70,9 +71,38 @@ class ABHandler: NSObject {
             let abrecord_id = ABRecordGetRecordID(contactPerson)
             
             println ("contactName \(last + first)")
-            /* 電話番号を取得 */
-            var phoneArray:ABMultiValueRef = extractABPhoneRef(ABRecordCopyValue(contactPerson, kABPersonPhoneProperty))!
+            /* 電話番号とメールアドレスを取得　一番上のもの */
             
+            var phoneArray:ABMultiValueRef = extractABPhoneRef(ABRecordCopyValue(contactPerson, kABPersonPhoneProperty))!
+            var emailArray:ABMultiValueRef = extractABPhoneRef(ABRecordCopyValue(contactPerson, kABPersonEmailProperty))!
+            var phoneNumber = ABMultiValueCopyValueAtIndex(phoneArray, 0)
+            var emailAddress = ABMultiValueCopyValueAtIndex(emailArray, 0)
+            
+            var myPhone = extractABPhoneNumber(phoneNumber)
+            var myEMail = extractABEmailAddress(emailAddress)
+            
+            println("phone: \(myPhone)")
+            println("email: \(myEMail)")
+            
+            /* 電話番号の個数分Entityを追加 */
+            let ABObject = NSManagedObject(entity: entity!, insertIntoManagedObjectContext: managedContext)
+            ABObject.setValue("\(last + first)", forKey: "name")
+            ABObject.setValue(myPhone!, forKey: "selected_phone")
+            ABObject.setValue(myEMail!, forKey: "selected_mail")
+            
+            /* idを保存 */
+            ABObject.setValue(0, forKey: "id")
+            /* ABRecordIDを保存 */
+            ABObject.setValue(NSNumber(int: abrecord_id), forKey: "abrecord_id")
+            /* Entitiyを保存*/
+            var error: NSError?
+            if !managedContext.save(&error) {
+                println("Could not save \(error), \(error?.userInfo)")
+            }
+            println("object saved")
+            
+            /*
+            var phoneArray:ABMultiValueRef = extractABPhoneRef(ABRecordCopyValue(contactPerson, kABPersonPhoneProperty))!
             for (var j = 0; j < ABMultiValueGetCount(phoneArray); ++j)
             {
                 var phoneNumber = ABMultiValueCopyValueAtIndex(phoneArray, j)
@@ -93,6 +123,7 @@ class ABHandler: NSObject {
                 }
                 println("object saved")
             }
+            */
         }
 
         
@@ -154,5 +185,67 @@ class ABHandler: NSObject {
         }
         return nil
     }
+    
+    /* AddressBookのデータをCoreDataに保存 */
+    func asaveToCoreData(){
+        /* Get ManagedObjectContext from AppDelegate */
+        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        let managedContext: NSManagedObjectContext = appDelegate.managedObjectContext!
+        
+        /* Create new ManagedObject */
+        let entity = NSEntityDescription.entityForName("AddressBook", inManagedObjectContext: managedContext)
+        
+        /* Error handling */
+        var errorRef: Unmanaged<CFError>?
+        addressBook = extractABAddressBookRef(ABAddressBookCreateWithOptions(nil, &errorRef))
+        
+        var contactList: NSArray = ABAddressBookCopyArrayOfAllPeople(addressBook).takeRetainedValue()
+        println("records in the array \(contactList.count)")
+        
+        for record:ABRecordRef in contactList {
+            var contactPerson: ABRecordRef = record
+            /* 名前を取得 */
+            let first = ABRecordCopyValue(contactPerson, kABPersonFirstNameProperty)?.takeRetainedValue() as String? ?? ""
+            let last  = ABRecordCopyValue(contactPerson, kABPersonLastNameProperty)?.takeRetainedValue() as String? ?? ""
+            /* ABRecordIDを取得 */
+            let abrecord_id = ABRecordGetRecordID(contactPerson)
+            
+            println ("contactName \(last + first)")
+            /* 電話番号とメールアドレスを取得　一番上のもの */
+            
+            var phoneArray:ABMultiValueRef = extractABPhoneRef(ABRecordCopyValue(contactPerson, kABPersonPhoneProperty))!
+            var emailArray:ABMultiValueRef = extractABPhoneRef(ABRecordCopyValue(contactPerson, kABPersonEmailProperty))!
+            var phoneNumber = ABMultiValueCopyValueAtIndex(phoneArray, 0)
+            var emailAddress = ABMultiValueCopyValueAtIndex(emailArray, 0)
+            
+            var myPhone = extractABPhoneNumber(phoneNumber)
+            var myEMail = extractABEmailAddress(emailAddress)
+            
+            println("phone: \(myPhone)")
+            println("email: \(myEMail)")
+            
+            /* 電話番号の個数分Entityを追加 */
+            let ABObject = NSManagedObject(entity: entity!, insertIntoManagedObjectContext: managedContext)
+            ABObject.setValue("\(last + first)", forKey: "name")
+            ABObject.setValue(myPhone!, forKey: "selected_phone")
+            ABObject.setValue(myEMail!, forKey: "selected_mail")
+            
+            /* idを保存 */
+            ABObject.setValue(0, forKey: "id")
+            /* ABRecordIDを保存 */
+            ABObject.setValue(NSNumber(int: abrecord_id), forKey: "abrecord_id")
+            /* Entitiyを保存*/
+            var error: NSError?
+            if !managedContext.save(&error) {
+                println("Could not save \(error), \(error?.userInfo)")
+            }
+            println("object saved")
+            
+        }
+        
+        
+    }
+    
+
 
 }

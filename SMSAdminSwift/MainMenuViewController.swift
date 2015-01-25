@@ -9,7 +9,7 @@
 import UIKit
 import AddressBook
 
-class MainMenuViewController: UIViewController,UIAlertViewDelegate {
+class MainMenuViewController: UIViewController,UIAlertViewDelegate,UIPopoverPresentationControllerDelegate {
     
     override func viewDidLoad() {
         
@@ -39,6 +39,8 @@ class MainMenuViewController: UIViewController,UIAlertViewDelegate {
     @IBAction func showRecipientAdmin(sender: UIButton) {
         performSegueWithIdentifier("showRecipientAdmin", sender: nil)
     }
+    /* データ取得 */
+    /*
     @IBAction func getDataFromAB(sender: UIButton) {
         var alert = UIAlertController(title: "AddressBook", message:
             "AddressBookを取込みますか？", preferredStyle: UIAlertControllerStyle.Alert)
@@ -55,4 +57,23 @@ class MainMenuViewController: UIViewController,UIAlertViewDelegate {
                 abh.saveToCoreData()
         }))
     }
+    */
+    
+    /* test */
+    /*
+    func addCategory() {
+        // 新しい View Controller をモーダル表示する
+        let popoverContent = self.storyboard?.instantiateViewControllerWithIdentifier("SelectItemPopover") as UIViewController
+        let nav = UINavigationController(rootViewController: popoverContent)
+        nav.modalPresentationStyle = UIModalPresentationStyle.Popover
+        let popover = nav.popoverPresentationController
+        popoverContent.preferredContentSize = CGSizeMake(500,600)
+        popover!.delegate = self
+        //popover!.sourceView = self.view
+        //popover!.sourceRect = CGRectMake(100,100,0,0)
+        popover!.barButtonItem = self.navigationItem.backBarButtonItem
+        
+        self.presentViewController(nav, animated: true, completion: nil)
+    }
+    */
 }

@@ -34,8 +34,9 @@ class HistorySMSViewController: UIViewController,UITableViewDataSource,UITableVi
         let  cell = tableView.dequeueReusableCellWithIdentifier("hisotryTableCell") as HistoryTableViewCell
         let row = indexPath.row
         let sent_date:NSDate? = historyArray[row].valueForKey("sent_date") as? NSDate
-        let objectRCP:NSManagedObject = historyArray[row].valueForKey("recipient") as NSManagedObject
-        let objectTMP:NSManagedObject = historyArray[row].valueForKey("template") as NSManagedObject
+        let methodString:NSString? = historyArray[row].valueForKey("method") as? NSString ?? ""
+        let rcp_name:NSString? = historyArray[row].valueForKey("rcp_name") as? NSString ?? ""
+        let tmp_name:NSString? = historyArray[row].valueForKey("tmp_name") as? NSString ?? ""
         
         // NSDateFormatter を用意
         let formatter = NSDateFormatter()
@@ -43,9 +44,10 @@ class HistorySMSViewController: UIViewController,UITableViewDataSource,UITableVi
         formatter.timeStyle = .NoStyle
         formatter.dateFormat = "YYYY-MM-dd"
         /* セルに値を設定 */
-        cell.sentTitle.text = objectTMP.valueForKey("title")as NSString ?? ""
+        cell.sentTitle.text = tmp_name
         cell.sentDate.text = formatter.stringFromDate(sent_date!);
-        cell.sentRcpName.text = objectRCP.valueForKey("name")as NSString ?? ""
+        cell.sentRcpName.text = rcp_name
+        cell.sentMethodType.text = methodString
         
         return cell
     }

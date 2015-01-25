@@ -13,4 +13,5 @@ class HistoryTableViewCell: UITableViewCell {
     @IBOutlet weak var sentDate: UILabel!
     @IBOutlet weak var sentTitle: UILabel!
     @IBOutlet weak var sentRcpName: UILabel!
+    @IBOutlet weak var sentMethodType: UILabel!
 }

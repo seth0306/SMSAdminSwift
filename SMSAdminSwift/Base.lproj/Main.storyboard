@@ -57,17 +57,6 @@
                                     <action selector="showRecipientAdmin:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="eHv-1R-E03"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VS9-CJ-e9B">
-                                <rect key="frame" x="16" y="212" width="568" height="27"/>
-                                <fontDescription key="fontDescription" name="HiraKakuProN-W3" family="Hiragino Kaku Gothic ProN" pointSize="15"/>
-                                <state key="normal" title="データ取得">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="getDataFromAB:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="cyc-ku-EeA"/>
-                                    <action selector="showRecipientAdmin:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="7e7-WY-V7f"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.73575979339999997" green="0.91499255950000002" blue="0.86877779259999999" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
@@ -78,7 +67,6 @@
                             <constraint firstItem="0Tl-4Z-xcO" firstAttribute="centerX" secondItem="VFC-X4-mhH" secondAttribute="centerX" id="HEa-3y-eDu"/>
                             <constraint firstItem="0Tl-4Z-xcO" firstAttribute="centerX" secondItem="lgu-Gv-lHe" secondAttribute="centerX" id="PEN-Nb-SX2"/>
                             <constraint firstAttribute="centerX" secondItem="lgu-Gv-lHe" secondAttribute="centerX" id="Ptz-Iy-TrK"/>
-                            <constraint firstItem="0Tl-4Z-xcO" firstAttribute="centerX" secondItem="VS9-CJ-e9B" secondAttribute="centerX" id="QqL-VH-aJb"/>
                             <constraint firstItem="mwL-rl-gLv" firstAttribute="top" secondItem="0Tl-4Z-xcO" secondAttribute="bottom" constant="8" symbolic="YES" id="V8h-AE-ebs"/>
                             <constraint firstItem="0Tl-4Z-xcO" firstAttribute="centerX" secondItem="mwL-rl-gLv" secondAttribute="centerX" id="eMI-v2-2GY"/>
                             <constraint firstItem="mwL-rl-gLv" firstAttribute="trailing" secondItem="0Tl-4Z-xcO" secondAttribute="trailing" id="ft1-8c-7sV"/>
@@ -87,8 +75,6 @@
                             <constraint firstItem="VFC-X4-mhH" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" id="o4i-sh-peV"/>
                             <constraint firstItem="lgu-Gv-lHe" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" id="qr0-vR-xvt"/>
                             <constraint firstItem="VFC-X4-mhH" firstAttribute="top" secondItem="lgu-Gv-lHe" secondAttribute="bottom" constant="8" id="re0-nA-h71"/>
-                            <constraint firstItem="VS9-CJ-e9B" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" id="xNB-hb-T9p"/>
-                            <constraint firstItem="VS9-CJ-e9B" firstAttribute="top" secondItem="mwL-rl-gLv" secondAttribute="bottom" constant="8" id="zRh-Wk-LGu"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="GTq-cs-YvJ"/>
@@ -521,11 +507,72 @@
                     <connections>
                         <outlet property="ABTableView" destination="TJO-1x-xWq" id="A9U-II-1ea"/>
                         <outlet property="recipientListName" destination="Flt-S1-oqj" id="e1h-jB-dWi"/>
+                        <outlet property="searchDisplayController" destination="o6v-C6-77v" id="S7h-30-yNA"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="N7X-hg-wrS" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <searchDisplayController id="o6v-C6-77v">
+                    <connections>
+                        <outlet property="delegate" destination="yBh-Pv-mwX" id="UVK-oY-9le"/>
+                        <outlet property="searchContentsController" destination="yBh-Pv-mwX" id="vGU-Um-wlq"/>
+                        <outlet property="searchResultsDataSource" destination="yBh-Pv-mwX" id="27e-wG-t0c"/>
+                        <outlet property="searchResultsDelegate" destination="yBh-Pv-mwX" id="ofx-l1-aZW"/>
+                    </connections>
+                </searchDisplayController>
             </objects>
             <point key="canvasLocation" x="1927" y="306"/>
+        </scene>
+        <!--Select Item View Controller-->
+        <scene sceneID="ClA-Jg-kbc">
+            <objects>
+                <viewController storyboardIdentifier="SelectItemPopover" id="Elg-tp-JmS" customClass="SelectItemViewController" customModule="SMSAdminSwift" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="tsZ-6W-eM6"/>
+                        <viewControllerLayoutGuide type="bottom" id="FLI-eG-sO1"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="fiZ-yu-1vP">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="51k-o0-A3z">
+                                <rect key="frame" x="16" y="58" width="200" height="300"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="200" id="jCd-9m-SXq"/>
+                                    <constraint firstAttribute="height" constant="300" id="tVB-zj-Q7f"/>
+                                </constraints>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="jn1-kX-O6q">
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jn1-kX-O6q" id="lXA-f7-4qc">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Grm-v9-pKk">
+                                <rect key="frame" x="16" y="20" width="42" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="Ble-UH-jbV"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="0.73575979339999997" green="0.91499255950000002" blue="0.86877779259999999" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="51k-o0-A3z" firstAttribute="top" secondItem="Grm-v9-pKk" secondAttribute="bottom" constant="8" id="N16-T2-2N3"/>
+                            <constraint firstItem="Grm-v9-pKk" firstAttribute="top" secondItem="tsZ-6W-eM6" secondAttribute="bottom" id="kZd-Fh-WzT"/>
+                            <constraint firstItem="51k-o0-A3z" firstAttribute="leading" secondItem="fiZ-yu-1vP" secondAttribute="leadingMargin" id="kkw-xy-hYx"/>
+                            <constraint firstItem="Grm-v9-pKk" firstAttribute="leading" secondItem="51k-o0-A3z" secondAttribute="leading" id="uYJ-EZ-S1k"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="A4I-cg-KsI" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2597" y="306"/>
         </scene>
         <!--HistorySMS View Controller-->
         <scene sceneID="pop-Hd-up6">
@@ -550,19 +597,25 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2015/01/06" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OWF-ie-y0u">
-                                                    <rect key="frame" x="8" y="20" width="69" height="11"/>
+                                                    <rect key="frame" x="8" y="16" width="69" height="15"/>
                                                     <fontDescription key="fontDescription" name="HiraKakuProN-W3" family="Hiragino Kaku Gothic ProN" pointSize="11"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="24基本案内" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sj3-Ne-yEf">
-                                                    <rect key="frame" x="85" y="20" width="59" height="11"/>
+                                                    <rect key="frame" x="85" y="16" width="59" height="15"/>
                                                     <fontDescription key="fontDescription" name="HiraKakuProN-W3" family="Hiragino Kaku Gothic ProN" pointSize="11"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="２６年度新人リスト" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J01-b3-Wd4">
-                                                    <rect key="frame" x="152" y="20" width="99" height="11"/>
+                                                    <rect key="frame" x="152" y="16" width="99" height="15"/>
+                                                    <fontDescription key="fontDescription" name="HiraKakuProN-W3" family="Hiragino Kaku Gothic ProN" pointSize="11"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="メール" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ceh-UR-dgT">
+                                                    <rect key="frame" x="259" y="16" width="33" height="15"/>
                                                     <fontDescription key="fontDescription" name="HiraKakuProN-W3" family="Hiragino Kaku Gothic ProN" pointSize="11"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
@@ -571,14 +624,21 @@
                                             <constraints>
                                                 <constraint firstItem="J01-b3-Wd4" firstAttribute="leading" secondItem="Sj3-Ne-yEf" secondAttribute="trailing" constant="8" id="EVj-ja-WBa"/>
                                                 <constraint firstItem="Sj3-Ne-yEf" firstAttribute="top" secondItem="DIY-bE-gL9" secondAttribute="topMargin" constant="4" id="Ich-DV-w5O"/>
+                                                <constraint firstItem="ceh-UR-dgT" firstAttribute="top" secondItem="DIY-bE-gL9" secondAttribute="topMargin" constant="8" id="JIb-uN-WoJ"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="OWF-ie-y0u" secondAttribute="bottom" constant="4" id="KiD-lo-XkD"/>
                                                 <constraint firstItem="J01-b3-Wd4" firstAttribute="top" secondItem="OWF-ie-y0u" secondAttribute="top" id="Mwo-Xo-JN4"/>
                                                 <constraint firstItem="J01-b3-Wd4" firstAttribute="top" secondItem="Sj3-Ne-yEf" secondAttribute="top" id="NzS-6s-AEb"/>
+                                                <constraint firstItem="ceh-UR-dgT" firstAttribute="leading" secondItem="Sj3-Ne-yEf" secondAttribute="trailing" id="OtP-66-vn0"/>
                                                 <constraint firstItem="OWF-ie-y0u" firstAttribute="leading" secondItem="DIY-bE-gL9" secondAttribute="leadingMargin" id="RFP-mK-Nym"/>
                                                 <constraint firstItem="OWF-ie-y0u" firstAttribute="top" secondItem="DIY-bE-gL9" secondAttribute="topMargin" constant="3" id="S5N-gu-3Qw"/>
+                                                <constraint firstItem="Sj3-Ne-yEf" firstAttribute="top" secondItem="OWF-ie-y0u" secondAttribute="top" id="SlA-kk-ssD"/>
+                                                <constraint firstItem="Sj3-Ne-yEf" firstAttribute="top" secondItem="ceh-UR-dgT" secondAttribute="top" id="U85-bL-DNU"/>
                                                 <constraint firstItem="J01-b3-Wd4" firstAttribute="height" secondItem="Sj3-Ne-yEf" secondAttribute="height" id="ZDj-qO-Fwb"/>
+                                                <constraint firstItem="ceh-UR-dgT" firstAttribute="leading" secondItem="J01-b3-Wd4" secondAttribute="trailing" constant="8" symbolic="YES" id="cOt-oA-rrV"/>
+                                                <constraint firstItem="Sj3-Ne-yEf" firstAttribute="height" secondItem="ceh-UR-dgT" secondAttribute="height" id="kpT-6L-aPQ"/>
                                                 <constraint firstItem="Sj3-Ne-yEf" firstAttribute="leading" secondItem="OWF-ie-y0u" secondAttribute="trailing" constant="8" id="rhY-h6-CJ2"/>
                                                 <constraint firstItem="J01-b3-Wd4" firstAttribute="height" secondItem="OWF-ie-y0u" secondAttribute="height" id="vio-rg-7yY"/>
+                                                <constraint firstItem="Sj3-Ne-yEf" firstAttribute="height" secondItem="OWF-ie-y0u" secondAttribute="height" id="yeG-Yd-f8p"/>
                                                 <constraint firstItem="J01-b3-Wd4" firstAttribute="top" secondItem="DIY-bE-gL9" secondAttribute="topMargin" constant="4" id="z1J-TM-3pr"/>
                                             </constraints>
                                             <variation key="default">
@@ -586,11 +646,13 @@
                                                     <exclude reference="S5N-gu-3Qw"/>
                                                     <exclude reference="Ich-DV-w5O"/>
                                                     <exclude reference="z1J-TM-3pr"/>
+                                                    <exclude reference="OtP-66-vn0"/>
                                                 </mask>
                                             </variation>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="sentDate" destination="OWF-ie-y0u" id="dvw-L6-0H4"/>
+                                            <outlet property="sentMethodType" destination="ceh-UR-dgT" id="Ocq-qN-ezc"/>
                                             <outlet property="sentRcpName" destination="J01-b3-Wd4" id="wa0-IN-dg2"/>
                                             <outlet property="sentTitle" destination="Sj3-Ne-yEf" id="6qN-ue-KLv"/>
                                         </connections>
@@ -619,17 +681,30 @@
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="送信種別" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kOi-0C-31n">
+                                                    <rect key="frame" x="196" y="20" width="44" height="11"/>
+                                                    <fontDescription key="fontDescription" name="HiraKakuProN-W3" family="Hiragino Kaku Gothic ProN" pointSize="11"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="kTi-nj-JHX" firstAttribute="top" secondItem="b9o-U2-Hcs" secondAttribute="topMargin" constant="4" id="1MZ-Sv-EYc"/>
                                                 <constraint firstItem="kTi-nj-JHX" firstAttribute="height" secondItem="RMy-LN-Cjy" secondAttribute="height" id="1ax-Kq-j0V"/>
                                                 <constraint firstItem="RMy-LN-Cjy" firstAttribute="leading" secondItem="dE7-om-any" secondAttribute="trailing" constant="45" id="73y-kU-qbO"/>
+                                                <constraint firstItem="kTi-nj-JHX" firstAttribute="height" secondItem="kOi-0C-31n" secondAttribute="height" id="FXl-Rx-Yla"/>
+                                                <constraint firstItem="kTi-nj-JHX" firstAttribute="height" secondItem="dE7-om-any" secondAttribute="height" id="JUk-ue-Fpa"/>
                                                 <constraint firstItem="dE7-om-any" firstAttribute="leading" secondItem="b9o-U2-Hcs" secondAttribute="leadingMargin" id="KJi-rm-6Vg"/>
+                                                <constraint firstItem="kTi-nj-JHX" firstAttribute="top" secondItem="dE7-om-any" secondAttribute="top" id="NHw-Kc-udv"/>
                                                 <constraint firstItem="kTi-nj-JHX" firstAttribute="top" secondItem="RMy-LN-Cjy" secondAttribute="top" id="OOg-Qr-lXI"/>
+                                                <constraint firstItem="kTi-nj-JHX" firstAttribute="top" secondItem="kOi-0C-31n" secondAttribute="top" id="Q6L-ig-eDf"/>
                                                 <constraint firstItem="dE7-om-any" firstAttribute="top" secondItem="b9o-U2-Hcs" secondAttribute="topMargin" constant="3" id="T6H-LF-d04"/>
                                                 <constraint firstItem="kTi-nj-JHX" firstAttribute="top" secondItem="dE7-om-any" secondAttribute="top" id="VKP-fq-jQz"/>
+                                                <constraint firstItem="kOi-0C-31n" firstAttribute="leading" secondItem="kTi-nj-JHX" secondAttribute="trailing" constant="8" symbolic="YES" id="VZr-Jb-N3l"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="dE7-om-any" secondAttribute="bottom" constant="4" id="aiP-zq-DqK"/>
                                                 <constraint firstItem="RMy-LN-Cjy" firstAttribute="top" secondItem="b9o-U2-Hcs" secondAttribute="topMargin" constant="4" id="fYQ-6B-2Ii"/>
+                                                <constraint firstItem="kTi-nj-JHX" firstAttribute="top" secondItem="RMy-LN-Cjy" secondAttribute="top" id="oIg-U8-V6G"/>
+                                                <constraint firstItem="kTi-nj-JHX" firstAttribute="height" secondItem="RMy-LN-Cjy" secondAttribute="height" id="vep-RL-ayZ"/>
                                                 <constraint firstItem="kTi-nj-JHX" firstAttribute="height" secondItem="dE7-om-any" secondAttribute="height" id="wh5-EJ-AgX"/>
                                                 <constraint firstItem="kTi-nj-JHX" firstAttribute="leading" secondItem="RMy-LN-Cjy" secondAttribute="trailing" constant="25" id="zVs-hm-A8h"/>
                                             </constraints>
@@ -658,7 +733,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Y28-ai-Pxm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="424" y="1445"/>
+            <point key="canvasLocation" x="424" y="1443"/>
         </scene>
         <!--SendSMS View Controller-->
         <scene sceneID="4qk-eI-158">
@@ -713,13 +788,40 @@
                                 </connections>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XET-rP-Yal">
-                                <rect key="frame" x="16" y="222" width="300" height="30"/>
+                                <rect key="frame" x="16" y="222" width="300" height="27"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="300" id="d2V-kH-t03"/>
                                 </constraints>
-                                <state key="normal" title="送信"/>
+                                <fontDescription key="fontDescription" name="HiraKakuProN-W3" family="Hiragino Kaku Gothic ProN" pointSize="15"/>
+                                <state key="normal" title="メール送信"/>
                                 <connections>
-                                    <action selector="sendSMS:" destination="sSK-tB-JS0" eventType="touchUpInside" id="5Px-hy-NqO"/>
+                                    <action selector="sendEMail:" destination="sSK-tB-JS0" eventType="touchUpInside" id="edB-g2-Cg6"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lRN-Ah-Lff">
+                                <rect key="frame" x="16" y="257" width="300" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="300" id="WnB-CF-Qjy"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="300" id="ghJ-Tq-UIA"/>
+                                    <constraint firstAttribute="height" constant="30" id="okV-yP-bEW"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="HiraKakuProN-W3" family="Hiragino Kaku Gothic ProN" pointSize="15"/>
+                                <state key="normal" title="SMS送信（長文）"/>
+                                <connections>
+                                    <action selector="sendLongSMS:" destination="sSK-tB-JS0" eventType="touchUpInside" id="zxe-8b-9X3"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oVJ-y6-Lbc">
+                                <rect key="frame" x="16" y="295" width="300" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="300" id="2kh-Cx-VhU"/>
+                                    <constraint firstAttribute="height" constant="30" id="JPo-iA-sHX"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="300" id="OQx-IG-WK7"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="HiraKakuProN-W3" family="Hiragino Kaku Gothic ProN" pointSize="15"/>
+                                <state key="normal" title="ＳＭＳ送信（短文）"/>
+                                <connections>
+                                    <action selector="sendShortSMS:" destination="sSK-tB-JS0" eventType="touchUpInside" id="fvI-gB-QHc"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -727,15 +829,19 @@
                         <constraints>
                             <constraint firstItem="rA0-y0-he5" firstAttribute="top" secondItem="1e6-ay-DrV" secondAttribute="bottom" constant="8" id="0mW-MW-deT"/>
                             <constraint firstItem="XET-rP-Yal" firstAttribute="leading" secondItem="wTX-Gy-suL" secondAttribute="leadingMargin" id="24H-Zt-Jzw"/>
+                            <constraint firstItem="lRN-Ah-Lff" firstAttribute="leading" secondItem="wTX-Gy-suL" secondAttribute="leadingMargin" id="4GM-Z8-Jx6"/>
                             <constraint firstItem="6Hi-nX-ce8" firstAttribute="top" secondItem="8CC-yr-vfQ" secondAttribute="bottom" constant="8" id="7o1-Nz-i2v"/>
                             <constraint firstItem="6Hi-nX-ce8" firstAttribute="leading" secondItem="8CC-yr-vfQ" secondAttribute="leading" id="9yD-o1-b37"/>
                             <constraint firstItem="8CC-yr-vfQ" firstAttribute="top" secondItem="rA0-y0-he5" secondAttribute="bottom" constant="8" id="BRH-zf-7Tp"/>
                             <constraint firstItem="rA0-y0-he5" firstAttribute="leading" secondItem="wTX-Gy-suL" secondAttribute="leadingMargin" id="Bbt-ga-L0Q"/>
+                            <constraint firstItem="oVJ-y6-Lbc" firstAttribute="leading" secondItem="wTX-Gy-suL" secondAttribute="leadingMargin" id="DY9-vU-IBk"/>
                             <constraint firstItem="8CC-yr-vfQ" firstAttribute="leading" secondItem="wTX-Gy-suL" secondAttribute="leadingMargin" id="G7v-kZ-PRx"/>
                             <constraint firstItem="6Hi-nX-ce8" firstAttribute="leading" secondItem="wTX-Gy-suL" secondAttribute="leadingMargin" id="IiD-5X-dkU"/>
                             <constraint firstItem="6Hi-nX-ce8" firstAttribute="leading" secondItem="rA0-y0-he5" secondAttribute="leading" id="NGj-S4-Fk9"/>
+                            <constraint firstItem="lRN-Ah-Lff" firstAttribute="top" secondItem="XET-rP-Yal" secondAttribute="bottom" constant="8" id="OkA-aP-ayT"/>
                             <constraint firstItem="1e6-ay-DrV" firstAttribute="leading" secondItem="wTX-Gy-suL" secondAttribute="leadingMargin" id="QHn-fC-D3H"/>
                             <constraint firstItem="XET-rP-Yal" firstAttribute="top" secondItem="6Hi-nX-ce8" secondAttribute="bottom" constant="16" id="u6Q-o6-aJi"/>
+                            <constraint firstItem="oVJ-y6-Lbc" firstAttribute="top" secondItem="lRN-Ah-Lff" secondAttribute="bottom" constant="8" id="xrk-a6-Hhq"/>
                             <constraint firstItem="1e6-ay-DrV" firstAttribute="top" secondItem="hNU-FD-xci" secondAttribute="bottom" constant="36" id="y47-34-xR8"/>
                             <constraint firstItem="6Hi-nX-ce8" firstAttribute="leading" secondItem="1e6-ay-DrV" secondAttribute="leading" id="ysv-As-MyM"/>
                         </constraints>

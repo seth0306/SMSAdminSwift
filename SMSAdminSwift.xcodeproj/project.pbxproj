@@ -21,6 +21,7 @@
 		5D33FE2F1A5F69B400A0FDC4 /* RecipientModifyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D33FE2E1A5F69B400A0FDC4 /* RecipientModifyViewController.swift */; };
 		5D33FE331A5F9FE500A0FDC4 /* AddressBookTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D33FE321A5F9FE500A0FDC4 /* AddressBookTableViewCell.swift */; };
 		5D408D091A5DA16D0029508B /* TemplateModifyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D408D081A5DA16D0029508B /* TemplateModifyViewController.swift */; };
+		5D4D21851A6D549C00A253B6 /* SelectItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D4D21841A6D549C00A253B6 /* SelectItemViewController.swift */; };
 		5DA02BED1A5FCA0E00CDC0DE /* AddressBookTableViewHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DA02BEC1A5FCA0E00CDC0DE /* AddressBookTableViewHeaderCell.swift */; };
 		5DA02BEF1A64183200CDC0DE /* RecipientTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DA02BEE1A64183200CDC0DE /* RecipientTableViewCell.swift */; };
 		5DA02BF11A64185700CDC0DE /* RecipientTableViewHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DA02BF01A64185700CDC0DE /* RecipientTableViewHeaderCell.swift */; };
@@ -62,6 +63,7 @@
 		5D33FE2E1A5F69B400A0FDC4 /* RecipientModifyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecipientModifyViewController.swift; sourceTree = "<group>"; };
 		5D33FE321A5F9FE500A0FDC4 /* AddressBookTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddressBookTableViewCell.swift; sourceTree = "<group>"; };
 		5D408D081A5DA16D0029508B /* TemplateModifyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TemplateModifyViewController.swift; sourceTree = "<group>"; };
+		5D4D21841A6D549C00A253B6 /* SelectItemViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectItemViewController.swift; sourceTree = "<group>"; };
 		5DA02BEC1A5FCA0E00CDC0DE /* AddressBookTableViewHeaderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddressBookTableViewHeaderCell.swift; sourceTree = "<group>"; };
 		5DA02BEE1A64183200CDC0DE /* RecipientTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecipientTableViewCell.swift; sourceTree = "<group>"; };
 		5DA02BF01A64185700CDC0DE /* RecipientTableViewHeaderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecipientTableViewHeaderCell.swift; sourceTree = "<group>"; };
@@ -126,6 +128,7 @@
 				5D0805411A5BB6ED006A2932 /* LaunchScreen.xib */,
 				5D08053C1A5BB6EC006A2932 /* Main.storyboard */,
 				5D0805581A5BB8F3006A2932 /* MainMenuViewController.swift */,
+				5D4D21841A6D549C00A253B6 /* SelectItemViewController.swift */,
 				5DB13DCE1A5D1A7D004FAF4E /* RecipientAdminViewController.swift */,
 				5D33FE2E1A5F69B400A0FDC4 /* RecipientModifyViewController.swift */,
 				5DA02BEE1A64183200CDC0DE /* RecipientTableViewCell.swift */,
@@ -277,6 +280,7 @@
 				5DB13DD11A5D21E2004FAF4E /* TemplateTableViewCell.swift in Sources */,
 				5DB13DCB1A5D0DC6004FAF4E /* DataHandler.swift in Sources */,
 				5D33FE2F1A5F69B400A0FDC4 /* RecipientModifyViewController.swift in Sources */,
+				5D4D21851A6D549C00A253B6 /* SelectItemViewController.swift in Sources */,
 				5D08055D1A5BBFCB006A2932 /* AdminSMSViewController.swift in Sources */,
 				5DB13DCD1A5D1A61004FAF4E /* TemplateAdminViewController.swift in Sources */,
 				5DB13DC91A5D0239004FAF4E /* HistoryTableViewHeaderCell.swift in Sources */,
