@@ -25,7 +25,8 @@ class RecipientModifyViewController: UIViewController,UITableViewDataSource,UITa
     
     /*－－－－－－－－－－　定数　終了　－－－－－－－－－－*/
     /*－－－－－－－－－－　プロパティ　開始　－－－－－－－－－－*/
-    var recipientArray:NSArray? = nil
+    var recipientArray:NSArray? = nil           //受信者リスト内容
+    var recipientReserveArray:NSArray? = nil           //保存用
     var addressBookArray:Array<AnyObject>? = nil
     var recipientObj:NSManagedObject? = nil
     var targetButtonTitle :String = ""
@@ -123,7 +124,7 @@ class RecipientModifyViewController: UIViewController,UITableViewDataSource,UITa
                     case "・":
                         method_type = methodType.methodTypeLongSMS.rawValue
                         newObj = dh.createNewEntity("AddressBookUnit")
-                    case "：":
+                    case ":":
                         method_type = methodType.methodTypeShortSMS.rawValue
                         newObj = dh.createNewEntity("AddressBookUnit")
                     case "、":
@@ -151,8 +152,11 @@ class RecipientModifyViewController: UIViewController,UITableViewDataSource,UITa
             }
             recipientArray = recipientSet!.allObjects
             recipientListName.text = STR_SHINKI
+            
         }
-    }
+        
+        recipientReserveArray = recipientArray    }
+    
     
     /*－－－－－－－－－－　テーブル関係　開始　－－－－－－－－－－*/
     
@@ -164,7 +168,7 @@ class RecipientModifyViewController: UIViewController,UITableViewDataSource,UITa
     /* TableView内のCellの表示 */
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-         /* AddressBook */
+        /* AddressBook */
         let  cell = tableView.dequeueReusableCellWithIdentifier("ABListTableViewCell") as AddressBookTableViewCell
         var row = indexPath.row
         let ab_name:NSString? = recipientArray![row].valueForKey("name") as? NSString
@@ -180,6 +184,7 @@ class RecipientModifyViewController: UIViewController,UITableViewDataSource,UITa
             cell.accessoryType = UITableViewCellAccessoryType.None
         }
         return cell
+        
     }
     /* TableView内のセクション内の行数を返す */
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -197,6 +202,36 @@ class RecipientModifyViewController: UIViewController,UITableViewDataSource,UITa
         headerCell.backgroundColor = UIColor.cyanColor()
         return headerCell
     }
+    /* すべてのselectedをセットする */
+    func toggleAllSelected(flg:Bool){
+        
+    }
+    
+    
+    
+    /* 検索処理 */
+    func filterContainsWithSearchText( searchText:NSString ) {
+        let predicate = NSPredicate(format: "%K contains %@ ", "name", searchText)
+        //recipientResultArray = recipientArray?.filteredArrayUsingPredicate(predicate!)
+        recipientArray = recipientArray?.filteredArrayUsingPredicate(predicate!)
+    }
+    
+    /* 検索処理 */
+    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+        
+    }
+    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+        recipientArray = recipientReserveArray
+        filterContainsWithSearchText(searchText)
+        ABTableView.reloadData()
+    }
+    /*
+    func searchDisplayController(controller: UISearchDisplayController, shouldReloadTableForSearchString searchString: String!) -> Bool {
+        filterContainsWithSearchText(searchString)
+        return true
+    }
+    */
+    
     
     //セルが選択された場合の処理
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {

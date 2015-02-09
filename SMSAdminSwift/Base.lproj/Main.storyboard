@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="DkF-Vq-Cgo">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="DkF-Vq-Cgo">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -403,6 +403,14 @@
                                     <constraint firstAttribute="height" constant="600" id="JIj-cV-rsv"/>
                                     <constraint firstAttribute="width" constant="300" id="VZn-gn-OCD"/>
                                 </constraints>
+                                <searchBar key="tableHeaderView" contentMode="redraw" placeholder="検索キーワード" id="qER-ot-QQu">
+                                    <rect key="frame" x="0.0" y="0.0" width="300" height="44"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                    <textInputTraits key="textInputTraits"/>
+                                    <connections>
+                                        <outlet property="delegate" destination="yBh-Pv-mwX" id="pfZ-Pi-fd5"/>
+                                    </connections>
+                                </searchBar>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ABListTableViewCell" id="fvY-DL-EDn" customClass="AddressBookTableViewCell" customModule="SMSAdminSwift" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="200" height="44"/>
@@ -507,7 +515,7 @@
                     <connections>
                         <outlet property="ABTableView" destination="TJO-1x-xWq" id="A9U-II-1ea"/>
                         <outlet property="recipientListName" destination="Flt-S1-oqj" id="e1h-jB-dWi"/>
-                        <outlet property="searchDisplayController" destination="o6v-C6-77v" id="S7h-30-yNA"/>
+                        <outlet property="searchDisplayController" destination="BEk-xO-lsU" id="Czr-ff-FAA"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="N7X-hg-wrS" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -517,6 +525,14 @@
                         <outlet property="searchContentsController" destination="yBh-Pv-mwX" id="vGU-Um-wlq"/>
                         <outlet property="searchResultsDataSource" destination="yBh-Pv-mwX" id="27e-wG-t0c"/>
                         <outlet property="searchResultsDelegate" destination="yBh-Pv-mwX" id="ofx-l1-aZW"/>
+                    </connections>
+                </searchDisplayController>
+                <searchDisplayController id="BEk-xO-lsU">
+                    <connections>
+                        <outlet property="delegate" destination="yBh-Pv-mwX" id="O1z-0m-6S5"/>
+                        <outlet property="searchContentsController" destination="yBh-Pv-mwX" id="dqH-yG-C1K"/>
+                        <outlet property="searchResultsDataSource" destination="yBh-Pv-mwX" id="Zv3-XU-UKe"/>
+                        <outlet property="searchResultsDelegate" destination="yBh-Pv-mwX" id="Hh9-ql-tSG"/>
                     </connections>
                 </searchDisplayController>
             </objects>

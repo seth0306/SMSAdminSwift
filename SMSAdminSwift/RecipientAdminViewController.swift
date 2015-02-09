@@ -33,7 +33,10 @@ class RecipientAdminViewController: UIViewController,UITableViewDataSource,UITab
     }
     
     override func viewWillAppear(animated: Bool) {
+        var dh = DataHandler()
+        recipientArray = dh.fetchEntityData("Recipient")!
         recipientTableView.reloadData()
+        super.viewWillAppear(animated)
     }
     
     /*－－－－－－－－－－　画面遷移　開始　－－－－－－－－－－*/
