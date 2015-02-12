@@ -155,7 +155,13 @@ class RecipientModifyViewController: UIViewController,UITableViewDataSource,UITa
             
         }
         
-        recipientReserveArray = recipientArray    }
+        /* nameでソートする */
+        let nameSortDescriptor:NSSortDescriptor = NSSortDescriptor(key:"name", ascending:true)
+        recipientArray = recipientArray?.sortedArrayUsingDescriptors([nameSortDescriptor])
+        
+        recipientReserveArray = recipientArray
+        
+    }
     
     
     /*－－－－－－－－－－　テーブル関係　開始　－－－－－－－－－－*/
@@ -211,27 +217,21 @@ class RecipientModifyViewController: UIViewController,UITableViewDataSource,UITa
     
     /* 検索処理 */
     func filterContainsWithSearchText( searchText:NSString ) {
-        let predicate = NSPredicate(format: "%K contains %@ ", "name", searchText)
-        //recipientResultArray = recipientArray?.filteredArrayUsingPredicate(predicate!)
-        recipientArray = recipientArray?.filteredArrayUsingPredicate(predicate!)
+        if (searchText == "") {
+            recipientArray = recipientReserveArray
+            
+        } else {
+            let predicate = NSPredicate(format: "%K contains %@ ", "name", searchText)
+            recipientArray = recipientArray?.filteredArrayUsingPredicate(predicate!)
+        }
     }
     
     /* 検索処理 */
-    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
-        
-    }
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
         recipientArray = recipientReserveArray
         filterContainsWithSearchText(searchText)
         ABTableView.reloadData()
     }
-    /*
-    func searchDisplayController(controller: UISearchDisplayController, shouldReloadTableForSearchString searchString: String!) -> Bool {
-        filterContainsWithSearchText(searchString)
-        return true
-    }
-    */
-    
     
     //セルが選択された場合の処理
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
