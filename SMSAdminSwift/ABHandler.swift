@@ -21,6 +21,20 @@ class ABHandler: NSObject {
         return nil
     }
     
+    /* Group表示 */
+    func showGroup() {
+        var errorRef: Unmanaged<CFError>?
+        addressBook = extractABAddressBookRef(ABAddressBookCreateWithOptions(nil, &errorRef))
+        var contactList: NSArray = ABAddressBookCopyArrayOfAllGroups(addressBook).takeRetainedValue()
+        for record:ABRecordRef in contactList {
+            var contactGroup: ABRecordRef = record
+            let abrecord_id = ABRecordGetRecordID(contactGroup)
+            let name = ABRecordCopyValue(contactGroup, kABGroupNameProperty)?.takeRetainedValue() as String? ?? ""
+            println ("groupName \(name)")
+        }
+    }
+    
+
     /* AddressBookの使用許可確認 */
     func startManagingAB() {
         if (ABAddressBookGetAuthorizationStatus() == ABAuthorizationStatus.NotDetermined) {

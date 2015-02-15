@@ -19,6 +19,9 @@ class MainMenuViewController: UIViewController,UIAlertViewDelegate,UIPopoverPres
         
         /* タイトルを設定 */
         self.title = "SMSAdminメニュー"
+        
+        /* group表示 */
+        abh.showGroup()
     }
     
     
@@ -39,6 +42,11 @@ class MainMenuViewController: UIViewController,UIAlertViewDelegate,UIPopoverPres
     @IBAction func showRecipientAdmin(sender: UIButton) {
         performSegueWithIdentifier("showRecipientAdmin", sender: nil)
     }
+    
+    
+    
+    
+    
     /* データ取得 */
     /*
     @IBAction func getDataFromAB(sender: UIButton) {
@@ -76,4 +84,5 @@ class MainMenuViewController: UIViewController,UIAlertViewDelegate,UIPopoverPres
         self.presentViewController(nav, animated: true, completion: nil)
     }
     */
+    
 }

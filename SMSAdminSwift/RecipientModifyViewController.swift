@@ -102,6 +102,7 @@ class RecipientModifyViewController: UIViewController,UITableViewDataSource,UITa
                 
                 var phoneArray:ABMultiValueRef = ah.extractABPhoneRef(ABRecordCopyValue(contactPerson, kABPersonPhoneProperty))!
                 var emailArray:ABMultiValueRef = ah.extractABPhoneRef(ABRecordCopyValue(contactPerson, kABPersonEmailProperty))!
+                /* 一番最初のデータのみ取得 */
                 let phoneNumber = ABMultiValueCopyValueAtIndex(phoneArray, 0)
                 var emailAddress = ABMultiValueCopyValueAtIndex(emailArray, 0)
                 
@@ -214,7 +215,11 @@ class RecipientModifyViewController: UIViewController,UITableViewDataSource,UITa
     }
     /* すべてのselectedをセットする */
     func toggleAllSelected(flg:Bool){
-        
+        for v in recipientArray! {
+            var modifyObj:NSManagedObject = v as NSManagedObject
+            modifyObj.setValue(true, forKey: "selected")
+        }
+        ABTableView.reloadData()
     }
     
     
@@ -241,8 +246,8 @@ class RecipientModifyViewController: UIViewController,UITableViewDataSource,UITa
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         /* 変更対象オブジェクトの取得 */
         //var modifyObj:NSManagedObject = recipientArray![indexPath.row] as NSManagedObject;
-        var modifyObj:NSManagedObject = recipientArray![indexPath.row] as NSManagedObject;
-        modifyObj = recipientSet?.member(modifyObj) as NSManagedObject
+        var modifyObj:NSManagedObject = recipientArray![indexPath.row] as NSManagedObject
+        //modifyObj = recipientSet?.member(modifyObj) as NSManagedObject
         
         /* 選択フラグを取得 */
         let ab_selected:Bool = modifyObj.valueForKey("selected") as? Bool ?? false
