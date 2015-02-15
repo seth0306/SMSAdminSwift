@@ -157,7 +157,9 @@ class RecipientModifyViewController: UIViewController,UITableViewDataSource,UITa
         
         /* nameでソートする */
         let nameSortDescriptor:NSSortDescriptor = NSSortDescriptor(key:"name", ascending:true)
-        recipientArray = recipientArray?.sortedArrayUsingDescriptors([nameSortDescriptor])
+        let selectedSortDescriptor:NSSortDescriptor = NSSortDescriptor(key:"selected", ascending:false)
+        
+        recipientArray = recipientArray?.sortedArrayUsingDescriptors([selectedSortDescriptor,nameSortDescriptor])
         
         recipientReserveArray = recipientArray
         
@@ -179,10 +181,12 @@ class RecipientModifyViewController: UIViewController,UITableViewDataSource,UITa
         var row = indexPath.row
         let ab_name:NSString? = recipientArray![row].valueForKey("name") as? NSString
         let ab_phone:NSString? = recipientArray![row].valueForKey("selected_phone") as? NSString
+        let ab_mail:NSString? = recipientArray![row].valueForKey("selected_mail") as? NSString
         let ab_selected:Bool = recipientArray![row].valueForKey("selected") as? Bool ?? false
         /* セルに値を設定 */
         cell.name.text = ab_name
         cell.phone.text = ab_phone
+        cell.mail.text = ab_mail
         /* セルのアクセサリにチェックマークを指定 */
         if ab_selected {
             cell.accessoryType = UITableViewCellAccessoryType.Checkmark

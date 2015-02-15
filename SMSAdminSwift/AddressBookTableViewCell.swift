@@ -12,4 +12,5 @@ class AddressBookTableViewCell: UITableViewCell {
 
     @IBOutlet weak var name: UILabel!
     @IBOutlet weak var phone: UILabel!
+    @IBOutlet weak var mail: UILabel!
 }

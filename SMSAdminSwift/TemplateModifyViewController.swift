@@ -83,6 +83,10 @@ class TemplateModifyViewController: UIViewController {
         println("object saved")
     }
     
+    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+        self.view.endEditing(true)
+    }
+    
     /*　既存のEntityを修正　*/
     func modifyExist(){
         /* Get ManagedObjectContext from AppDelegate */

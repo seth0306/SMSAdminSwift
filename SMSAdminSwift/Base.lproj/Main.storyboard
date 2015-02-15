@@ -419,26 +419,74 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="名前" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6FW-Iu-ot1">
-                                                    <rect key="frame" x="8" y="8" width="22" height="11"/>
+                                                    <rect key="frame" x="8" y="8" width="80" height="11"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="80" id="9sa-Yt-Rt6"/>
+                                                        <constraint firstAttribute="width" constant="200" id="9zl-Kv-Tao"/>
+                                                        <constraint firstAttribute="width" relation="lessThanOrEqual" constant="100" id="zRk-Rj-3ng"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" name="HiraKakuProN-W3" family="Hiragino Kaku Gothic ProN" pointSize="11"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                    <variation key="default">
+                                                        <mask key="constraints">
+                                                            <exclude reference="9zl-Kv-Tao"/>
+                                                            <exclude reference="zRk-Rj-3ng"/>
+                                                        </mask>
+                                                    </variation>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="メールアドレス" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Kd-UZ-KDl">
+                                                    <rect key="frame" x="184" y="8" width="80" height="11"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="80" id="x43-50-0Kn"/>
+                                                    </constraints>
                                                     <fontDescription key="fontDescription" name="HiraKakuProN-W3" family="Hiragino Kaku Gothic ProN" pointSize="11"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="電話番号" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kfj-Ag-LcH">
-                                                    <rect key="frame" x="38" y="8" width="44" height="11"/>
+                                                    <rect key="frame" x="96" y="8" width="80" height="11"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" relation="lessThanOrEqual" constant="200" id="BRb-93-84U"/>
+                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="100" id="XOs-sE-jEY"/>
+                                                        <constraint firstAttribute="width" constant="80" id="t8i-uw-7kU"/>
+                                                    </constraints>
                                                     <fontDescription key="fontDescription" name="HiraKakuProN-W3" family="Hiragino Kaku Gothic ProN" pointSize="11"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
+                                                    <variation key="default">
+                                                        <mask key="constraints">
+                                                            <exclude reference="BRb-93-84U"/>
+                                                            <exclude reference="XOs-sE-jEY"/>
+                                                        </mask>
+                                                    </variation>
                                                 </label>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="kfj-Ag-LcH" firstAttribute="top" secondItem="lcj-9Q-wzn" secondAttribute="topMargin" id="43v-IM-BN6"/>
+                                                <constraint firstItem="4Kd-UZ-KDl" firstAttribute="top" secondItem="lcj-9Q-wzn" secondAttribute="topMargin" id="4i3-hZ-5BR"/>
+                                                <constraint firstItem="kfj-Ag-LcH" firstAttribute="leading" secondItem="6FW-Iu-ot1" secondAttribute="trailing" constant="8" id="BKT-Di-sEb"/>
                                                 <constraint firstItem="kfj-Ag-LcH" firstAttribute="top" secondItem="lcj-9Q-wzn" secondAttribute="topMargin" id="DRT-7y-LEo"/>
                                                 <constraint firstItem="6FW-Iu-ot1" firstAttribute="leading" secondItem="lcj-9Q-wzn" secondAttribute="leadingMargin" id="J3M-7R-fuj"/>
+                                                <constraint firstItem="4Kd-UZ-KDl" firstAttribute="leading" secondItem="kfj-Ag-LcH" secondAttribute="trailing" constant="8" id="aYs-LB-qTe"/>
                                                 <constraint firstItem="kfj-Ag-LcH" firstAttribute="leading" secondItem="6FW-Iu-ot1" secondAttribute="trailing" constant="8" id="ftj-dD-XHP"/>
+                                                <constraint firstItem="kfj-Ag-LcH" firstAttribute="leading" secondItem="6FW-Iu-ot1" secondAttribute="trailing" constant="8" id="gwb-ZU-xNk"/>
+                                                <constraint firstItem="6FW-Iu-ot1" firstAttribute="top" secondItem="lcj-9Q-wzn" secondAttribute="topMargin" id="o5D-p1-iKj"/>
                                                 <constraint firstItem="6FW-Iu-ot1" firstAttribute="top" secondItem="lcj-9Q-wzn" secondAttribute="topMargin" id="tWL-dk-i0f"/>
+                                                <constraint firstItem="kfj-Ag-LcH" firstAttribute="top" secondItem="lcj-9Q-wzn" secondAttribute="topMargin" id="z0A-Fs-2ja"/>
+                                                <constraint firstItem="6FW-Iu-ot1" firstAttribute="leading" secondItem="lcj-9Q-wzn" secondAttribute="leadingMargin" id="z9t-Ja-MfW"/>
                                             </constraints>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="43v-IM-BN6"/>
+                                                    <exclude reference="DRT-7y-LEo"/>
+                                                    <exclude reference="ftj-dD-XHP"/>
+                                                    <exclude reference="gwb-ZU-xNk"/>
+                                                </mask>
+                                            </variation>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="mail" destination="4Kd-UZ-KDl" id="ffB-MG-046"/>
                                             <outlet property="name" destination="6FW-Iu-ot1" id="3N1-FV-y1e"/>
                                             <outlet property="phone" destination="kfj-Ag-LcH" id="bGW-0n-MiB"/>
                                         </connections>
@@ -450,20 +498,37 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="名前" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IBn-3r-4Rf">
-                                                    <rect key="frame" x="8" y="8" width="22" height="11"/>
+                                                    <rect key="frame" x="8" y="8" width="80" height="11"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="80" id="MMF-ub-847"/>
+                                                    </constraints>
                                                     <fontDescription key="fontDescription" name="HiraKakuProN-W3" family="Hiragino Kaku Gothic ProN" pointSize="11"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="電話番号" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VHx-NT-xvk">
-                                                    <rect key="frame" x="38" y="8" width="44" height="11"/>
+                                                    <rect key="frame" x="96" y="8" width="80" height="11"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="80" id="4vb-iz-eUW"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" name="HiraKakuProN-W3" family="Hiragino Kaku Gothic ProN" pointSize="11"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="メールアドレス" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RmV-zg-xgI">
+                                                    <rect key="frame" x="184" y="8" width="80" height="11"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="80" id="Vxv-ZG-pdv"/>
+                                                    </constraints>
                                                     <fontDescription key="fontDescription" name="HiraKakuProN-W3" family="Hiragino Kaku Gothic ProN" pointSize="11"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="RmV-zg-xgI" firstAttribute="leading" secondItem="VHx-NT-xvk" secondAttribute="trailing" constant="8" id="0s9-Oy-msg"/>
                                                 <constraint firstItem="IBn-3r-4Rf" firstAttribute="top" secondItem="Zp3-dL-yOs" secondAttribute="topMargin" id="1Tf-cM-SPv"/>
+                                                <constraint firstItem="RmV-zg-xgI" firstAttribute="top" secondItem="Zp3-dL-yOs" secondAttribute="topMargin" id="bdd-PT-Hmu"/>
                                                 <constraint firstItem="VHx-NT-xvk" firstAttribute="leading" secondItem="IBn-3r-4Rf" secondAttribute="trailing" constant="8" id="j7b-Hu-WFh"/>
                                                 <constraint firstItem="VHx-NT-xvk" firstAttribute="top" secondItem="Zp3-dL-yOs" secondAttribute="topMargin" id="wHQ-BI-yBo"/>
                                                 <constraint firstItem="IBn-3r-4Rf" firstAttribute="leading" secondItem="Zp3-dL-yOs" secondAttribute="leadingMargin" id="wwx-vl-tQT"/>
@@ -628,13 +693,13 @@
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="２６年度新人リスト" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J01-b3-Wd4">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="２６年度新人リスト" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J01-b3-Wd4">
                                                     <rect key="frame" x="152" y="16" width="99" height="15"/>
                                                     <fontDescription key="fontDescription" name="HiraKakuProN-W3" family="Hiragino Kaku Gothic ProN" pointSize="11"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="メール" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ceh-UR-dgT">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="メール" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ceh-UR-dgT">
                                                     <rect key="frame" x="259" y="16" width="33" height="15"/>
                                                     <fontDescription key="fontDescription" name="HiraKakuProN-W3" family="Hiragino Kaku Gothic ProN" pointSize="11"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
