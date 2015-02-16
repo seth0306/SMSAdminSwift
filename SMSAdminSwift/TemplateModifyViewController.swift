@@ -83,6 +83,7 @@ class TemplateModifyViewController: UIViewController {
         println("object saved")
     }
     
+    /* 画面をタッチしたらKeyboardをしまう */
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         self.view.endEditing(true)
     }

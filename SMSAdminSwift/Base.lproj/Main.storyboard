@@ -47,7 +47,7 @@
                                     <action selector="showTemplateAdmin:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="iFS-HJ-Jbk"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mwL-rl-gLv">
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mwL-rl-gLv">
                                 <rect key="frame" x="16" y="177" width="568" height="27"/>
                                 <fontDescription key="fontDescription" name="HiraKakuProN-W3" family="Hiragino Kaku Gothic ProN" pointSize="15"/>
                                 <state key="normal" title="受信者管理">
@@ -682,25 +682,37 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2015/01/06" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OWF-ie-y0u">
-                                                    <rect key="frame" x="8" y="16" width="69" height="15"/>
+                                                    <rect key="frame" x="8" y="16" width="70" height="15"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="70" id="Ere-kF-TpN"/>
+                                                    </constraints>
                                                     <fontDescription key="fontDescription" name="HiraKakuProN-W3" family="Hiragino Kaku Gothic ProN" pointSize="11"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="24基本案内" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sj3-Ne-yEf">
-                                                    <rect key="frame" x="85" y="16" width="59" height="15"/>
+                                                    <rect key="frame" x="86" y="16" width="60" height="15"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="60" id="K06-t6-V3z"/>
+                                                    </constraints>
                                                     <fontDescription key="fontDescription" name="HiraKakuProN-W3" family="Hiragino Kaku Gothic ProN" pointSize="11"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="２６年度新人リスト" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J01-b3-Wd4">
-                                                    <rect key="frame" x="152" y="16" width="99" height="15"/>
+                                                    <rect key="frame" x="154" y="16" width="60" height="15"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="60" id="Xeh-s5-D8Z"/>
+                                                    </constraints>
                                                     <fontDescription key="fontDescription" name="HiraKakuProN-W3" family="Hiragino Kaku Gothic ProN" pointSize="11"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="メール" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ceh-UR-dgT">
-                                                    <rect key="frame" x="259" y="16" width="33" height="15"/>
+                                                    <rect key="frame" x="222" y="16" width="50" height="15"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="50" id="rL8-Zp-mXT"/>
+                                                    </constraints>
                                                     <fontDescription key="fontDescription" name="HiraKakuProN-W3" family="Hiragino Kaku Gothic ProN" pointSize="11"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
@@ -749,25 +761,37 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="送信日" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dE7-om-any">
-                                                    <rect key="frame" x="8" y="20" width="33" height="11"/>
+                                                    <rect key="frame" x="8" y="20" width="70" height="11"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="70" id="iHd-rB-OWX"/>
+                                                    </constraints>
                                                     <fontDescription key="fontDescription" name="HiraKakuProN-W3" family="Hiragino Kaku Gothic ProN" pointSize="11"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="タイトル" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RMy-LN-Cjy">
-                                                    <rect key="frame" x="86" y="20" width="44" height="11"/>
+                                                    <rect key="frame" x="86" y="20" width="60" height="11"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="60" id="FvF-vL-vXY"/>
+                                                    </constraints>
                                                     <fontDescription key="fontDescription" name="HiraKakuProN-W3" family="Hiragino Kaku Gothic ProN" pointSize="11"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="送信先" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kTi-nj-JHX">
-                                                    <rect key="frame" x="155" y="20" width="33" height="11"/>
+                                                    <rect key="frame" x="154" y="20" width="60" height="11"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="60" id="vBc-24-VJ6"/>
+                                                    </constraints>
                                                     <fontDescription key="fontDescription" name="HiraKakuProN-W3" family="Hiragino Kaku Gothic ProN" pointSize="11"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="送信種別" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kOi-0C-31n">
-                                                    <rect key="frame" x="196" y="20" width="44" height="11"/>
+                                                    <rect key="frame" x="222" y="20" width="50" height="11"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="50" id="5SI-wp-whx"/>
+                                                    </constraints>
                                                     <fontDescription key="fontDescription" name="HiraKakuProN-W3" family="Hiragino Kaku Gothic ProN" pointSize="11"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
@@ -776,7 +800,7 @@
                                             <constraints>
                                                 <constraint firstItem="kTi-nj-JHX" firstAttribute="top" secondItem="b9o-U2-Hcs" secondAttribute="topMargin" constant="4" id="1MZ-Sv-EYc"/>
                                                 <constraint firstItem="kTi-nj-JHX" firstAttribute="height" secondItem="RMy-LN-Cjy" secondAttribute="height" id="1ax-Kq-j0V"/>
-                                                <constraint firstItem="RMy-LN-Cjy" firstAttribute="leading" secondItem="dE7-om-any" secondAttribute="trailing" constant="45" id="73y-kU-qbO"/>
+                                                <constraint firstItem="RMy-LN-Cjy" firstAttribute="leading" secondItem="dE7-om-any" secondAttribute="trailing" constant="8" id="73y-kU-qbO"/>
                                                 <constraint firstItem="kTi-nj-JHX" firstAttribute="height" secondItem="kOi-0C-31n" secondAttribute="height" id="FXl-Rx-Yla"/>
                                                 <constraint firstItem="kTi-nj-JHX" firstAttribute="height" secondItem="dE7-om-any" secondAttribute="height" id="JUk-ue-Fpa"/>
                                                 <constraint firstItem="dE7-om-any" firstAttribute="leading" secondItem="b9o-U2-Hcs" secondAttribute="leadingMargin" id="KJi-rm-6Vg"/>
@@ -791,7 +815,7 @@
                                                 <constraint firstItem="kTi-nj-JHX" firstAttribute="top" secondItem="RMy-LN-Cjy" secondAttribute="top" id="oIg-U8-V6G"/>
                                                 <constraint firstItem="kTi-nj-JHX" firstAttribute="height" secondItem="RMy-LN-Cjy" secondAttribute="height" id="vep-RL-ayZ"/>
                                                 <constraint firstItem="kTi-nj-JHX" firstAttribute="height" secondItem="dE7-om-any" secondAttribute="height" id="wh5-EJ-AgX"/>
-                                                <constraint firstItem="kTi-nj-JHX" firstAttribute="leading" secondItem="RMy-LN-Cjy" secondAttribute="trailing" constant="25" id="zVs-hm-A8h"/>
+                                                <constraint firstItem="kTi-nj-JHX" firstAttribute="leading" secondItem="RMy-LN-Cjy" secondAttribute="trailing" constant="8" id="zVs-hm-A8h"/>
                                             </constraints>
                                             <variation key="default">
                                                 <mask key="constraints">

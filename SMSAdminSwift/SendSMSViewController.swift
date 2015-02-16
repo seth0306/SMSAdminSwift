@@ -9,6 +9,7 @@
 import UIKit
 import CoreData
 import MessageUI
+import AddressBookUI
 
 class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelegate,UITextFieldDelegate,MFMessageComposeViewControllerDelegate,MFMailComposeViewControllerDelegate {
     /*－－－－－－－－－－　定数　開始　－－－－－－－－－－*/
@@ -25,10 +26,10 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
     /*－－－－－－－－－－　プロパティ　開始　－－－－－－－－－－*/
     var recipientArray:Array<AnyObject>? = nil
     var templateArray:Array<AnyObject>? = nil
-    var selectedRCP:NSManagedObject? = nil
+    var selectedRCP:Int32 = 0
     var selectedTMP:NSManagedObject? = nil
     var methodString:NSString = ""
-    
+    var groupList:Array<Any>? = nil
     /*－－－－－－－－－－　プロパティ　終了　－－－－－－－－－－*/
     /*－－－－－－－－－－　アウトレット　開始　－－－－－－－－－－*/
     @IBOutlet weak var recipientListName: UITextField!
@@ -36,7 +37,7 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
     /*－－－－－－－－－－　アウトレット　終了　－－－－－－－－－－*/
     
     /*－－－－－－－－－－　Mail　開始　－－－－－－－－－－*/
-    func configuredMailComposeViewController(mailTitle:NSString,mailBody: NSString,bccRecipients:NSMutableArray ) -> MFMailComposeViewController {
+    func configuredMailComposeViewController(mailTitle:NSString,mailBody: NSString,bccRecipients:Array<NSString> ) -> MFMailComposeViewController {
         let mailComposerVC = MFMailComposeViewController()
         mailComposerVC.mailComposeDelegate = self // Extremely important to set the --mailComposeDelegate-- property, NOT the --delegate-- property
         mailComposerVC.setToRecipients(["seth0306@gmail.com"])
@@ -89,33 +90,14 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
         let temp_short = selectedTMP?.valueForKey("temp_short") as NSString
         let temp_long = selectedTMP?.valueForKey("temp_long") as NSString
         let temp_title = selectedTMP?.valueForKey("title") as NSString
-        
-        /* 受信者リスト */
-        let recipientSet = selectedRCP!.mutableSetValueForKey("addressBookUnits") as NSMutableSet
-        /*　メールリスト　*/
-        let mailArray:NSMutableArray = NSMutableArray()
-        
-        for v in recipientSet {
-            /* 選択されている宛先のみ */
-            if v.valueForKey("selected") as? Bool ?? false {
-                /* 送信種別ごとの処理 */
-                let method_type =  v.valueForKey("method_type") as NSNumber? ?? 0
-                switch method_type {
-                case methodType.methodTypeMail.rawValue:
-                    let targetMail:NSString = v.valueForKey("selected_mail") as NSString? ?? ""
-                    if targetMail.length > 0 {
-                        mailArray.addObject(targetMail)
-                    }
-                default:
-                    break
-                }
-            }
-        }
-        if ( mailArray.count == 0 ) {
+        /* Recipient */
+        let ah = ABHandler()
+        var list:Array<NSString> = ah.getRecipientListByGroup(selectedRCP, typeofmethod: ABHandler.methodType.methodTypeMail)
+        if ( list.count == 0 ) {
             showNoDataErrorAlert()
         } else {
             /* メール送信 */
-            let mailComposeViewController = configuredMailComposeViewController(temp_title,mailBody: temp_long,bccRecipients: mailArray )
+            let mailComposeViewController = configuredMailComposeViewController(temp_title,mailBody: temp_long,bccRecipients: list)
             if MFMailComposeViewController.canSendMail() {
                 self.presentViewController(mailComposeViewController, animated: true, completion: nil)
             } else {
@@ -133,33 +115,16 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
         let temp_title = selectedTMP?.valueForKey("title") as NSString
         
         /* 受信者リスト */
-        let recipientSet = selectedRCP!.mutableSetValueForKey("addressBookUnits") as NSMutableSet
-        /* 長文SMSリスト */
-        let longArray:NSMutableArray = NSMutableArray()
+        let ah = ABHandler()
+        var list:Array<NSString> = ah.getRecipientListByGroup(selectedRCP, typeofmethod: ABHandler.methodType.methodTypeLongSMS)
         
-        for v in recipientSet {
-            /* 選択されている宛先のみ */
-            if v.valueForKey("selected") as? Bool ?? false {
-                /* 送信種別ごとの処理 */
-                let method_type =  v.valueForKey("method_type") as NSNumber? ?? 0
-                switch method_type {
-                case methodType.methodTypeLongSMS.rawValue:
-                    let targetPhone:NSString = v.valueForKey("selected_phone") as NSString? ?? ""
-                    if targetPhone.length > 0 {
-                        longArray.addObject(targetPhone)
-                    }
-                default:
-                    break
-                }
-            }
-        }
-        if ( longArray.count == 0 ) {
+        if ( list.count == 0 ) {
             showNoDataErrorAlert()
         } else {
             /* SMS送信 */
             let picker = MFMessageComposeViewController()
             picker.messageComposeDelegate = self;
-            picker.recipients = longArray
+            picker.recipients = list
             picker.body = NSString(UTF8String: "\(temp_long)")
             presentViewController(picker, animated: true, completion: nil)
             self.presentViewController(picker, animated: true, completion: nil)
@@ -174,34 +139,16 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
         let temp_title = selectedTMP?.valueForKey("title") as NSString
         
         /* 受信者リスト */
-        let recipientSet = selectedRCP!.mutableSetValueForKey("addressBookUnits") as NSMutableSet
-        /* 短文SMSリスト */
-        let shortArray:NSMutableArray = NSMutableArray()
+        let ah = ABHandler()
+        var list:Array<NSString> = ah.getRecipientListByGroup(selectedRCP, typeofmethod: ABHandler.methodType.methodTypeShortSMS)
         
-        for v in recipientSet {
-            /* 選択されている宛先のみ */
-            if v.valueForKey("selected") as? Bool ?? false {
-                /* 送信種別ごとの処理 */
-                let method_type =  v.valueForKey("method_type") as NSNumber? ?? 0
-                switch method_type {
-                case methodType.methodTypeShortSMS.rawValue:
-                    let targetPhone:NSString = v.valueForKey("selected_phone") as NSString? ?? ""
-                    if targetPhone.length > 0 {
-                        shortArray.addObject(targetPhone)
-                    }
-                default:
-                    break
-                }
-            }
-        }
-        
-        if ( shortArray.count == 0 ) {
+        if ( list.count == 0 ) {
             showNoDataErrorAlert()
         } else {
             /* SMS送信 */
             let picker = MFMessageComposeViewController()
             picker.messageComposeDelegate = self;
-            picker.recipients = shortArray
+            picker.recipients = list
             picker.body = NSString(UTF8String: "\(temp_short)")
             presentViewController(picker, animated: true, completion: nil)
             self.presentViewController(picker, animated: true, completion: nil)
@@ -214,7 +161,7 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
         let dh = DataHandler()
         let entity = dh.createNewEntity("History")
         let today = NSDate()
-        let rcp_name:NSString = selectedRCP?.valueForKey("name") as? NSString ?? ""
+        let rcp_name:NSString = recipientListName.text
         let tmp_name:NSString = selectedTMP?.valueForKey("title") as? NSString ?? ""
         /* entityに追加*/
         entity.setValue(today, forKey: "sent_date")
@@ -264,11 +211,16 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
         recipientArray = dh.fetchEntityData("Recipient")!
         templateArray = dh.fetchEntityData("Template")!
         
+        /* AddressBookよりGroupのリスト */
+        let ah = ABHandler()
+        groupList =  ah.getGroupList()
+        
         /* TextFieldに初期値を設定 */
-        recipientListName.text = recipientArray?.first?.valueForKey("name") as NSString
+        let list:Dictionary<String,Any> = groupList![0] as Dictionary<String,Any>
+        recipientListName.text = list["name"] as String
         templateListName.text = templateArray?.first?.valueForKey("title") as NSString
         /* 選択されたEntitiyに初期値を設定 */
-        selectedRCP = recipientArray?.first as? NSManagedObject
+        selectedRCP = list["abrecord_id"] as ABRecordID
         selectedTMP = templateArray?.first as? NSManagedObject
         
         /* 受信者リスト用PikcerView */
@@ -287,6 +239,11 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
         
     }
 
+    /* 画面をタッチしたらKeyboardをしまう */
+    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+        self.view.endEditing(true)
+    }
+
 
     /*－－－－－－－－－－　PickerView　開始　－－－－－－－－－－*/
     func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
@@ -294,15 +251,17 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
     }
     func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         if pickerView.tag == 0 {
-            return recipientArray!.count
+            return groupList!.count
+            
         } else {
             return templateArray!.count
         }
     }
     func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String! {
         if pickerView.tag == 0 {
-            let targetObj:NSManagedObject = recipientArray![row] as NSManagedObject
-            return  targetObj.valueForKey("name") as NSString
+            let list:Dictionary<String,Any> = groupList![row] as Dictionary<String,Any>
+            return list["name"] as String
+            
         } else {
             let targetObj:NSManagedObject = templateArray![row] as NSManagedObject
             return  targetObj.valueForKey("title") as NSString
@@ -334,9 +293,12 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
     
     func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if pickerView.tag == 0 {
+            /*
             let targetObj:NSManagedObject = recipientArray![row] as NSManagedObject
             selectedRCP = recipientArray![row] as? NSManagedObject
-            recipientListName.text = targetObj.valueForKey("name") as NSString
+            */
+            let list:Dictionary<String,Any> = groupList![row] as Dictionary<String,Any>
+            recipientListName.text = list["name"] as String
         } else {
             let targetObj:NSManagedObject = templateArray![row] as NSManagedObject
             selectedTMP = templateArray![row] as? NSManagedObject
