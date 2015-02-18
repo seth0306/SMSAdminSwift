@@ -27,7 +27,14 @@ class MainMenuViewController: UIViewController,UIAlertViewDelegate,UIPopoverPres
     
     /*　SMS送信画面表示　*/
     @IBAction func showSendSMS(sender: UIButton) {
-        performSegueWithIdentifier("showSendSMS", sender: nil)
+        /* Templateがゼロの場合は遷移しない */
+        let dh = DataHandler()
+        if (dh.fetchEntityData("Template")!.count > 0) {
+            performSegueWithIdentifier("showSendSMS", sender: nil)
+        } else {
+            let NoTemplateErrorAlert = UIAlertView(title: "Templateなし", message: "Templateが一つもありません", delegate: self, cancelButtonTitle: "OK")
+            NoTemplateErrorAlert.show()
+        }
     }
     
     /*　履歴画面表示　*/
@@ -42,7 +49,6 @@ class MainMenuViewController: UIViewController,UIAlertViewDelegate,UIPopoverPres
     @IBAction func showRecipientAdmin(sender: UIButton) {
         performSegueWithIdentifier("showRecipientAdmin", sender: nil)
     }
-    
     
     
     
