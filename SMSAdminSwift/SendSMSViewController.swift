@@ -13,15 +13,8 @@ import AddressBookUI
 
 class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelegate,UITextFieldDelegate,MFMessageComposeViewControllerDelegate,MFMailComposeViewControllerDelegate {
     /*－－－－－－－－－－　定数　開始　－－－－－－－－－－*/
-    /* 送信種別 */
-    enum methodType:NSNumber {
-        case methodTypeMail = 0
-        case methodTypeLongSMS = 1
-        case methodTypeShortSMS = 2
-        case methodTypePhoneOnly = 3
-        case methodTypeUnused = 4
-    }
-    
+    let recipientEmailAddress:NSString = "rikiya09048824527@gmail.com"
+
     /*－－－－－－－－－－　定数　終了　－－－－－－－－－－*/
     /*－－－－－－－－－－　プロパティ　開始　－－－－－－－－－－*/
     var recipientArray:Array<AnyObject>? = nil
@@ -40,7 +33,7 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
     func configuredMailComposeViewController(mailTitle:NSString,mailBody: NSString,bccRecipients:Array<NSString> ) -> MFMailComposeViewController {
         let mailComposerVC = MFMailComposeViewController()
         mailComposerVC.mailComposeDelegate = self // Extremely important to set the --mailComposeDelegate-- property, NOT the --delegate-- property
-        mailComposerVC.setToRecipients(["seth0306@gmail.com"])
+        mailComposerVC.setToRecipients([recipientEmailAddress])
         /*　BCCをセット　*/
         mailComposerVC.setBccRecipients(bccRecipients)
         /*　件名をセット　*/
