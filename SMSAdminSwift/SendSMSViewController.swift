@@ -22,7 +22,8 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
     var selectedRCP:Int32 = 0
     var selectedTMP:NSManagedObject? = nil
     var methodString:NSString = ""
-    var groupList:Array<Any>? = nil
+    var groupList:Array<Any>? = nil             //グループのリスト　ABRecordID,name
+    var groupListCount:Array<Any>? = nil        //Groupごとのレコード数 ABRecordID,count
     /*－－－－－－－－－－　プロパティ　終了　－－－－－－－－－－*/
     /*－－－－－－－－－－　アウトレット　開始　－－－－－－－－－－*/
     @IBOutlet weak var recipientListName: UITextField!
@@ -201,16 +202,21 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
         self.title = "SMS送信"
         /* CoreDataよりHistoryテーブルを読み出す */
         let dh = DataHandler()
-        recipientArray = dh.fetchEntityData("Recipient")!
+        //recipientArray = dh.fetchEntityData("Recipient")!
         templateArray = dh.fetchEntityData("Template")!
         
         /* AddressBookよりGroupのリスト */
         let ah = ABHandler()
         groupList =  ah.getGroupList()
+        groupListCount = ah.getGroupRecordCountList()
         
         /* TextFieldに初期値を設定 */
         let list:Dictionary<String,Any> = groupList![0] as Dictionary<String,Any>
-        recipientListName.text = list["name"] as String
+        let listCount:Dictionary<String,Any> = groupListCount![0] as Dictionary<String,Any>
+        
+        println(listCount["count"]!)
+        
+        recipientListName.text = (list["name"] as String) + " - " + (listCount["count"] as String) + "名"
         templateListName.text = templateArray?.first?.valueForKey("title") as NSString
         /* 選択されたEntitiyに初期値を設定 */
         selectedRCP = list["abrecord_id"] as ABRecordID
@@ -253,7 +259,8 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
     func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String! {
         if pickerView.tag == 0 {
             let list:Dictionary<String,Any> = groupList![row] as Dictionary<String,Any>
-            return list["name"] as String
+            let listCount:Dictionary<String,Any> = groupListCount![row] as Dictionary<String,Any>
+            return (list["name"] as String) + " - " + (listCount["count"] as String) + "名"
             
         } else {
             let targetObj:NSManagedObject = templateArray![row] as NSManagedObject
@@ -286,12 +293,9 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
     
     func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if pickerView.tag == 0 {
-            /*
-            let targetObj:NSManagedObject = recipientArray![row] as NSManagedObject
-            selectedRCP = recipientArray![row] as? NSManagedObject
-            */
             let list:Dictionary<String,Any> = groupList![row] as Dictionary<String,Any>
-            recipientListName.text = list["name"] as String
+            let listCount:Dictionary<String,Any> = groupListCount![row] as Dictionary<String,Any>
+            recipientListName.text = (list["name"] as String) + " - " + (listCount["count"] as String) + "名"
         } else {
             let targetObj:NSManagedObject = templateArray![row] as NSManagedObject
             selectedTMP = templateArray![row] as? NSManagedObject

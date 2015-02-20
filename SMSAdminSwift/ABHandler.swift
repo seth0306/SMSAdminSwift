@@ -60,6 +60,24 @@ class ABHandler: NSObject {
         return list
     }
     
+    /* Groupごとのレコード数を取得 */
+    func getGroupRecordCountList() -> Array<Any> {
+        var list:Array<Any> = []
+        var errorRef: Unmanaged<CFError>?
+        addressBook = extractABAddressBookRef(ABAddressBookCreateWithOptions(nil, &errorRef))
+        var contactList: NSArray = ABAddressBookCopyArrayOfAllGroups(addressBook).takeRetainedValue()
+        for record:ABRecordRef in contactList {
+            var contactGroup: ABRecordRef = record
+            let abrecord_id = ABRecordGetRecordID(contactGroup)
+            let ab_record:ABRecord = ABAddressBookGetGroupWithRecordID(addressBook, abrecord_id).takeRetainedValue()
+            var recordList: NSArray = ABGroupCopyArrayOfAllMembers(ab_record).takeRetainedValue()
+            let count:NSInteger = recordList.count as NSInteger
+            var unit:Dictionary<String,Any> = ["abrecord_id":abrecord_id,"count":String(count)]
+            list.append(unit)
+        }
+        return list
+    }
+    
     /* RecipientList取得 */
     func getRecipientListByGroup(abrecord_id:ABRecordID,typeofmethod:methodType) -> Array<NSString> {
         var list:Array<NSString> = []
@@ -88,7 +106,7 @@ class ABHandler: NSObject {
             if (fullname != "") {
                 let index = advance(fullname.startIndex, 0)
                 switch fullname[index] {
-                case "・":
+                case "・","･","•":
                     if (typeofmethod == methodType.methodTypeLongSMS) {
                         if (myPhone != nil) {
                             list.append(myPhone!)
