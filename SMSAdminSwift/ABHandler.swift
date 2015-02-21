@@ -91,7 +91,7 @@ class ABHandler: NSObject {
             let first = ABRecordCopyValue(contactPerson, kABPersonFirstNameProperty)?.takeRetainedValue() as String? ?? ""
             let last  = ABRecordCopyValue(contactPerson, kABPersonLastNameProperty)?.takeRetainedValue() as String? ?? ""
             /* ABRecordIDを取得 */
-            let abrecord_id = ABRecordGetRecordID(contactPerson)
+            //let abrecord_id = ABRecordGetRecordID(contactPerson)
             /* 電話番号とメールアドレスを取得　一番上のもの */
             var phoneArray:ABMultiValueRef = extractABPhoneRef(ABRecordCopyValue(contactPerson, kABPersonPhoneProperty))!
             var emailArray:ABMultiValueRef = extractABPhoneRef(ABRecordCopyValue(contactPerson, kABPersonEmailProperty))!

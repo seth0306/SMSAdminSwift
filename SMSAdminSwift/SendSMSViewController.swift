@@ -22,12 +22,19 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
     var selectedRCP:Int32 = 0
     var selectedTMP:NSManagedObject? = nil
     var methodString:NSString = ""
-    var groupList:Array<Any>? = nil             //グループのリスト　ABRecordID,name
-    var groupListCount:Array<Any>? = nil        //Groupごとのレコード数 ABRecordID,count
+    var groupList:Array<Any>? = nil                 //グループのリスト　ABRecordID,name
+    var groupListCount:Array<Any>? = nil            //Groupごとのレコード数 ABRecordID,count
+    var allCount = 0                                //送信宛先総数
+    var sentCount = 0                               //送信済み宛先
+    var tmpSentCount = 0                            //一時保存送信済み宛先
+    var mailAddressList:Array<NSString>? = nil      //送信対象メールリスト
     /*－－－－－－－－－－　プロパティ　終了　－－－－－－－－－－*/
     /*－－－－－－－－－－　アウトレット　開始　－－－－－－－－－－*/
     @IBOutlet weak var recipientListName: UITextField!
     @IBOutlet weak var templateListName: UITextField!
+    @IBOutlet weak var sendMailButton: UIButton!
+    @IBOutlet weak var sendLongSMSButton: UIButton!
+    @IBOutlet weak var sendShortSMSButton: UIButton!
     /*－－－－－－－－－－　アウトレット　終了　－－－－－－－－－－*/
     
     /*－－－－－－－－－－　Mail　開始　－－－－－－－－－－*/
@@ -61,21 +68,62 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
         switch (result.value) {
         case MFMailComposeResultCancelled.value:
             println("Message was cancelled")
+            /* 送信メール宛先リストにNULLをセット */
+            mailAddressList = nil
+            /* 宛先関連を初期化 */
+            allCount = 0
+            tmpSentCount = 0
+            sentCount = 0
+            sendMailButton.titleLabel?.text = "メール送信"
+            sendLongSMSButton.enabled = true
+            sendShortSMSButton.enabled = true
+
             controller.dismissViewControllerAnimated(true, completion: nil)
         case MFMailComposeResultFailed.value:
             println("Message failed")
+            /* 送信メール宛先リストにNULLをセット */
+            mailAddressList = nil
+            /* 宛先関連を初期化 */
+            allCount = 0
+            tmpSentCount = 0
+            sentCount = 0
+            sendMailButton.titleLabel?.text = "メール送信"
+            sendLongSMSButton.enabled = true
+            sendShortSMSButton.enabled = true
+
             controller.dismissViewControllerAnimated(true, completion: nil)
         case MFMailComposeResultSent.value:
             /* 成功した場合 */
             println("Message was sent")
+            /* 一時保存メール送信数を送信メール数に追加 */
+            sentCount += tmpSentCount
             /* 履歴に保存 */
             saveToHistory()
+            /* 表示を消す */
             controller.dismissViewControllerAnimated(true, completion: nil)
+            /* すべての宛先に送信完了の場合 */
+            if (sentCount == allCount) {
+                /* 送信メール宛先リストにNULLをセット */
+                mailAddressList = nil
+                /* 宛先関連を初期化 */
+                allCount = 0
+                tmpSentCount = 0
+                sentCount = 0
+                sendMailButton.titleLabel?.text = "メール送信"
+                sendLongSMSButton.enabled = true
+                sendShortSMSButton.enabled = true
+            } else {
+                sendMailButton.titleLabel?.text = "メール継続送信"
+                sendLongSMSButton.enabled = false
+                sendShortSMSButton.enabled = false
+            }
         default:
             break;
         }
     }
     /*－－－－－－－－－－　Mail　終了　－－－－－－－－－－*/
+    
+    
     
     @IBAction func sendEMail(sender: UIButton) {
         /* 送信種別文字列をセット */
@@ -86,10 +134,24 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
         let temp_title = selectedTMP?.valueForKey("title") as NSString
         /* Recipient */
         let ah = ABHandler()
-        var list:Array<NSString> = ah.getRecipientListByGroup(selectedRCP, typeofmethod: ABHandler.methodType.methodTypeMail)
-        if ( list.count == 0 ) {
+        if (mailAddressList == nil) {
+            mailAddressList = ah.getRecipientListByGroup(selectedRCP, typeofmethod: ABHandler.methodType.methodTypeMail)
+            allCount = mailAddressList!.count
+        }
+        var list:Array<NSString> = []
+        if ( allCount == 0 ) {
+            mailAddressList = nil
             showNoDataErrorAlert()
         } else {
+            if (allCount - sentCount >= 100) {
+                for (var cnt = 0 + sentCount  ; cnt < 99 + sentCount; cnt++) {
+                    list.append(mailAddressList![cnt])
+                }
+            } else {
+                list = mailAddressList!
+            }
+            /* 一時送信メールにセット */
+            tmpSentCount = list.count
             /* メール送信 */
             let mailComposeViewController = configuredMailComposeViewController(temp_title,mailBody: temp_long,bccRecipients: list)
             if MFMailComposeViewController.canSendMail() {
@@ -295,6 +357,7 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
         if pickerView.tag == 0 {
             let list:Dictionary<String,Any> = groupList![row] as Dictionary<String,Any>
             let listCount:Dictionary<String,Any> = groupListCount![row] as Dictionary<String,Any>
+            selectedRCP = list["abrecord_id"] as ABRecordID
             recipientListName.text = (list["name"] as String) + " - " + (listCount["count"] as String) + "名"
         } else {
             let targetObj:NSManagedObject = templateArray![row] as NSManagedObject

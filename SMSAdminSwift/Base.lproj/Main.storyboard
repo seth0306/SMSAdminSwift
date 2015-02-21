@@ -957,6 +957,9 @@
                     </view>
                     <connections>
                         <outlet property="recipientListName" destination="rA0-y0-he5" id="OPg-KT-Xx8"/>
+                        <outlet property="sendLongSMSButton" destination="lRN-Ah-Lff" id="03V-2d-pPi"/>
+                        <outlet property="sendMailButton" destination="XET-rP-Yal" id="jC7-3y-NWo"/>
+                        <outlet property="sendShortSMSButton" destination="oVJ-y6-Lbc" id="PIG-T7-vDm"/>
                         <outlet property="templateListName" destination="6Hi-nX-ce8" id="adP-za-idZ"/>
                     </connections>
                 </viewController>
