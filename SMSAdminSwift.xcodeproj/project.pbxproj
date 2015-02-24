@@ -32,6 +32,7 @@
 		5DB13DCF1A5D1A7D004FAF4E /* RecipientAdminViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DB13DCE1A5D1A7D004FAF4E /* RecipientAdminViewController.swift */; };
 		5DB13DD11A5D21E2004FAF4E /* TemplateTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DB13DD01A5D21E2004FAF4E /* TemplateTableViewCell.swift */; };
 		5DB13DD31A5D21FC004FAF4E /* TemplateTableViewHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DB13DD21A5D21FC004FAF4E /* TemplateTableViewHeaderCell.swift */; };
+		5DF3DCE81A9CDA81002BE415 /* map01to02.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 5DF3DCE71A9CDA81002BE415 /* map01to02.xcmappingmodel */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +75,8 @@
 		5DB13DCE1A5D1A7D004FAF4E /* RecipientAdminViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecipientAdminViewController.swift; sourceTree = "<group>"; };
 		5DB13DD01A5D21E2004FAF4E /* TemplateTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TemplateTableViewCell.swift; sourceTree = "<group>"; };
 		5DB13DD21A5D21FC004FAF4E /* TemplateTableViewHeaderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TemplateTableViewHeaderCell.swift; sourceTree = "<group>"; };
+		5DF3DCE41A9CD7A8002BE415 /* SMSAdminSwift 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "SMSAdminSwift 2.xcdatamodel"; sourceTree = "<group>"; };
+		5DF3DCE71A9CDA81002BE415 /* map01to02.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = map01to02.xcmappingmodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,6 +100,7 @@
 		5D0805271A5BB6EC006A2932 = {
 			isa = PBXGroup;
 			children = (
+				5DF3DCE71A9CDA81002BE415 /* map01to02.xcmappingmodel */,
 				5D0805321A5BB6EC006A2932 /* SMSAdminSwift */,
 				5D08054B1A5BB6ED006A2932 /* SMSAdminSwiftTests */,
 				5D0805311A5BB6EC006A2932 /* Products */,
@@ -283,6 +287,7 @@
 				5D4D21851A6D549C00A253B6 /* SelectItemViewController.swift in Sources */,
 				5D08055D1A5BBFCB006A2932 /* AdminSMSViewController.swift in Sources */,
 				5DB13DCD1A5D1A61004FAF4E /* TemplateAdminViewController.swift in Sources */,
+				5DF3DCE81A9CDA81002BE415 /* map01to02.xcmappingmodel in Sources */,
 				5DB13DC91A5D0239004FAF4E /* HistoryTableViewHeaderCell.swift in Sources */,
 				5D408D091A5DA16D0029508B /* TemplateModifyViewController.swift in Sources */,
 				5D08055F1A5BBFE5006A2932 /* HistorySMSViewController.swift in Sources */,
@@ -498,9 +503,10 @@
 		5D0805371A5BB6EC006A2932 /* SMSAdminSwift.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				5DF3DCE41A9CD7A8002BE415 /* SMSAdminSwift 2.xcdatamodel */,
 				5D0805381A5BB6EC006A2932 /* SMSAdminSwift.xcdatamodel */,
 			);
-			currentVersion = 5D0805381A5BB6EC006A2932 /* SMSAdminSwift.xcdatamodel */;
+			currentVersion = 5DF3DCE41A9CD7A8002BE415 /* SMSAdminSwift 2.xcdatamodel */;
 			path = SMSAdminSwift.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

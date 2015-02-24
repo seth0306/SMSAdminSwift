@@ -11,6 +11,8 @@ import AddressBook
 
 class MainMenuViewController: UIViewController,UIAlertViewDelegate,UIPopoverPresentationControllerDelegate {
     
+    
+    
     override func viewDidLoad() {
         
         /* AddressBookのアクセスチェック */

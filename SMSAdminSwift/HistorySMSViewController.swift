@@ -20,6 +20,11 @@ class HistorySMSViewController: UIViewController,UITableViewDataSource,UITableVi
         /* CoreDataよりHistoryテーブルを読み出す */
         var dh = DataHandler()
         historyArray = dh.fetchEntityData("History")!
+        /* sent_dateでソートする */
+        let dateSortDescriptor:NSSortDescriptor = NSSortDescriptor(key:"sent_date", ascending:false)
+        historyArray = historyArray.sortedArrayUsingDescriptors([dateSortDescriptor])
+
+        
     }
     
     /* TableView内のセクション数を返す */
@@ -37,6 +42,7 @@ class HistorySMSViewController: UIViewController,UITableViewDataSource,UITableVi
         let methodString:NSString? = historyArray[row].valueForKey("method") as? NSString ?? ""
         let rcp_name:NSString? = historyArray[row].valueForKey("rcp_name") as? NSString ?? ""
         let tmp_name:NSString? = historyArray[row].valueForKey("tmp_name") as? NSString ?? ""
+        let count:NSNumber? = historyArray[row].valueForKey("count") as? NSNumber ?? 0
         
         // NSDateFormatter を用意
         let formatter = NSDateFormatter()
@@ -48,7 +54,7 @@ class HistorySMSViewController: UIViewController,UITableViewDataSource,UITableVi
         cell.sentDate.text = formatter.stringFromDate(sent_date!);
         cell.sentRcpName.text = rcp_name
         cell.sentMethodType.text = methodString
-        
+        cell.sentCount.text = count?.stringValue
         return cell
     }
     

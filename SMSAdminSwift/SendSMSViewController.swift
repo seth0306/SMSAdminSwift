@@ -61,36 +61,31 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
         noDataErrorAlert.show()
     }
     
-    
+    /* メール送信後初期化処理 */
+    func mailTempStatusInit() {
+        /* 送信メール宛先リストにNULLをセット */
+        mailAddressList = nil
+        /* 宛先カウントを初期化 */
+        allCount = 0
+        tmpSentCount = 0
+        sentCount = 0
+        /* ボタンのキャプションとEnabledを設定 */
+        sendMailButton.titleLabel?.text = "メール送信"
+        sendLongSMSButton.enabled = true
+        sendShortSMSButton.enabled = true
+    }
     
     // MARK: MFMailComposeViewControllerDelegate Method
     func mailComposeController(controller: MFMailComposeViewController!, didFinishWithResult result: MFMailComposeResult, error: NSError!) {
         switch (result.value) {
         case MFMailComposeResultCancelled.value:
             println("Message was cancelled")
-            /* 送信メール宛先リストにNULLをセット */
-            mailAddressList = nil
-            /* 宛先関連を初期化 */
-            allCount = 0
-            tmpSentCount = 0
-            sentCount = 0
-            sendMailButton.titleLabel?.text = "メール送信"
-            sendLongSMSButton.enabled = true
-            sendShortSMSButton.enabled = true
-
+            mailTempStatusInit()
             controller.dismissViewControllerAnimated(true, completion: nil)
         case MFMailComposeResultFailed.value:
             println("Message failed")
-            /* 送信メール宛先リストにNULLをセット */
-            mailAddressList = nil
-            /* 宛先関連を初期化 */
-            allCount = 0
-            tmpSentCount = 0
-            sentCount = 0
-            sendMailButton.titleLabel?.text = "メール送信"
-            sendLongSMSButton.enabled = true
-            sendShortSMSButton.enabled = true
-
+            /*　初期化 */
+            mailTempStatusInit()
             controller.dismissViewControllerAnimated(true, completion: nil)
         case MFMailComposeResultSent.value:
             /* 成功した場合 */
@@ -102,16 +97,8 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
             /* 表示を消す */
             controller.dismissViewControllerAnimated(true, completion: nil)
             /* すべての宛先に送信完了の場合 */
-            if (sentCount == allCount) {
-                /* 送信メール宛先リストにNULLをセット */
-                mailAddressList = nil
-                /* 宛先関連を初期化 */
-                allCount = 0
-                tmpSentCount = 0
-                sentCount = 0
-                sendMailButton.titleLabel?.text = "メール送信"
-                sendLongSMSButton.enabled = true
-                sendShortSMSButton.enabled = true
+            if (sentCount >= allCount) {
+                mailTempStatusInit()
             } else {
                 sendMailButton.titleLabel?.text = "メール継続送信"
                 sendLongSMSButton.enabled = false
@@ -127,7 +114,7 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
     
     @IBAction func sendEMail(sender: UIButton) {
         /* 送信種別文字列をセット */
-        methodString = "メール"
+        methodString = "EM"
         /* Template */
         let temp_short = selectedTMP?.valueForKey("temp_short") as NSString
         let temp_long = selectedTMP?.valueForKey("temp_long") as NSString
@@ -165,7 +152,7 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
     
     @IBAction func sendLongSMS(sender: UIButton) {
         /* 送信種別文字列をセット */
-        methodString = "長文SMS"
+        methodString = "LS"
         /* Template */
         let temp_long = selectedTMP?.valueForKey("temp_long") as NSString
         let temp_title = selectedTMP?.valueForKey("title") as NSString
@@ -189,7 +176,7 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
     
     @IBAction func sendShortSMS(sender: UIButton) {
         /* 送信種別文字列をセット */
-        methodString = "短文SMS"
+        methodString = "SS"
         /* Template */
         let temp_short = selectedTMP?.valueForKey("temp_short") as NSString
         let temp_title = selectedTMP?.valueForKey("title") as NSString
@@ -215,15 +202,22 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
     func saveToHistory() {
         /* 履歴への追加処理 */
         let dh = DataHandler()
+        /* 履歴Entitiy取得 */
         let entity = dh.createNewEntity("History")
+        /* 今日の日付 */
         let today = NSDate()
+        /* 宛先リスト名 */
         let rcp_name:NSString = recipientListName.text
+        /* 件数 */
+        let count = tmpSentCount
+        /* 件名を取得 */
         let tmp_name:NSString = selectedTMP?.valueForKey("title") as? NSString ?? ""
         /* entityに追加*/
         entity.setValue(today, forKey: "sent_date")
         entity.setValue(rcp_name, forKey: "rcp_name")
         entity.setValue(tmp_name, forKey: "tmp_name")
         entity.setValue(methodString, forKey: "method")
+        entity.setValue(count, forKey: "count")
         let context = entity.managedObjectContext
         /* Get ManagedObjectContext from AppDelegate */
         let managedContext:NSManagedObjectContext = entity.managedObjectContext!

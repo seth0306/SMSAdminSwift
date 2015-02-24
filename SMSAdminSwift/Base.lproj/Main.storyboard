@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="DkF-Vq-Cgo">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -708,10 +709,19 @@
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="メール" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ceh-UR-dgT">
-                                                    <rect key="frame" x="222" y="16" width="50" height="15"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="LS" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ceh-UR-dgT">
+                                                    <rect key="frame" x="260" y="16" width="30" height="15"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="50" id="rL8-Zp-mXT"/>
+                                                        <constraint firstAttribute="width" constant="30" id="rL8-Zp-mXT"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" name="HiraKakuProN-W3" family="Hiragino Kaku Gothic ProN" pointSize="11"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="---" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vRo-Xy-7rN">
+                                                    <rect key="frame" x="222" y="16" width="30" height="15"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="30" id="ayZ-hk-Fh6"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" name="HiraKakuProN-W3" family="Hiragino Kaku Gothic ProN" pointSize="11"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -720,6 +730,7 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="J01-b3-Wd4" firstAttribute="leading" secondItem="Sj3-Ne-yEf" secondAttribute="trailing" constant="8" id="EVj-ja-WBa"/>
+                                                <constraint firstItem="vRo-Xy-7rN" firstAttribute="leading" secondItem="J01-b3-Wd4" secondAttribute="trailing" constant="8" id="FBR-jv-jk9"/>
                                                 <constraint firstItem="Sj3-Ne-yEf" firstAttribute="top" secondItem="DIY-bE-gL9" secondAttribute="topMargin" constant="4" id="Ich-DV-w5O"/>
                                                 <constraint firstItem="ceh-UR-dgT" firstAttribute="top" secondItem="DIY-bE-gL9" secondAttribute="topMargin" constant="8" id="JIb-uN-WoJ"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="OWF-ie-y0u" secondAttribute="bottom" constant="4" id="KiD-lo-XkD"/>
@@ -730,11 +741,14 @@
                                                 <constraint firstItem="OWF-ie-y0u" firstAttribute="top" secondItem="DIY-bE-gL9" secondAttribute="topMargin" constant="3" id="S5N-gu-3Qw"/>
                                                 <constraint firstItem="Sj3-Ne-yEf" firstAttribute="top" secondItem="OWF-ie-y0u" secondAttribute="top" id="SlA-kk-ssD"/>
                                                 <constraint firstItem="Sj3-Ne-yEf" firstAttribute="top" secondItem="ceh-UR-dgT" secondAttribute="top" id="U85-bL-DNU"/>
+                                                <constraint firstItem="ceh-UR-dgT" firstAttribute="leading" secondItem="vRo-Xy-7rN" secondAttribute="trailing" constant="8" id="Vro-SA-LI2"/>
                                                 <constraint firstItem="J01-b3-Wd4" firstAttribute="height" secondItem="Sj3-Ne-yEf" secondAttribute="height" id="ZDj-qO-Fwb"/>
                                                 <constraint firstItem="ceh-UR-dgT" firstAttribute="leading" secondItem="J01-b3-Wd4" secondAttribute="trailing" constant="8" symbolic="YES" id="cOt-oA-rrV"/>
                                                 <constraint firstItem="Sj3-Ne-yEf" firstAttribute="height" secondItem="ceh-UR-dgT" secondAttribute="height" id="kpT-6L-aPQ"/>
                                                 <constraint firstItem="Sj3-Ne-yEf" firstAttribute="leading" secondItem="OWF-ie-y0u" secondAttribute="trailing" constant="8" id="rhY-h6-CJ2"/>
+                                                <constraint firstItem="vRo-Xy-7rN" firstAttribute="baseline" secondItem="J01-b3-Wd4" secondAttribute="baseline" id="v83-3I-6Aa"/>
                                                 <constraint firstItem="J01-b3-Wd4" firstAttribute="height" secondItem="OWF-ie-y0u" secondAttribute="height" id="vio-rg-7yY"/>
+                                                <constraint firstItem="vRo-Xy-7rN" firstAttribute="firstBaseline" secondItem="J01-b3-Wd4" secondAttribute="firstBaseline" id="vmY-XI-YJY"/>
                                                 <constraint firstItem="Sj3-Ne-yEf" firstAttribute="height" secondItem="OWF-ie-y0u" secondAttribute="height" id="yeG-Yd-f8p"/>
                                                 <constraint firstItem="J01-b3-Wd4" firstAttribute="top" secondItem="DIY-bE-gL9" secondAttribute="topMargin" constant="4" id="z1J-TM-3pr"/>
                                             </constraints>
@@ -744,10 +758,12 @@
                                                     <exclude reference="Ich-DV-w5O"/>
                                                     <exclude reference="z1J-TM-3pr"/>
                                                     <exclude reference="OtP-66-vn0"/>
+                                                    <exclude reference="cOt-oA-rrV"/>
                                                 </mask>
                                             </variation>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="sentCount" destination="vRo-Xy-7rN" id="7Kl-42-KyQ"/>
                                             <outlet property="sentDate" destination="OWF-ie-y0u" id="dvw-L6-0H4"/>
                                             <outlet property="sentMethodType" destination="ceh-UR-dgT" id="Ocq-qN-ezc"/>
                                             <outlet property="sentRcpName" destination="J01-b3-Wd4" id="wa0-IN-dg2"/>
@@ -787,10 +803,19 @@
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="送信種別" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kOi-0C-31n">
-                                                    <rect key="frame" x="222" y="20" width="50" height="11"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="件数" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kOi-0C-31n">
+                                                    <rect key="frame" x="222" y="20" width="30" height="11"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="50" id="5SI-wp-whx"/>
+                                                        <constraint firstAttribute="width" constant="30" id="5SI-wp-whx"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" name="HiraKakuProN-W3" family="Hiragino Kaku Gothic ProN" pointSize="11"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="種別" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tXB-qj-tJI">
+                                                    <rect key="frame" x="260" y="20" width="30" height="11"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="30" id="tbZ-rG-er5"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" name="HiraKakuProN-W3" family="Hiragino Kaku Gothic ProN" pointSize="11"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -813,8 +838,10 @@
                                                 <constraint firstAttribute="bottomMargin" secondItem="dE7-om-any" secondAttribute="bottom" constant="4" id="aiP-zq-DqK"/>
                                                 <constraint firstItem="RMy-LN-Cjy" firstAttribute="top" secondItem="b9o-U2-Hcs" secondAttribute="topMargin" constant="4" id="fYQ-6B-2Ii"/>
                                                 <constraint firstItem="kTi-nj-JHX" firstAttribute="top" secondItem="RMy-LN-Cjy" secondAttribute="top" id="oIg-U8-V6G"/>
+                                                <constraint firstItem="tXB-qj-tJI" firstAttribute="leading" secondItem="kOi-0C-31n" secondAttribute="trailing" constant="8" id="tws-33-vps"/>
                                                 <constraint firstItem="kTi-nj-JHX" firstAttribute="height" secondItem="RMy-LN-Cjy" secondAttribute="height" id="vep-RL-ayZ"/>
                                                 <constraint firstItem="kTi-nj-JHX" firstAttribute="height" secondItem="dE7-om-any" secondAttribute="height" id="wh5-EJ-AgX"/>
+                                                <constraint firstItem="tXB-qj-tJI" firstAttribute="baseline" secondItem="kOi-0C-31n" secondAttribute="baseline" id="xfm-ek-cVX"/>
                                                 <constraint firstItem="kTi-nj-JHX" firstAttribute="leading" secondItem="RMy-LN-Cjy" secondAttribute="trailing" constant="8" id="zVs-hm-A8h"/>
                                             </constraints>
                                             <variation key="default">

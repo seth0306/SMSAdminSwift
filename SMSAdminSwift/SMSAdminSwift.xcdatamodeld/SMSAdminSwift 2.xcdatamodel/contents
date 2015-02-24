@@ -15,6 +15,7 @@
         <relationship name="recipient" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Recipient" inverseName="addressBookUnits" inverseEntity="Recipient" syncable="YES"/>
     </entity>
     <entity name="History" syncable="YES">
+        <attribute name="count" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="method" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="rcp_name" optional="YES" attributeType="String" syncable="YES"/>
@@ -39,7 +40,7 @@
     </entity>
     <elements>
         <element name="AddressBookUnit" positionX="-92" positionY="-163" width="128" height="223"/>
-        <element name="History" positionX="-135" positionY="-472" width="128" height="118"/>
+        <element name="History" positionX="-135" positionY="-472" width="128" height="135"/>
         <element name="Recipient" positionX="-515" positionY="-216" width="128" height="118"/>
         <element name="Template" positionX="124" positionY="-324" width="128" height="148"/>
     </elements>

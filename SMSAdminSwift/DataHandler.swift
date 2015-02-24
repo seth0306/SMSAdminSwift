@@ -11,6 +11,22 @@ import CoreData
 
 class DataHandler: NSObject {
     
+    override init() {
+        super.init()
+        
+        let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+
+        //自動マイグレーション用にオプションを指定
+        let options:NSDictionary  = [NSMigratePersistentStoresAutomaticallyOption: true,
+            NSInferMappingModelAutomaticallyOption: true]
+        
+        var coordinator: NSPersistentStoreCoordinator? = NSPersistentStoreCoordinator(managedObjectModel: appDelegate.managedObjectModel)
+        var error: NSError? = nil
+        let url = appDelegate.applicationDocumentsDirectory.URLByAppendingPathComponent("SMSAdminSwift.sqlite")
+        if coordinator!.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: url, options: options, error: &error) == nil {
+        }
+    }
+    
     func fetchEntityData(entity:String)->[AnyObject]? {
         
         /* Get ManagedObjectContext from AppDelegate */
