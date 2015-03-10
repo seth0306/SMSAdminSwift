@@ -70,8 +70,11 @@ class ABHandler: NSObject {
             var contactGroup: ABRecordRef = record
             let abrecord_id = ABRecordGetRecordID(contactGroup)
             let ab_record:ABRecord = ABAddressBookGetGroupWithRecordID(addressBook, abrecord_id).takeRetainedValue()
-            var recordList: NSArray = ABGroupCopyArrayOfAllMembers(ab_record).takeRetainedValue()
-            let count:NSInteger = recordList.count as NSInteger
+            let name = ABRecordCopyValue(contactGroup, kABGroupNameProperty)?.takeRetainedValue() as String? ?? ""
+            println ("groupName \(name)")
+            
+            var recordList: NSArray = ABGroupCopyArrayOfAllMembers(ab_record)?.takeRetainedValue() ?? []
+            let count:NSInteger = recordList.count as NSInteger? ?? 0
             var unit:Dictionary<String,Any> = ["abrecord_id":abrecord_id,"count":String(count)]
             list.append(unit)
         }

@@ -135,7 +135,10 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
                     list.append(mailAddressList![cnt])
                 }
             } else {
-                list = mailAddressList!
+                for (var cnt = 0 + sentCount  ; cnt < allCount; cnt++) {
+                    list.append(mailAddressList![cnt])
+                }
+                //list = mailAddressList!
             }
             /* 一時送信メールにセット */
             tmpSentCount = list.count

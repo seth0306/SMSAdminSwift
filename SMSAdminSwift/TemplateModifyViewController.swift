@@ -9,12 +9,13 @@
 import UIKit
 import CoreData
 
-class TemplateModifyViewController: UIViewController {
+class TemplateModifyViewController: UIViewController,UITextViewDelegate,UIScrollViewDelegate {
     
     /*－－－－－－－－－－　プロパティ　開始　－－－－－－－－－－*/
     /* 対象のCoreData Object */
     var targetObj:NSManagedObject? = nil
     var targetButtonTitle :String = ""
+    var txtActiveTextView = UITextView()
     /*－－－－－－－－－－　プロパティ　終了　－－－－－－－－－－*/
     
     /*－－－－－－－－－－　アウトレット　開始　－－－－－－－－－－*/
@@ -27,7 +28,8 @@ class TemplateModifyViewController: UIViewController {
     @IBOutlet weak var template_short: UITextView!
     /*　長いテンプレート　*/
     @IBOutlet weak var template_long: UITextView!
-    
+    /* ScrollView */
+    @IBOutlet weak var scvBackGround: UIScrollView!
     /*－－－－－－－－－－　アウトレット　終了　－－－－－－－－－－*/
     
     /*－－－－－－－－－－　起動時処理　開始　－－－－－－－－－－*/
@@ -86,6 +88,55 @@ class TemplateModifyViewController: UIViewController {
     /* 画面をタッチしたらKeyboardをしまう */
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         self.view.endEditing(true)
+    }
+    
+    /* keyboardとtextfieldが被った場合の処理 */
+    func textViewShouldBeginEditing(textView: UITextView) -> Bool {
+        txtActiveTextView = textView
+        return true
+    }
+    
+    func textViewDidEndEditing(textView: UITextView) {
+        textView.endEditing(true)
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        let notificationCenter = NSNotificationCenter.defaultCenter()
+        notificationCenter.addObserver(self, selector: "handleKeyboardWillShowNotification:", name: UIKeyboardWillShowNotification, object: nil)
+        notificationCenter.addObserver(self, selector: "handleKeyboardWillHideNotification:", name: UIKeyboardWillHideNotification, object: nil)
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        let notificationCenter = NSNotificationCenter.defaultCenter()
+        notificationCenter.removeObserver(self, name: UIKeyboardWillShowNotification, object: nil)
+        notificationCenter.removeObserver(self, name: UIKeyboardWillHideNotification, object: nil)
+    }
+    func handleKeyboardWillShowNotification(notification: NSNotification) {
+        if  txtActiveTextView.tag == 99 {
+            let userInfo = notification.userInfo!
+            let keyboardScreenEndFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as NSValue).CGRectValue()
+            let myBoundSize: CGSize = UIScreen.mainScreen().bounds.size
+        
+            let txtBottom = txtActiveTextView.frame.origin.y + txtActiveTextView.frame.height + 8.0
+            let kbdTop = myBoundSize.height - keyboardScreenEndFrame.size.height
+        
+            println("テキストフィールドの下辺：\(txtBottom)")
+            println("キーボードの上辺：\(kbdTop)")
+        
+            if txtBottom >= kbdTop {
+                scvBackGround.contentOffset.y = txtBottom - kbdTop - 100.0
+            }
+        }
+    }
+    
+    func handleKeyboardWillHideNotification(notification: NSNotification) {
+        if  txtActiveTextView.tag == 99 {
+            scvBackGround.contentOffset.y = 0
+        }
     }
     
     /*　既存のEntityを修正　*/

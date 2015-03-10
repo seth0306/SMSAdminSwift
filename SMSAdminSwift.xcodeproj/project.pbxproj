@@ -25,6 +25,7 @@
 		5DA02BED1A5FCA0E00CDC0DE /* AddressBookTableViewHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DA02BEC1A5FCA0E00CDC0DE /* AddressBookTableViewHeaderCell.swift */; };
 		5DA02BEF1A64183200CDC0DE /* RecipientTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DA02BEE1A64183200CDC0DE /* RecipientTableViewCell.swift */; };
 		5DA02BF11A64185700CDC0DE /* RecipientTableViewHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DA02BF01A64185700CDC0DE /* RecipientTableViewHeaderCell.swift */; };
+		5DA92A371AAF5CF300B82FEE /* TemplateModifyScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DA92A361AAF5CF300B82FEE /* TemplateModifyScrollView.swift */; };
 		5DB13DC71A5CDFB2004FAF4E /* ABHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DB13DC61A5CDFB2004FAF4E /* ABHandler.swift */; };
 		5DB13DC91A5D0239004FAF4E /* HistoryTableViewHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DB13DC81A5D0239004FAF4E /* HistoryTableViewHeaderCell.swift */; };
 		5DB13DCB1A5D0DC6004FAF4E /* DataHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DB13DCA1A5D0DC6004FAF4E /* DataHandler.swift */; };
@@ -68,6 +69,7 @@
 		5DA02BEC1A5FCA0E00CDC0DE /* AddressBookTableViewHeaderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddressBookTableViewHeaderCell.swift; sourceTree = "<group>"; };
 		5DA02BEE1A64183200CDC0DE /* RecipientTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecipientTableViewCell.swift; sourceTree = "<group>"; };
 		5DA02BF01A64185700CDC0DE /* RecipientTableViewHeaderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecipientTableViewHeaderCell.swift; sourceTree = "<group>"; };
+		5DA92A361AAF5CF300B82FEE /* TemplateModifyScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TemplateModifyScrollView.swift; sourceTree = "<group>"; };
 		5DB13DC61A5CDFB2004FAF4E /* ABHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ABHandler.swift; sourceTree = "<group>"; };
 		5DB13DC81A5D0239004FAF4E /* HistoryTableViewHeaderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryTableViewHeaderCell.swift; sourceTree = "<group>"; };
 		5DB13DCA1A5D0DC6004FAF4E /* DataHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataHandler.swift; sourceTree = "<group>"; };
@@ -132,15 +134,16 @@
 				5D0805411A5BB6ED006A2932 /* LaunchScreen.xib */,
 				5D08053C1A5BB6EC006A2932 /* Main.storyboard */,
 				5D0805581A5BB8F3006A2932 /* MainMenuViewController.swift */,
-				5D4D21841A6D549C00A253B6 /* SelectItemViewController.swift */,
 				5DB13DCE1A5D1A7D004FAF4E /* RecipientAdminViewController.swift */,
 				5D33FE2E1A5F69B400A0FDC4 /* RecipientModifyViewController.swift */,
 				5DA02BEE1A64183200CDC0DE /* RecipientTableViewCell.swift */,
 				5DA02BF01A64185700CDC0DE /* RecipientTableViewHeaderCell.swift */,
+				5D4D21841A6D549C00A253B6 /* SelectItemViewController.swift */,
 				5D08055A1A5BBFAC006A2932 /* SendSMSViewController.swift */,
 				5D0805371A5BB6EC006A2932 /* SMSAdminSwift.xcdatamodeld */,
 				5D0805331A5BB6EC006A2932 /* Supporting Files */,
 				5DB13DCC1A5D1A61004FAF4E /* TemplateAdminViewController.swift */,
+				5DA92A361AAF5CF300B82FEE /* TemplateModifyScrollView.swift */,
 				5D408D081A5DA16D0029508B /* TemplateModifyViewController.swift */,
 				5DB13DD01A5D21E2004FAF4E /* TemplateTableViewCell.swift */,
 				5DB13DD21A5D21FC004FAF4E /* TemplateTableViewHeaderCell.swift */,
@@ -278,6 +281,7 @@
 				5D08055B1A5BBFAC006A2932 /* SendSMSViewController.swift in Sources */,
 				5D0805591A5BB8F3006A2932 /* MainMenuViewController.swift in Sources */,
 				5DA02BF11A64185700CDC0DE /* RecipientTableViewHeaderCell.swift in Sources */,
+				5DA92A371AAF5CF300B82FEE /* TemplateModifyScrollView.swift in Sources */,
 				5D0805611A5BDB4D006A2932 /* HistoryTableViewCell.swift in Sources */,
 				5DB13DC71A5CDFB2004FAF4E /* ABHandler.swift in Sources */,
 				5DB13DCF1A5D1A7D004FAF4E /* RecipientAdminViewController.swift in Sources */,
