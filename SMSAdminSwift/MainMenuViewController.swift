@@ -11,6 +11,7 @@ import AddressBook
 
 class MainMenuViewController: UIViewController,UIAlertViewDelegate,UIPopoverPresentationControllerDelegate {
     
+    @IBOutlet weak var mailCount: UILabel!
     
     
     override func viewDidLoad() {
@@ -24,8 +25,16 @@ class MainMenuViewController: UIViewController,UIAlertViewDelegate,UIPopoverPres
         
         /* group表示 */
         abh.showGroup()
+        
+        
+        
     }
     
+    override func viewWillAppear(animated: Bool) {
+        let dh = DataHandler()
+        mailCount.text = dh.countSentMail().stringValue + "通"
+    }
+        
     
     /*　SMS送信画面表示　*/
     @IBAction func showSendSMS(sender: UIButton) {

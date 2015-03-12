@@ -27,6 +27,38 @@ class DataHandler: NSObject {
         }
     }
     
+    func countSentMail()->NSNumber {
+        /* Get ManagedObjectContext from AppDelegate */
+        let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        let manageContext = appDelegate.managedObjectContext!
+
+        /* 今日の日付を取得 */
+        let now = NSDate()
+        /* NSCalendarを取得 */
+        let calendar = NSCalendar(identifier: NSGregorianCalendar)!
+        /* １日前 */
+        let startDate = calendar.dateBySettingHour(0, minute: 0, second: 0, ofDate: now, options: nil)!
+        
+        /* １日後 */
+        let tmpDate = calendar.dateByAddingUnit(.DayCalendarUnit, value: 1, toDate: now, options: nil)
+        let endDate = calendar.dateBySettingHour(0, minute: 0, second: 0, ofDate: tmpDate!, options: nil)!
+        
+        /* 検索条件設定 */
+        let predicate = NSPredicate(format: "(sent_date >= %@ ) and (sent_date < %@)",startDate,endDate)
+        
+        /* Set search conditions */
+        let fetchRequest = NSFetchRequest(entityName: "History")
+        var error: NSError?
+        
+        fetchRequest.predicate = predicate
+        /* Query実行 */
+        let fetchResults = manageContext.executeFetchRequest(fetchRequest, error: &error)
+        
+        return fetchResults?.count ?? 0
+        
+    }
+
+    
     func fetchEntityData(entity:String)->[AnyObject]? {
         
         /* Get ManagedObjectContext from AppDelegate */

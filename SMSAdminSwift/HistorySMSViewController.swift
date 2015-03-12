@@ -23,7 +23,6 @@ class HistorySMSViewController: UIViewController,UITableViewDataSource,UITableVi
         /* sent_dateでソートする */
         let dateSortDescriptor:NSSortDescriptor = NSSortDescriptor(key:"sent_date", ascending:false)
         historyArray = historyArray.sortedArrayUsingDescriptors([dateSortDescriptor])
-
         
     }
     

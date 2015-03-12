@@ -128,7 +128,7 @@ class TemplateModifyViewController: UIViewController,UITextViewDelegate,UIScroll
             println("キーボードの上辺：\(kbdTop)")
         
             if txtBottom >= kbdTop {
-                scvBackGround.contentOffset.y = txtBottom - kbdTop - 100.0
+                scvBackGround.contentOffset.y = txtBottom - kbdTop - 50.0
             }
         }
     }
