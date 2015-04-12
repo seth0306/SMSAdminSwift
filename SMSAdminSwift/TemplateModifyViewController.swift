@@ -51,10 +51,10 @@ class TemplateModifyViewController: UIViewController,UITextViewDelegate,UIScroll
             let t_short:NSString? = targetObj!.valueForKey("temp_short") as? NSString
             let t_long:NSString? = targetObj!.valueForKey("temp_long") as? NSString
             /* データを画面にセット */
-            template_title.text = t_title
-            template_summary.text = t_summary
-            template_short.text = t_short
-            template_long.text = t_long
+            template_title.text = t_title! as String
+            template_summary.text = t_summary! as String
+            template_short.text = t_short! as String
+            template_long.text = t_long! as String
         }
     }
 
@@ -64,7 +64,7 @@ class TemplateModifyViewController: UIViewController,UITextViewDelegate,UIScroll
     /*　新しいEntityを追加　*/
     func createNewEntity(){
         /* Get ManagedObjectContext from AppDelegate */
-        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let managedContext: NSManagedObjectContext = appDelegate.managedObjectContext!
         
         /* Create new ManagedObject */
@@ -86,7 +86,7 @@ class TemplateModifyViewController: UIViewController,UITextViewDelegate,UIScroll
     }
     
     /* 画面をタッチしたらKeyboardをしまう */
-    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
         self.view.endEditing(true)
     }
     
@@ -118,7 +118,7 @@ class TemplateModifyViewController: UIViewController,UITextViewDelegate,UIScroll
     func handleKeyboardWillShowNotification(notification: NSNotification) {
         if  txtActiveTextView.tag == 99 {
             let userInfo = notification.userInfo!
-            let keyboardScreenEndFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as NSValue).CGRectValue()
+            let keyboardScreenEndFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
             let myBoundSize: CGSize = UIScreen.mainScreen().bounds.size
         
             let txtBottom = txtActiveTextView.frame.origin.y + txtActiveTextView.frame.height + 8.0
@@ -142,7 +142,7 @@ class TemplateModifyViewController: UIViewController,UITextViewDelegate,UIScroll
     /*　既存のEntityを修正　*/
     func modifyExist(){
         /* Get ManagedObjectContext from AppDelegate */
-        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let managedContext: NSManagedObjectContext = appDelegate.managedObjectContext!
         
         /* Set the name attribute using key-value coding */

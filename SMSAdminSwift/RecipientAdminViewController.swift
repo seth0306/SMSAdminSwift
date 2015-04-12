@@ -55,13 +55,13 @@ class RecipientAdminViewController: UIViewController,UITableViewDataSource,UITab
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
         if segue.identifier == "showRecipientModify" {
-            let ctrl:RecipientModifyViewController = segue.destinationViewController as RecipientModifyViewController
+            let ctrl:RecipientModifyViewController = segue.destinationViewController as! RecipientModifyViewController
             ctrl.title = "受信者リスト修正"
             ctrl.targetButtonTitle = "更新"
             ctrl.recipientObj = recipientObj
             
         } else if segue.identifier == "showNewRecipient" {
-            let ctrl:RecipientModifyViewController = segue.destinationViewController as RecipientModifyViewController
+            let ctrl:RecipientModifyViewController = segue.destinationViewController as! RecipientModifyViewController
             ctrl.title = "新規受信者リスト作成"
             ctrl.targetButtonTitle = "保存"
         }
@@ -79,11 +79,11 @@ class RecipientAdminViewController: UIViewController,UITableViewDataSource,UITab
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         /* AddressBook */
-        let  cell = tableView.dequeueReusableCellWithIdentifier("RecipientTableViewCell") as RecipientTableViewCell
+        let  cell = tableView.dequeueReusableCellWithIdentifier("RecipientTableViewCell") as! RecipientTableViewCell
         var row = indexPath.row
         let  rcp_name:NSString? = recipientArray![row].valueForKey("name") as? NSString
         /* セルに値を設定 */
-        cell.rcp_name.text = rcp_name
+        cell.rcp_name.text = rcp_name! as String
         return cell
     }
     /* TableView内のセクション内の行数を返す */
@@ -98,7 +98,7 @@ class RecipientAdminViewController: UIViewController,UITableViewDataSource,UITab
     
     /* headerを作成 */
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let  headerCell = tableView.dequeueReusableCellWithIdentifier("RecipientTableViewHeaderCell") as RecipientTableViewHeaderCell
+        let  headerCell = tableView.dequeueReusableCellWithIdentifier("RecipientTableViewHeaderCell") as! RecipientTableViewHeaderCell
         headerCell.backgroundColor = UIColor.cyanColor()
         return headerCell
     }
@@ -132,7 +132,7 @@ class RecipientAdminViewController: UIViewController,UITableViewDataSource,UITab
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == UITableViewCellEditingStyle.Delete {
             /* 削除対象オブジェクトの取得 */
-            var removeObj:NSManagedObject = recipientArray![indexPath.row] as NSManagedObject;
+            var removeObj:NSManagedObject = recipientArray![indexPath.row] as! NSManagedObject;
             /* CoreDataから削除　*/
             var dh = DataHandler()
             dh.deleteSpecifiedEntity(removeObj)

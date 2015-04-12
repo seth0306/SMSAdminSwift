@@ -35,12 +35,12 @@ class HistorySMSViewController: UIViewController,UITableViewDataSource,UITableVi
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         //let cell: HistoryTableViewCell = HistoryTableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "hisotryTableCell")
-        let  cell = tableView.dequeueReusableCellWithIdentifier("hisotryTableCell") as HistoryTableViewCell
+        let  cell = tableView.dequeueReusableCellWithIdentifier("hisotryTableCell") as! HistoryTableViewCell
         let row = indexPath.row
         let sent_date:NSDate? = historyArray[row].valueForKey("sent_date") as? NSDate
-        let methodString:NSString? = historyArray[row].valueForKey("method") as? NSString ?? ""
-        let rcp_name:NSString? = historyArray[row].valueForKey("rcp_name") as? NSString ?? ""
-        let tmp_name:NSString? = historyArray[row].valueForKey("tmp_name") as? NSString ?? ""
+        let methodString:String? = historyArray[row].valueForKey("method") as? String ?? ""
+        let rcp_name:String? = historyArray[row].valueForKey("rcp_name") as? String ?? ""
+        let tmp_name:String? = historyArray[row].valueForKey("tmp_name") as? String ?? ""
         let count:NSNumber? = historyArray[row].valueForKey("count") as? NSNumber ?? 0
         
         // NSDateFormatter を用意
@@ -70,7 +70,7 @@ class HistorySMSViewController: UIViewController,UITableViewDataSource,UITableVi
     /* headerを作成 */
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
-        let  headerCell = tableView.dequeueReusableCellWithIdentifier("hisotryTableHeaderCell") as HistoryTableViewHeaderCell
+        let  headerCell = tableView.dequeueReusableCellWithIdentifier("hisotryTableHeaderCell") as! HistoryTableViewHeaderCell
         headerCell.backgroundColor = UIColor.cyanColor()
         return headerCell
     }

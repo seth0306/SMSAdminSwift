@@ -68,7 +68,7 @@ class RecipientModifyViewController: UIViewController,UITableViewDataSource,UITa
         if recipientObj != nil {
             /*　既存リストの修正の場合　*/
             //self.title = "受信者リスト修正"
-            recipientListName.text = recipientObj!.valueForKey("name") as NSString
+            recipientListName.text = recipientObj!.valueForKey("name") as! String
             recipientSet = recipientObj!.mutableSetValueForKey("addressBookUnits") as NSMutableSet
             recipientArray = recipientSet!.allObjects
         } else {
@@ -92,8 +92,8 @@ class RecipientModifyViewController: UIViewController,UITableViewDataSource,UITa
             for record:ABRecordRef in contactList {
                 var contactPerson: ABRecordRef = record
                 /* 名前を取得 */
-                let first = ABRecordCopyValue(contactPerson, kABPersonFirstNameProperty)?.takeRetainedValue() as String? ?? ""
-                let last  = ABRecordCopyValue(contactPerson, kABPersonLastNameProperty)?.takeRetainedValue() as String? ?? ""
+                let first = ABRecordCopyValue(contactPerson, kABPersonFirstNameProperty)?.takeRetainedValue() as! String? ?? ""
+                let last  = ABRecordCopyValue(contactPerson, kABPersonLastNameProperty)?.takeRetainedValue() as! String? ?? ""
                 /* ABRecordIDを取得 */
                 let abrecord_id = ABRecordGetRecordID(contactPerson)
                 
@@ -152,7 +152,7 @@ class RecipientModifyViewController: UIViewController,UITableViewDataSource,UITa
                 
             }
             recipientArray = recipientSet!.allObjects
-            recipientListName.text = STR_SHINKI
+            recipientListName.text = STR_SHINKI as String
             
         }
         
@@ -178,11 +178,11 @@ class RecipientModifyViewController: UIViewController,UITableViewDataSource,UITa
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         /* AddressBook */
-        let  cell = tableView.dequeueReusableCellWithIdentifier("ABListTableViewCell") as AddressBookTableViewCell
+        let  cell = tableView.dequeueReusableCellWithIdentifier("ABListTableViewCell") as! AddressBookTableViewCell
         var row = indexPath.row
-        let ab_name:NSString? = recipientArray![row].valueForKey("name") as? NSString
-        let ab_phone:NSString? = recipientArray![row].valueForKey("selected_phone") as? NSString
-        let ab_mail:NSString? = recipientArray![row].valueForKey("selected_mail") as? NSString
+        let ab_name:String? = recipientArray![row].valueForKey("name") as? String
+        let ab_phone:String? = recipientArray![row].valueForKey("selected_phone") as? String
+        let ab_mail:String? = recipientArray![row].valueForKey("selected_mail") as? String
         let ab_selected:Bool = recipientArray![row].valueForKey("selected") as? Bool ?? false
         /* セルに値を設定 */
         cell.name.text = ab_name
@@ -209,14 +209,14 @@ class RecipientModifyViewController: UIViewController,UITableViewDataSource,UITa
     
     /* headerを作成 */
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let  headerCell = tableView.dequeueReusableCellWithIdentifier("ABListTableViewHeaderCell") as AddressBookTableViewHeaderCell
+        let  headerCell = tableView.dequeueReusableCellWithIdentifier("ABListTableViewHeaderCell") as! AddressBookTableViewHeaderCell
         headerCell.backgroundColor = UIColor.cyanColor()
         return headerCell
     }
     /* すべてのselectedをセットする */
     func toggleAllSelected(flg:Bool){
         for v in recipientArray! {
-            var modifyObj:NSManagedObject = v as NSManagedObject
+            var modifyObj:NSManagedObject = v as! NSManagedObject
             modifyObj.setValue(true, forKey: "selected")
         }
         ABTableView.reloadData()
@@ -231,7 +231,7 @@ class RecipientModifyViewController: UIViewController,UITableViewDataSource,UITa
             
         } else {
             let predicate = NSPredicate(format: "%K contains %@ ", "name", searchText)
-            recipientArray = recipientArray?.filteredArrayUsingPredicate(predicate!)
+            recipientArray = recipientArray?.filteredArrayUsingPredicate(predicate)
         }
     }
     
@@ -246,7 +246,7 @@ class RecipientModifyViewController: UIViewController,UITableViewDataSource,UITa
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         /* 変更対象オブジェクトの取得 */
         //var modifyObj:NSManagedObject = recipientArray![indexPath.row] as NSManagedObject;
-        var modifyObj:NSManagedObject = recipientArray![indexPath.row] as NSManagedObject
+        var modifyObj:NSManagedObject = recipientArray![indexPath.row] as! NSManagedObject
         //modifyObj = recipientSet?.member(modifyObj) as NSManagedObject
         
         /* 選択フラグを取得 */

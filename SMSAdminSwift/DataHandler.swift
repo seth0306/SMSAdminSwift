@@ -14,7 +14,7 @@ class DataHandler: NSObject {
     override init() {
         super.init()
         
-        let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
 
         //自動マイグレーション用にオプションを指定
         let options:NSDictionary  = [NSMigratePersistentStoresAutomaticallyOption: true,
@@ -23,24 +23,24 @@ class DataHandler: NSObject {
         var coordinator: NSPersistentStoreCoordinator? = NSPersistentStoreCoordinator(managedObjectModel: appDelegate.managedObjectModel)
         var error: NSError? = nil
         let url = appDelegate.applicationDocumentsDirectory.URLByAppendingPathComponent("SMSAdminSwift.sqlite")
-        if coordinator!.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: url, options: options, error: &error) == nil {
+        if coordinator!.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: url, options: options as [NSObject : AnyObject], error: &error) == nil {
         }
     }
     
     func countSentMail()->NSNumber {
         /* Get ManagedObjectContext from AppDelegate */
-        let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let manageContext = appDelegate.managedObjectContext!
 
         /* 今日の日付を取得 */
         let now = NSDate()
         /* NSCalendarを取得 */
-        let calendar = NSCalendar(identifier: NSGregorianCalendar)!
+        let calendar = NSCalendar(identifier: NSCalendarIdentifierGregorian)!
         /* １日前 */
         let startDate = calendar.dateBySettingHour(0, minute: 0, second: 0, ofDate: now, options: nil)!
         
         /* １日後 */
-        let tmpDate = calendar.dateByAddingUnit(.DayCalendarUnit, value: 1, toDate: now, options: nil)
+        let tmpDate = calendar.dateByAddingUnit(NSCalendarUnit.CalendarUnitDay, value: 1, toDate: now, options: nil)
         let endDate = calendar.dateBySettingHour(0, minute: 0, second: 0, ofDate: tmpDate!, options: nil)!
         
         /* 検索条件設定 */
@@ -62,7 +62,7 @@ class DataHandler: NSObject {
     func fetchEntityData(entity:String)->[AnyObject]? {
         
         /* Get ManagedObjectContext from AppDelegate */
-        let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let manageContext = appDelegate.managedObjectContext!
         
         /* Set search conditions */
@@ -84,10 +84,10 @@ class DataHandler: NSObject {
     /* entityの新規作成 */
     func createNewEntity(entityName:NSString) -> NSManagedObject{
         /* Get ManagedObjectContext from AppDelegate */
-        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let managedContext: NSManagedObjectContext = appDelegate.managedObjectContext!
         /* Create new ManagedObject */
-        let entityDesc = NSEntityDescription.entityForName(entityName, inManagedObjectContext: managedContext)
+        let entityDesc = NSEntityDescription.entityForName(entityName as String, inManagedObjectContext: managedContext)
         let newObject = NSManagedObject(entity: entityDesc!, insertIntoManagedObjectContext: managedContext)
         return newObject
     }
@@ -95,7 +95,7 @@ class DataHandler: NSObject {
     func deleteSpecifiedEntity(managedObject: NSManagedObject) {
         
         /* Get ManagedObjectContext from AppDelegate */
-        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let managedContext: NSManagedObjectContext = appDelegate.managedObjectContext!
         
         /* Delete managedObject from managed context */

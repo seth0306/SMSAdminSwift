@@ -38,7 +38,7 @@ class ABHandler: NSObject {
         for record:ABRecordRef in contactList {
             var contactGroup: ABRecordRef = record
             let abrecord_id = ABRecordGetRecordID(contactGroup)
-            let name = ABRecordCopyValue(contactGroup, kABGroupNameProperty)?.takeRetainedValue() as String? ?? ""
+            let name = ABRecordCopyValue(contactGroup, kABGroupNameProperty)?.takeRetainedValue() as! String? ?? ""
             println ("groupName \(name)")
         }
     }
@@ -52,7 +52,7 @@ class ABHandler: NSObject {
         for record:ABRecordRef in contactList {
             var contactGroup: ABRecordRef = record
             let abrecord_id = ABRecordGetRecordID(contactGroup)
-            let name = ABRecordCopyValue(contactGroup, kABGroupNameProperty)?.takeRetainedValue() as String? ?? ""
+            let name = ABRecordCopyValue(contactGroup, kABGroupNameProperty)?.takeRetainedValue() as! String? ?? ""
             println ("groupName \(name)")
             var unit:Dictionary<String,Any> = ["abrecord_id":abrecord_id,"name":name]
             list.append(unit)
@@ -70,7 +70,7 @@ class ABHandler: NSObject {
             var contactGroup: ABRecordRef = record
             let abrecord_id = ABRecordGetRecordID(contactGroup)
             let ab_record:ABRecord = ABAddressBookGetGroupWithRecordID(addressBook, abrecord_id).takeRetainedValue()
-            let name = ABRecordCopyValue(contactGroup, kABGroupNameProperty)?.takeRetainedValue() as String? ?? ""
+            let name = ABRecordCopyValue(contactGroup, kABGroupNameProperty)?.takeRetainedValue() as! String? ?? ""
             println ("groupName \(name)")
             
             var recordList: NSArray = ABGroupCopyArrayOfAllMembers(ab_record)?.takeRetainedValue() ?? []
@@ -91,8 +91,8 @@ class ABHandler: NSObject {
         for record:ABRecordRef in contactList {
             var contactPerson: ABRecordRef = record
             /* 名前を取得 */
-            let first = ABRecordCopyValue(contactPerson, kABPersonFirstNameProperty)?.takeRetainedValue() as String? ?? ""
-            let last  = ABRecordCopyValue(contactPerson, kABPersonLastNameProperty)?.takeRetainedValue() as String? ?? ""
+            let first = ABRecordCopyValue(contactPerson, kABPersonFirstNameProperty)?.takeRetainedValue() as! String? ?? ""
+            let last  = ABRecordCopyValue(contactPerson, kABPersonLastNameProperty)?.takeRetainedValue() as! String? ?? ""
             /* ABRecordIDを取得 */
             //let abrecord_id = ABRecordGetRecordID(contactPerson)
             /* 電話番号とメールアドレスを取得　一番上のもの */
@@ -170,7 +170,7 @@ class ABHandler: NSObject {
     /* AddressBookのデータをCoreDataに保存 */
     func saveToCoreData(){
         /* Get ManagedObjectContext from AppDelegate */
-        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let managedContext: NSManagedObjectContext = appDelegate.managedObjectContext!
         
         /* Create new ManagedObject */
@@ -186,8 +186,8 @@ class ABHandler: NSObject {
         for record:ABRecordRef in contactList {
             var contactPerson: ABRecordRef = record
             /* 名前を取得 */
-            let first = ABRecordCopyValue(contactPerson, kABPersonFirstNameProperty)?.takeRetainedValue() as String? ?? ""
-            let last  = ABRecordCopyValue(contactPerson, kABPersonLastNameProperty)?.takeRetainedValue() as String? ?? ""
+            let first = ABRecordCopyValue(contactPerson, kABPersonFirstNameProperty)?.takeRetainedValue() as! String? ?? ""
+            let last  = ABRecordCopyValue(contactPerson, kABPersonLastNameProperty)?.takeRetainedValue() as! String? ?? ""
             /* ABRecordIDを取得 */
             let abrecord_id = ABRecordGetRecordID(contactPerson)
             
@@ -262,8 +262,8 @@ class ABHandler: NSObject {
             var contactPerson: ABRecordRef = record
             
             //var contactName: String = ABRecordCopyCompositeName(contactPerson).takeRetainedValue() as NSString
-            let first = ABRecordCopyValue(contactPerson, kABPersonFirstNameProperty)?.takeRetainedValue() as String? ?? ""
-            let last  = ABRecordCopyValue(contactPerson, kABPersonLastNameProperty)?.takeRetainedValue() as String? ?? ""
+            let first = ABRecordCopyValue(contactPerson, kABPersonFirstNameProperty)?.takeRetainedValue() as! String? ?? ""
+            let last  = ABRecordCopyValue(contactPerson, kABPersonLastNameProperty)?.takeRetainedValue() as! String? ?? ""
             
             println ("contactName \(last + first)")
             
@@ -287,7 +287,7 @@ class ABHandler: NSObject {
     
     func extractABPhoneNumber (abPhoneNumber: Unmanaged<AnyObject>!) -> String? {
         if let ab = abPhoneNumber {
-            return Unmanaged.fromOpaque(abPhoneNumber.toOpaque()).takeUnretainedValue() as CFStringRef
+            return Unmanaged<NSObject>.fromOpaque(abPhoneNumber.toOpaque()).takeUnretainedValue() as? String
         }
         return nil
     }
@@ -302,7 +302,7 @@ class ABHandler: NSObject {
     
     func extractABEmailAddress (abEmailAddress: Unmanaged<AnyObject>!) -> String? {
         if let ab = abEmailAddress {
-            return Unmanaged.fromOpaque(abEmailAddress.toOpaque()).takeUnretainedValue() as CFStringRef
+            return Unmanaged<NSObject>.fromOpaque(abEmailAddress.toOpaque()).takeUnretainedValue() as? String
         }
         return nil
     }
@@ -310,7 +310,7 @@ class ABHandler: NSObject {
     /* AddressBookのデータをCoreDataに保存 */
     func asaveToCoreData(){
         /* Get ManagedObjectContext from AppDelegate */
-        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let managedContext: NSManagedObjectContext = appDelegate.managedObjectContext!
         
         /* Create new ManagedObject */
@@ -326,8 +326,8 @@ class ABHandler: NSObject {
         for record:ABRecordRef in contactList {
             var contactPerson: ABRecordRef = record
             /* 名前を取得 */
-            let first = ABRecordCopyValue(contactPerson, kABPersonFirstNameProperty)?.takeRetainedValue() as String? ?? ""
-            let last  = ABRecordCopyValue(contactPerson, kABPersonLastNameProperty)?.takeRetainedValue() as String? ?? ""
+            let first = ABRecordCopyValue(contactPerson, kABPersonFirstNameProperty)?.takeRetainedValue() as! String? ?? ""
+            let last  = ABRecordCopyValue(contactPerson, kABPersonLastNameProperty)?.takeRetainedValue() as! String? ?? ""
             /* ABRecordIDを取得 */
             let abrecord_id = ABRecordGetRecordID(contactPerson)
             

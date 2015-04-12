@@ -59,13 +59,13 @@ class TemplateAdminViewController: UIViewController,UITableViewDelegate,UITableV
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
         if segue.identifier == "showTemplateModify" {
-            let ctrl:TemplateModifyViewController = segue.destinationViewController as TemplateModifyViewController
+            let ctrl:TemplateModifyViewController = segue.destinationViewController as! TemplateModifyViewController
             ctrl.title = "テンプレート修正"
             ctrl.targetButtonTitle = "更新"
             ctrl.targetObj = templateObj
             
         } else if segue.identifier == "showNewTemplate" {
-            let ctrl:TemplateModifyViewController = segue.destinationViewController as TemplateModifyViewController
+            let ctrl:TemplateModifyViewController = segue.destinationViewController as! TemplateModifyViewController
             ctrl.title = "新規テンプレート"
             ctrl.targetButtonTitle = "保存"
         }
@@ -84,13 +84,13 @@ class TemplateAdminViewController: UIViewController,UITableViewDelegate,UITableV
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         //let cell: HistoryTableViewCell = HistoryTableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "hisotryTableCell")
-        let  cell = tableView.dequeueReusableCellWithIdentifier("templateTableCell") as TemplateTableViewCell
+        let  cell = tableView.dequeueReusableCellWithIdentifier("templateTableCell") as! TemplateTableViewCell
         var row = indexPath.row
         let template_title:NSString? = templateArray![row].valueForKey("title") as? NSString
         let template_summary:NSString? = templateArray![row].valueForKey("summary") as? NSString
         /* セルに値を設定 */
-        cell.template_summary.text = template_summary
-        cell.template_title.text = template_title
+        cell.template_summary.text = template_summary as? String
+        cell.template_title.text = template_title as? String
         return cell
     }
     
@@ -106,7 +106,7 @@ class TemplateAdminViewController: UIViewController,UITableViewDelegate,UITableV
     
     /* headerを作成 */
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let  headerCell = tableView.dequeueReusableCellWithIdentifier("templateTableHeaderCell") as TemplateTableViewHeaderCell
+        let  headerCell = tableView.dequeueReusableCellWithIdentifier("templateTableHeaderCell") as! TemplateTableViewHeaderCell
         headerCell.backgroundColor = UIColor.cyanColor()
         return headerCell
     }
@@ -137,7 +137,7 @@ class TemplateAdminViewController: UIViewController,UITableViewDelegate,UITableV
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == UITableViewCellEditingStyle.Delete {
             /* 削除対象オブジェクトの取得 */
-            var removeObj:NSManagedObject = templateArray![indexPath.row] as NSManagedObject;
+            var removeObj:NSManagedObject = templateArray![indexPath.row] as! NSManagedObject;
             /* CoreDataから削除　*/
             var dh = DataHandler()
             dh.deleteSpecifiedEntity(removeObj)

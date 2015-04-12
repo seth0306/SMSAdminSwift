@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="DkF-Vq-Cgo">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7531" systemVersion="14D131" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="DkF-Vq-Cgo">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -226,7 +226,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wvd-4y-xks" customClass="TemplateModifyScrollView" customModule="SMSAdminSwift" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="-71" width="450" height="975"/>
+                                <rect key="frame" x="0.0" y="-71" width="600" height="975"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="タイトル" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uDa-Kk-KSQ">
                                         <rect key="frame" x="17" y="161" width="44" height="11"/>
@@ -344,7 +344,7 @@
                             <constraint firstItem="wvd-4y-xks" firstAttribute="top" secondItem="qp2-9Y-2IP" secondAttribute="topMargin" constant="-71" id="0k3-P3-oct"/>
                             <constraint firstItem="wvd-4y-xks" firstAttribute="leading" secondItem="qp2-9Y-2IP" secondAttribute="leading" id="6MU-DM-m4p"/>
                             <constraint firstItem="wvd-4y-xks" firstAttribute="leading" secondItem="qp2-9Y-2IP" secondAttribute="leadingMargin" constant="-16" id="JEL-tS-0iA"/>
-                            <constraint firstAttribute="trailing" secondItem="wvd-4y-xks" secondAttribute="trailing" constant="150" id="mga-aa-BcX"/>
+                            <constraint firstAttribute="trailing" secondItem="wvd-4y-xks" secondAttribute="trailing" id="mga-aa-BcX"/>
                             <constraint firstAttribute="bottom" secondItem="wvd-4y-xks" secondAttribute="bottom" constant="-304" id="pWS-RQ-r7y"/>
                         </constraints>
                         <variation key="default">
