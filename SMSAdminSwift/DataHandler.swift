@@ -54,7 +54,14 @@ class DataHandler: NSObject {
         /* Query実行 */
         let fetchResults = manageContext.executeFetchRequest(fetchRequest, error: &error)
         
-        return fetchResults?.count ?? 0
+        if (fetchResults?.count ?? 0 == 0) {
+            return 0
+        }
+        var count:Int = 0
+        for rs in fetchResults! {
+            count += rs.valueForKey("count") as? Int ?? 0
+        }
+        return count
         
     }
 

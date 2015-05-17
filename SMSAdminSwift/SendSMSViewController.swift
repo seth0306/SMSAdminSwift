@@ -21,13 +21,30 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
     var templateArray:Array<AnyObject>? = nil
     var selectedRCP:Int32 = 0
     var selectedTMP:NSManagedObject? = nil
-    var methodString:NSString = ""
+    var methodString:String = ""
     var groupList:Array<Any>? = nil                 //グループのリスト　ABRecordID,name
     var groupListCount:Array<Any>? = nil            //Groupごとのレコード数 ABRecordID,count
     var allCount = 0                                //送信宛先総数
     var sentCount = 0                               //送信済み宛先
     var tmpSentCount = 0                            //一時保存送信済み宛先
     var mailAddressList:Array<NSString>? = nil      //送信対象メールリスト
+    /**
+    送信用SMSアドレス保存
+    */
+    var tmpSmsAddressList:Array<NSString>?=nil
+    /**
+    SMS送信用カウント
+    */
+    var tmpSmsSentCount:Int = 0
+    /**
+    SMS送信予定件数
+    */
+    var tmpSmsSentPlan:Int = 0
+    /**
+    SMS送信内容
+    */
+    var tmpSmsBody:String = ""
+    
     /*－－－－－－－－－－　プロパティ　終了　－－－－－－－－－－*/
     /*－－－－－－－－－－　アウトレット　開始　－－－－－－－－－－*/
     @IBOutlet weak var recipientListName: UITextField!
@@ -35,9 +52,14 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
     @IBOutlet weak var sendMailButton: UIButton!
     @IBOutlet weak var sendLongSMSButton: UIButton!
     @IBOutlet weak var sendShortSMSButton: UIButton!
+    @IBOutlet weak var startCount: UITextField!
+    @IBOutlet weak var endCount: UITextField!
     /*－－－－－－－－－－　アウトレット　終了　－－－－－－－－－－*/
     
     /*－－－－－－－－－－　Mail　開始　－－－－－－－－－－*/
+    /**
+      メール送信画面設定用
+    */
     func configuredMailComposeViewController(mailTitle:NSString,mailBody: NSString,bccRecipients:Array<NSString> ) -> MFMailComposeViewController {
         let mailComposerVC = MFMailComposeViewController()
         mailComposerVC.mailComposeDelegate = self // Extremely important to set the --mailComposeDelegate-- property, NOT the --delegate-- property
@@ -51,17 +73,52 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
         
         return mailComposerVC
     }
+    /**
+    最大登録件数エラー表示
+    @param maxNum 最大登録件数
+    */
+    func showAddressBookMaxErrorAlert(maxNum:Int) {
+        let sendMailErrorAlert = UIAlertView(title: "アドレス件数", message: "グループの登録件数は\(maxNum)件までです。", delegate: self, cancelButtonTitle: "OK")
+        sendMailErrorAlert.show()
+    }
+    /**
+    最大送信件数エラー表示
+    */
+    func showMaxErrorAlert() {
+        let sendMailErrorAlert = UIAlertView(title: "最大送信件数", message: "一度に送信できる件数は１００件までです。", delegate: self, cancelButtonTitle: "OK")
+        sendMailErrorAlert.show()
+    }
+    /**
+    送信件数エラー表示
+    */
+    func showCountErrorAlert() {
+        let sendMailErrorAlert = UIAlertView(title: "送信件数", message: "送信件数をを確認の上再実行してください", delegate: self, cancelButtonTitle: "OK")
+        sendMailErrorAlert.show()
+    }
+    /**
+    メール送信エラー表示
+    */
     func showSendMailErrorAlert() {
         let sendMailErrorAlert = UIAlertView(title: "メール送信失敗", message: "メール設定を確認の上再実行してください", delegate: self, cancelButtonTitle: "OK")
         sendMailErrorAlert.show()
     }
-    
+    /**
+    送信対象データなしエラー表示
+    */
     func showNoDataErrorAlert() {
         let noDataErrorAlert = UIAlertView(title: "送信対象データなし", message: "送信対象のデータがありません", delegate: self, cancelButtonTitle: "OK")
         noDataErrorAlert.show()
     }
-    
-    /* メール送信後初期化処理 */
+    /**
+    送信完了メッセージ表示
+    */
+    func showMessageSentAlert() {
+        let messageSentAlert = UIAlertView(title: "送信完了", message: "メッセージの送信が完了しました", delegate: self, cancelButtonTitle: "OK")
+        messageSentAlert.show()
+    }
+    /**
+    メール送信後初期化処理
+    */
     func mailTempStatusInit() {
         /* 送信メール宛先リストにNULLをセット */
         mailAddressList = nil
@@ -111,12 +168,18 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
     /*－－－－－－－－－－　Mail　終了　－－－－－－－－－－*/
     
     
-    
+    /**
+    メール送信アクション
+    */
     @IBAction func sendEMail(sender: UIButton) {
         /* 送信種別文字列をセット */
         methodString = "EM"
+        /* 送信対象カウント取得 */
+        var startCnt:Int = startCount.text.toInt() ?? 0
+        var endCnt:Int = endCount.text.toInt() ?? 0
+        
         /* Template */
-        let temp_short = selectedTMP?.valueForKey("temas_short") as! NSString
+        let temp_short = selectedTMP?.valueForKey("temp_short") as! NSString
         let temp_long = selectedTMP?.valueForKey("temp_long") as! NSString
         let temp_title = selectedTMP?.valueForKey("title") as! NSString
         /* Recipient */
@@ -129,7 +192,7 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
         if ( allCount == 0 ) {
             mailAddressList = nil
             showNoDataErrorAlert()
-        } else {
+        } else if (startCnt == 0 && endCnt == 0) {
             if (allCount - sentCount >= 100) {
                 for (var cnt = 0 + sentCount  ; cnt < 99 + sentCount; cnt++) {
                     list.append(mailAddressList![cnt])
@@ -149,57 +212,129 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
             } else {
                 self.showSendMailErrorAlert()
             }
+        } else {
+            /* エラーチェック */
+            if startCnt > endCnt {
+                showCountErrorAlert()
+            } else if (endCnt == 0 || startCnt == 0){
+                showCountErrorAlert()
+            } else if endCnt  > allCount {
+                showAddressBookMaxErrorAlert(allCount)
+            } else if endCnt - startCnt > 99 {
+                showMaxErrorAlert()
+            } else {
+                /* allCountに最終送信カウントを設定 */
+                allCount = endCnt
+                /*送信リスト作成*/
+                for (var cnt = startCnt - 1 ; cnt < endCnt; cnt++) {
+                    list.append(mailAddressList![cnt])
+                }
+                /* 一時送信メールにセット */
+                tmpSentCount = startCnt + list.count
+                /* メール送信 */
+                let mailComposeViewController = configuredMailComposeViewController(temp_title,mailBody: temp_long,bccRecipients: list)
+                if MFMailComposeViewController.canSendMail() {
+                    self.presentViewController(mailComposeViewController, animated: true, completion: nil)
+                } else {
+                    self.showSendMailErrorAlert()
+                }
+            }
+
         }
+    }
+    /**
+    SMS送信アクション
+    */
+    func sendSMS(methodStr:String,body:String,title:String,methodType:ABHandler.methodType){
+        /* 送信種別文字列をセット */
+        methodString = methodStr
+        /* メッセージ本体を保存 */
+        tmpSmsBody = body
+        /* 送信済みカウントをクリア */
+        tmpSmsSentCount = 0
+        /* 受信者リスト */
+        let ah = ABHandler()
+        var smsAddressList:Array<NSString> = ah.getRecipientListByGroup(selectedRCP, typeofmethod: methodType)
+        /* 送信対象カウント取得 */
+        var startCnt:Int = startCount.text.toInt() ?? 0
+        var endCnt:Int = endCount.text.toInt() ?? 0
+        allCount = smsAddressList.count
+        if ( allCount == 0 ) {
+            showNoDataErrorAlert()
+        } else if (startCnt == 0 && endCnt == 0) {
+            /* SMS送信リストを保存 */
+            tmpSmsAddressList = smsAddressList
+            tmpSmsSentPlan = smsAddressList.count
+            /* SMS送信 */
+            showSMSWindow(tmpSmsBody,list: pickAnAddressFromList())
+        } else {
+            /* エラーチェック */
+            if startCnt > endCnt {
+                showCountErrorAlert()
+            } else if (endCnt == 0 || startCnt == 0){
+                showCountErrorAlert()
+            } else if endCnt  > allCount {
+                showCountErrorAlert()
+            } else if endCnt - startCnt > 99 {
+                showMaxErrorAlert()
+            } else {
+                var list:Array<NSString> = []
+                allCount = endCnt - startCnt + 1
+                for (var cnt = startCnt - 1 ; cnt < endCnt; cnt++) {
+                    list.append(smsAddressList[cnt])
+                }
+                /* SMS送信リストを保存 */
+                tmpSmsAddressList = list
+                tmpSmsSentPlan = list.count
+                /* SMS送信 */
+                showSMSWindow(tmpSmsBody,list: pickAnAddressFromList())
+            }
+        }
+    }
+    /**
+    アドレスリストから指定の一件を取得
+    */
+    func pickAnAddressFromList() -> Array<NSString>{
+        var ary:Array<NSString> = []
+        ary.append(tmpSmsAddressList![tmpSmsSentCount])
+        return ary
     }
     
     
+    /**
+    LongSMS送信アクション
+    */
     @IBAction func sendLongSMS(sender: UIButton) {
         /* 送信種別文字列をセット */
         methodString = "LS"
         /* Template */
-        let temp_long = selectedTMP?.valueForKey("temp_long") as! NSString
-        let temp_title = selectedTMP?.valueForKey("title") as! NSString
+        let temp_long = selectedTMP?.valueForKey("temp_long") as! String
+        let temp_title = selectedTMP?.valueForKey("title") as! String
+
+        sendSMS(methodString,body: temp_long,title: temp_title,methodType: ABHandler.methodType.methodTypeLongSMS)
         
-        /* 受信者リスト */
-        let ah = ABHandler()
-        var list:Array<NSString> = ah.getRecipientListByGroup(selectedRCP, typeofmethod: ABHandler.methodType.methodTypeLongSMS)
-        
-        if ( list.count == 0 ) {
-            showNoDataErrorAlert()
-        } else {
-            /* SMS送信 */
-            let picker = MFMessageComposeViewController()
-            picker.messageComposeDelegate = self;
-            picker.recipients = list
-            picker.body = String(UTF8String: "\(temp_long)")
-            presentViewController(picker, animated: true, completion: nil)
-            self.presentViewController(picker, animated: true, completion: nil)
-        }
     }
-    
+    /**
+    ShortSMS送信アクション
+    */
     @IBAction func sendShortSMS(sender: UIButton) {
         /* 送信種別文字列をセット */
         methodString = "SS"
         /* Template */
-        let temp_short = selectedTMP?.valueForKey("temp_short") as! NSString
-        let temp_title = selectedTMP?.valueForKey("title") as! NSString
+        let temp_short = selectedTMP?.valueForKey("temp_short") as! String
+        let temp_title = selectedTMP?.valueForKey("title") as! String
         
-        /* 受信者リスト */
-        let ah = ABHandler()
-        var list:Array<NSString> = ah.getRecipientListByGroup(selectedRCP, typeofmethod: ABHandler.methodType.methodTypeShortSMS)
-        
-        if ( list.count == 0 ) {
-            showNoDataErrorAlert()
-        } else {
-            /* SMS送信 */
-            let picker = MFMessageComposeViewController()
-            picker.messageComposeDelegate = self;
-            picker.recipients = list
-            picker.body = String(UTF8String: "\(temp_short)")
-            presentViewController(picker, animated: true, completion: nil)
-            self.presentViewController(picker, animated: true, completion: nil)
-        }
-
+        sendSMS(methodString,body: temp_short,title: temp_title,methodType: ABHandler.methodType.methodTypeShortSMS)
+    }
+    
+    func showSMSWindow(body:String,list:Array<NSString>){
+        /* SMS送信 */
+        let picker = MFMessageComposeViewController()
+        picker.messageComposeDelegate = self;
+        picker.recipients = list
+        picker.body = String(UTF8String: "\(body)")
+        presentViewController(picker, animated: true, completion: nil)
+        self.presentViewController(picker, animated: true, completion: nil)
     }
     
     func saveToHistory() {
@@ -235,8 +370,12 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
     
     
     /*－－－－－－－－－－　MFMessageComposeView　開始　－－－－－－－－－－*/
-    /* 送信完了後の処理 */
+    /**
+    送信完了後の処理
+    */
     func messageComposeViewController(controller: MFMessageComposeViewController!, didFinishWithResult result: MessageComposeResult) {
+        /* カウントをクリア */
+        allCount = 0
         switch (result.value) {
         case MessageComposeResultCancelled.value:
             println("Message was cancelled")
@@ -247,14 +386,29 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
         case MessageComposeResultSent.value:
             /* 成功した場合 */
             println("Message was sent")
-            /* 履歴に保存 */
-            saveToHistory()
+            /* 送信完了件数を１増加 */
+            tmpSmsSentCount++
+            /* 送信完了件数と送信リストの数が同じなら*/
+            if ( tmpSmsSentPlan == tmpSmsSentCount ) {
+                //履歴用カウントに送信数をセット
+                tmpSentCount = tmpSmsSentCount++
+                /* 履歴に保存 */
+                saveToHistory()
+                showMessageSentAlert()
+            }
             self.dismissViewControllerAnimated(true, completion: nil)
         default:
             break;
         }
     }
     /*－－－－－－－－－－　MFMessageComposeView　終了　－－－－－－－－－－*/
+    
+    override func viewDidAppear(animated: Bool) {
+        if tmpSmsSentPlan > 0 && (tmpSmsSentPlan > tmpSmsSentCount) {
+            /* SMS送信 */
+            showSMSWindow(tmpSmsBody,list: pickAnAddressFromList())
+        }
+    }
     
     override func viewDidLoad() {
         /* タイトルをセット */
@@ -382,5 +536,8 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
         return true
     }
     /*－－－－－－－－－－　TextField　終了　－－－－－－－－－－*/
+    
+    
+    
     
 }
