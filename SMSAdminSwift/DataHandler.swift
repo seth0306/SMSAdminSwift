@@ -27,7 +27,7 @@ class DataHandler: NSObject {
         }
     }
     
-    func countSentMail()->NSNumber {
+    func countSentMail()->Dictionary<String,Int> {
         /* Get ManagedObjectContext from AppDelegate */
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let manageContext = appDelegate.managedObjectContext!
@@ -51,17 +51,38 @@ class DataHandler: NSObject {
         var error: NSError?
         
         fetchRequest.predicate = predicate
+        fetchRequest.resultType = .DictionaryResultType
+        
+        /* countのsumを設定 */
+        let sumExpression = NSExpression(format: "sum:(count)")
+        let sumED = NSExpressionDescription()
+        sumED.expression = sumExpression
+        sumED.name = "sumOfCount"
+        sumED.expressionResultType = .DoubleAttributeType
+        fetchRequest.propertiesToFetch = ["method", sumED]
+        fetchRequest.propertiesToGroupBy = ["method"]
+        let sort = NSSortDescriptor(key: "method", ascending: false)
+        fetchRequest.sortDescriptors = [sort]
+        /* Query実行 */
+        //let results = manageContext?.executeFetchRequest(fetch, error: nil) as NSArray?
+        
         /* Query実行 */
         let fetchResults = manageContext.executeFetchRequest(fetchRequest, error: &error)
         
+        var dics:Dictionary = ["EM":0, "LS":0, "SS":0]
         if (fetchResults?.count ?? 0 == 0) {
-            return 0
+            return dics
         }
-        var count:Int = 0
         for rs in fetchResults! {
-            count += rs.valueForKey("count") as? Int ?? 0
+            if ("EM" == rs.valueForKey("method") as! String) {
+                dics["EM"] = rs.valueForKey("sumOfCount") as? Int ?? 0
+            } else if ("LS" == rs.valueForKey("method") as! String) {
+                dics["LS"] = rs.valueForKey("sumOfCount") as? Int ?? 0
+            } else if ("SS" == rs.valueForKey("method") as! String) {
+                dics["SS"] = rs.valueForKey("sumOfCount") as? Int ?? 0
+            }
         }
-        return count
+        return dics
         
     }
 

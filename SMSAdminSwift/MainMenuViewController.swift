@@ -12,6 +12,8 @@ import AddressBook
 class MainMenuViewController: UIViewController,UIAlertViewDelegate,UIPopoverPresentationControllerDelegate {
     
     @IBOutlet weak var mailCount: UILabel!
+    @IBOutlet weak var lsCount: UILabel!
+    @IBOutlet weak var ssCount: UILabel!
     
     
     override func viewDidLoad() {
@@ -32,7 +34,10 @@ class MainMenuViewController: UIViewController,UIAlertViewDelegate,UIPopoverPres
     
     override func viewWillAppear(animated: Bool) {
         let dh = DataHandler()
-        mailCount.text = dh.countSentMail().stringValue + "通"
+        var dics:Dictionary<String,Int> = dh.countSentMail()
+        mailCount.text = String(dics["EM"]!) + "通"
+        lsCount.text = String(dics["LS"]!) + "通"
+        ssCount.text = String(dics["SS"]!) + "通"
     }
         
     
