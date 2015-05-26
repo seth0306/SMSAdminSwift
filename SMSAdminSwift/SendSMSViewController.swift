@@ -23,6 +23,7 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
     var selectedTMP:NSManagedObject? = nil
     var methodString:String = ""
     var groupList:Array<Any>? = nil                 //グループのリスト　ABRecordID,name
+    var groupListShowCount:Array<String>? = nil     //グループのリストの内訳表示用（EM,LS,SS)
     var groupListCount:Array<Any>? = nil            //Groupごとのレコード数 ABRecordID,count
     var allCount = 0                                //送信宛先総数
     var sentCount = 0                               //送信済み宛先
@@ -422,6 +423,15 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
         let ah = ABHandler()
         groupList =  ah.getGroupList()
         groupListCount = ah.getGroupRecordCountList()
+        groupListShowCount = Array<String>()
+        
+        /* メソッドごとの人数をセット */
+        for g in groupList! {
+            var abdics:Dictionary<String,Any> = g as! Dictionary<String,Any>
+            var recid:ABRecordID = abdics["abrecord_id"] as! ABRecordID
+            var dics:Dictionary<String,String> = ah.getEachMethodCountByGroup(recid)
+            groupListShowCount!.append( (abdics["name"] as! String) + " EM-" + (dics["EM"])! + " LS-" + (dics["LS"])! + " SS-" + (dics["SS"])!)
+        }
         
         /* TextFieldに初期値を設定 */
         let list:Dictionary<String,Any> = groupList![0] as! Dictionary<String,Any>
@@ -429,7 +439,8 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
         
         println(listCount["count"]!)
         
-        recipientListName.text = (list["name"] as! String) + " - " + (listCount["count"] as! String) + "名"
+        //recipientListName.text = (list["name"] as! String) + " - " + (listCount["count"] as! String) + "名"
+        recipientListName.text = groupListShowCount![0]
         templateListName.text = templateArray?.first?.valueForKey("title") as! String
         /* 選択されたEntitiyに初期値を設定 */
         selectedRCP = list["abrecord_id"] as! ABRecordID
@@ -471,9 +482,12 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
     }
     func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String! {
         if pickerView.tag == 0 {
-            let list:Dictionary<String,Any> = groupList![row] as! Dictionary<String,Any>
-            let listCount:Dictionary<String,Any> = groupListCount![row] as! Dictionary<String,Any>
-            return (list["name"] as! String) + " - " + (listCount["count"] as! String) + "名"
+            //let list:Dictionary<String,Any> = groupList![row] as! Dictionary<String,Any>
+            //let listCount:Dictionary<String,Any> = groupListCount![row] as! Dictionary<String,Any>
+            return groupListShowCount![row] as String
+            /* メソッドごとの人数を表示 */
+            //return (list["name"] as! String) + " EM" + (dics["EM"])! + "名 LS" + (dics["LS"])! + "名 SS" + (dics["SS"])! + "名"
+            //return (list["name"] as! String) + " - " + (listCount["count"] as! String) + "名"
             
         } else {
             let targetObj:NSManagedObject = templateArray![row] as! NSManagedObject
@@ -507,9 +521,11 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
     func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if pickerView.tag == 0 {
             let list:Dictionary<String,Any> = groupList![row] as! Dictionary<String,Any>
-            let listCount:Dictionary<String,Any> = groupListCount![row] as! Dictionary<String,Any>
+            //let listCount:Dictionary<String,Any> = groupListCount![row] as! Dictionary<String,Any>
             selectedRCP = list["abrecord_id"] as! ABRecordID
-            recipientListName.text = (list["name"] as! String) + " - " + (listCount["count"] as! String) + "名"
+            
+            recipientListName.text = groupListShowCount![row]
+            //recipientListName.text = (list["name"] as! String) + " - " + (listCount["count"] as! String) + "名"
         } else {
             let targetObj:NSManagedObject = templateArray![row] as! NSManagedObject
             selectedTMP = templateArray![row] as? NSManagedObject

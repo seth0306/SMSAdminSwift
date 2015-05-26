@@ -140,6 +140,74 @@ class ABHandler: NSObject {
         }
         return list
     }
+    
+    /** 
+    リスト内のメソッドごとのカウントを表示
+    @param abrecord_id ABRecordID
+    @param typeofmethod methodType
+    */
+    func getEachMethodCountByGroup(abrecord_id:ABRecordID) -> Dictionary<String,String> {
+        /* 戻り値用 */
+        var dics:Dictionary<String,String> = ["EM":"0","LS":"0","SS":"0"]
+        /* 一時カウント用 */
+        var emCount:Int = 0
+        var lsCount:Int = 0
+        var ssCount:Int = 0
+        
+        var errorRef: Unmanaged<CFError>?
+        addressBook = extractABAddressBookRef(ABAddressBookCreateWithOptions(nil, &errorRef))
+        var ab_record:ABRecord = ABAddressBookGetGroupWithRecordID(addressBook, abrecord_id).takeRetainedValue()
+        var contactList: NSArray = ABGroupCopyArrayOfAllMembers(ab_record).takeRetainedValue()
+        for record:ABRecordRef in contactList {
+            var contactPerson: ABRecordRef = record
+            /* 名前を取得 */
+            let first = ABRecordCopyValue(contactPerson, kABPersonFirstNameProperty)?.takeRetainedValue() as! String? ?? ""
+            let last  = ABRecordCopyValue(contactPerson, kABPersonLastNameProperty)?.takeRetainedValue() as! String? ?? ""
+            /* ABRecordIDを取得 */
+            //let abrecord_id = ABRecordGetRecordID(contactPerson)
+            /* 電話番号とメールアドレスを取得　一番上のもの */
+            var phoneArray:ABMultiValueRef = extractABPhoneRef(ABRecordCopyValue(contactPerson, kABPersonPhoneProperty))!
+            var emailArray:ABMultiValueRef = extractABPhoneRef(ABRecordCopyValue(contactPerson, kABPersonEmailProperty))!
+            /* 一番最初のデータのみ取得 */
+            let phoneNumber = ABMultiValueCopyValueAtIndex(phoneArray, 0)
+            var emailAddress = ABMultiValueCopyValueAtIndex(emailArray, 0)
+            let myPhone:NSString? = extractABPhoneNumber(phoneNumber) as NSString?
+            let myEMail:NSString? = extractABEmailAddress(emailAddress) as NSString?
+            /*　fullname作成　*/
+            let fullname = last + first
+            /* 送信方式タイプ 名前が空白でない場合 */
+            if (fullname != "") {
+                let index = advance(fullname.startIndex, 0)
+                switch fullname[index] {
+                case "・","･","•":
+                    if (myPhone != nil) {
+                        lsCount++
+                    }
+                    break
+                case ":","：":
+                    if (myPhone != nil) {
+                        ssCount++
+                    }
+                    break
+                case "、":
+                    break
+                case "X":
+                    break
+                default:
+                    if (myEMail != nil) {
+                        emCount++
+                    }
+                    break
+                }
+            }
+        }
+        /*戻り値をセット*/
+        dics["EM"] = String(emCount)
+        dics["LS"] = String(lsCount)
+        dics["SS"] = String(ssCount)
+        
+        return dics
+    }
 
 
     /* AddressBookの使用許可確認 */
