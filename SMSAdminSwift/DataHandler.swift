@@ -86,6 +86,32 @@ class DataHandler: NSObject {
         
     }
 
+    func fetchEntityData(entity:String,sort sortColumn:String)->[AnyObject]? {
+        
+        /* Get ManagedObjectContext from AppDelegate */
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let manageContext = appDelegate.managedObjectContext!
+        
+        /* Set search conditions */
+        let fetchRequest = NSFetchRequest(entityName: entity)
+        
+        let sort = NSSortDescriptor(key: sortColumn, ascending: true)
+        fetchRequest.sortDescriptors = [sort]
+        
+        var error: NSError?
+        
+        /* Get result array from ManagedObjectContext */
+        let fetchResults = manageContext.executeFetchRequest(fetchRequest, error: &error)
+        
+        if let results: Array = fetchResults {
+            println(results.count)
+            return results
+        } else {
+            println("Could not fetch \(error) , \(error!.userInfo)")
+            return nil;
+        }
+    }
+    
     
     func fetchEntityData(entity:String)->[AnyObject]? {
         
@@ -105,6 +131,38 @@ class DataHandler: NSObject {
             return results
         } else {
             println("Could not fetch \(error) , \(error!.userInfo)")
+            return nil;
+        }
+    }
+    
+    func fetchNSManagedObject(entity:String, targetColumn tcol:String, targetValue tval:Int)->NSManagedObject? {
+        
+        /* Get ManagedObjectContext from AppDelegate */
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let manageContext = appDelegate.managedObjectContext!
+        
+        /* Set search conditions */
+        let fetchRequest = NSFetchRequest(entityName: entity)
+        var error: NSError?
+        
+        /* 検索条件設定 */
+        let predicate = NSPredicate(format: "%K = %d",tcol,Int32(tval))
+        
+        /* Set search conditions */
+        
+        fetchRequest.predicate = predicate
+        //fetchRequest.resultType = .DictionaryResultType
+        
+        
+        
+        /* Get result array from ManagedObjectContext */
+        let fetchResults = manageContext.executeFetchRequest(fetchRequest, error: &error)
+        
+        
+        if fetchResults!.count != 0 {
+            return fetchResults!.first as? NSManagedObject
+        } else {
+            //println("Could not fetch \(error) , \(error!.userInfo)")
             return nil;
         }
     }

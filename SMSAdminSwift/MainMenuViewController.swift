@@ -61,10 +61,17 @@ class MainMenuViewController: UIViewController,UIAlertViewDelegate,UIPopoverPres
     @IBAction func showTemplateAdmin(sender: UIButton) {
         performSegueWithIdentifier("showTemplateAdmin", sender: nil)
     }
+    
+    @IBAction func showGroupOrder(sender: AnyObject) {
+        performSegueWithIdentifier("showGroupOrder", sender: nil)
+    }
+    
     /*　受信者管理画面表示　*/
+    /*
     @IBAction func showRecipientAdmin(sender: UIButton) {
         performSegueWithIdentifier("showRecipientAdmin", sender: nil)
     }
+    */
     
     
     
@@ -106,5 +113,6 @@ class MainMenuViewController: UIViewController,UIAlertViewDelegate,UIPopoverPres
         self.presentViewController(nav, animated: true, completion: nil)
     }
     */
+    
     
 }

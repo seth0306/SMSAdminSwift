@@ -22,7 +22,7 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
     var selectedRCP:Int32 = 0
     var selectedTMP:NSManagedObject? = nil
     var methodString:String = ""
-    var groupList:Array<Any>? = nil                 //グループのリスト　ABRecordID,name
+    var groupList:Array<Dictionary<String,Any>>? = nil                 //グループのリスト　ABRecordID,name
     var groupListShowCount:Array<String>? = nil     //グループのリストの内訳表示用（EM,LS,SS)
     var groupListCount:Array<Any>? = nil            //Groupごとのレコード数 ABRecordID,count
     var allCount = 0                                //送信宛先総数
@@ -411,6 +411,36 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
         }
     }
     
+    func reOrder(src:Array<Dictionary<String,Any>>?) -> Array<Dictionary<String,Any>>? {
+        var misList:Array<Dictionary<String,Any>>? = []
+        var tmpList:Array<Dictionary<String,Any>>? = []
+        var dics:Dictionary<Int,Dictionary<String,Any>> = Dictionary<Int,Dictionary<String,Any>>()
+        var groupArray:Array<AnyObject>? = nil
+        
+        /* CoreDataよりGroupテーブルを読み出す */
+        let dh = DataHandler()
+        
+        for g in src! {
+            var res:NSManagedObject? = dh.fetchNSManagedObject("Group",targetColumn : "abrecord_id",targetValue : Int(g["abrecord_id"] as! Int32))
+            if res == nil {
+                misList!.append(g)
+            } else {
+                var order = res!.valueForKey("order") as! Int
+                dics.updateValue(g, forKey: order)
+            }
+        }
+        var keys = dics.keys.array
+        keys.sort(<)
+        for cnt in 0 ..< keys.count {
+            tmpList!.append(dics[cnt]!)
+        }
+        
+        return misList! + tmpList!
+        
+    }
+    
+    
+    
     override func viewDidLoad() {
         /* タイトルをセット */
         self.title = "SMS送信"
@@ -422,19 +452,21 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
         /* AddressBookよりGroupのリスト */
         let ah = ABHandler()
         groupList =  ah.getGroupList()
+        groupList = reOrder(groupList)
+        
         groupListCount = ah.getGroupRecordCountList()
         groupListShowCount = Array<String>()
         
         /* メソッドごとの人数をセット */
-        for g in groupList! {
-            var abdics:Dictionary<String,Any> = g as! Dictionary<String,Any>
+        for cnt in 0 ..< groupList!.count {
+            var abdics:Dictionary<String,Any> = groupList![cnt]
             var recid:ABRecordID = abdics["abrecord_id"] as! ABRecordID
             var dics:Dictionary<String,String> = ah.getEachMethodCountByGroup(recid)
             groupListShowCount!.append( (abdics["name"] as! String) + " EM-" + (dics["EM"])! + " LS-" + (dics["LS"])! + " SS-" + (dics["SS"])!)
         }
         
         /* TextFieldに初期値を設定 */
-        let list:Dictionary<String,Any> = groupList![0] as! Dictionary<String,Any>
+        let list:Dictionary<String,Any> = groupList![0]
         let listCount:Dictionary<String,Any> = groupListCount![0] as! Dictionary<String,Any>
         
         println(listCount["count"]!)
@@ -520,7 +552,7 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
     
     func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if pickerView.tag == 0 {
-            let list:Dictionary<String,Any> = groupList![row] as! Dictionary<String,Any>
+            let list:Dictionary<String,Any> = groupList![row]
             //let listCount:Dictionary<String,Any> = groupListCount![row] as! Dictionary<String,Any>
             selectedRCP = list["abrecord_id"] as! ABRecordID
             
@@ -532,6 +564,9 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
             templateListName.text = targetObj.valueForKey("title") as! String
         }
     }
+    
+    
+    
     
     /*
     
