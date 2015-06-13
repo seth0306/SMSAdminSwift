@@ -17,6 +17,7 @@
 		5D08055B1A5BBFAC006A2932 /* SendSMSViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D08055A1A5BBFAC006A2932 /* SendSMSViewController.swift */; };
 		5D08055F1A5BBFE5006A2932 /* HistorySMSViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D08055E1A5BBFE5006A2932 /* HistorySMSViewController.swift */; };
 		5D0805611A5BDB4D006A2932 /* HistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D0805601A5BDB4D006A2932 /* HistoryTableViewCell.swift */; };
+		5D27B8AB1B2C851000A9A64A /* map03to04.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 5D27B8AA1B2C851000A9A64A /* map03to04.xcmappingmodel */; };
 		5D408D091A5DA16D0029508B /* TemplateModifyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D408D081A5DA16D0029508B /* TemplateModifyViewController.swift */; };
 		5D80C3891B1B139D004F8590 /* GroupOrderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D80C3881B1B139D004F8590 /* GroupOrderViewController.swift */; };
 		5D80C38B1B1B1557004F8590 /* GroupOrderTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D80C38A1B1B1557004F8590 /* GroupOrderTableView.swift */; };
@@ -58,6 +59,8 @@
 		5D08055A1A5BBFAC006A2932 /* SendSMSViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendSMSViewController.swift; sourceTree = "<group>"; };
 		5D08055E1A5BBFE5006A2932 /* HistorySMSViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistorySMSViewController.swift; sourceTree = "<group>"; };
 		5D0805601A5BDB4D006A2932 /* HistoryTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryTableViewCell.swift; sourceTree = "<group>"; };
+		5D27B8A91B2C84AE00A9A64A /* SMSAdminSwift 4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "SMSAdminSwift 4.xcdatamodel"; sourceTree = "<group>"; };
+		5D27B8AA1B2C851000A9A64A /* map03to04.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = map03to04.xcmappingmodel; sourceTree = "<group>"; };
 		5D408D081A5DA16D0029508B /* TemplateModifyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TemplateModifyViewController.swift; sourceTree = "<group>"; };
 		5D80C3881B1B139D004F8590 /* GroupOrderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupOrderViewController.swift; sourceTree = "<group>"; };
 		5D80C38A1B1B1557004F8590 /* GroupOrderTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupOrderTableView.swift; sourceTree = "<group>"; };
@@ -97,6 +100,7 @@
 		5D0805271A5BB6EC006A2932 = {
 			isa = PBXGroup;
 			children = (
+				5D27B8AA1B2C851000A9A64A /* map03to04.xcmappingmodel */,
 				5D80C38F1B1B32DC004F8590 /* map02to03.xcmappingmodel */,
 				5DF3DCE71A9CDA81002BE415 /* map01to02.xcmappingmodel */,
 				5D0805311A5BB6EC006A2932 /* Products */,
@@ -274,6 +278,7 @@
 				5DA92A371AAF5CF300B82FEE /* TemplateModifyScrollView.swift in Sources */,
 				5D0805611A5BDB4D006A2932 /* HistoryTableViewCell.swift in Sources */,
 				5DB13DC71A5CDFB2004FAF4E /* ABHandler.swift in Sources */,
+				5D27B8AB1B2C851000A9A64A /* map03to04.xcmappingmodel in Sources */,
 				5DB13DD11A5D21E2004FAF4E /* TemplateTableViewCell.swift in Sources */,
 				5DB13DCB1A5D0DC6004FAF4E /* DataHandler.swift in Sources */,
 				5DB13DCD1A5D1A61004FAF4E /* TemplateAdminViewController.swift in Sources */,
@@ -496,11 +501,12 @@
 		5D0805371A5BB6EC006A2932 /* SMSAdminSwift.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				5D27B8A91B2C84AE00A9A64A /* SMSAdminSwift 4.xcdatamodel */,
 				5D80C38E1B1B235C004F8590 /* SMSAdminSwift 3.xcdatamodel */,
 				5DF3DCE41A9CD7A8002BE415 /* SMSAdminSwift 2.xcdatamodel */,
 				5D0805381A5BB6EC006A2932 /* SMSAdminSwift.xcdatamodel */,
 			);
-			currentVersion = 5D80C38E1B1B235C004F8590 /* SMSAdminSwift 3.xcdatamodel */;
+			currentVersion = 5D27B8A91B2C84AE00A9A64A /* SMSAdminSwift 4.xcdatamodel */;
 			path = SMSAdminSwift.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

@@ -27,18 +27,28 @@ class TemplateAdminViewController: UIViewController,UITableViewDelegate,UITableV
         if let font = UIFont(name: "HiraKakuProN-W6", size: 14 ) {
             right1.setTitleTextAttributes([NSFontAttributeName: font], forState: UIControlState.Normal)
         }
+        
+        /* 編集ボタンを作成 */
+        var right2 = self.editButtonItem()
+        if let font = UIFont(name: "HiraKakuProN-W6", size: 14 ) {
+            right2.setTitleTextAttributes([NSFontAttributeName: font], forState: UIControlState.Normal)
+        }
+        right2.setValue("編集", forKey: "title")
+
+        
         /* 追加ボタンをナビゲーションバーに追加 */
-        self.navigationItem.rightBarButtonItems = [right1];
+        self.navigationItem.rightBarButtonItems = [right1,right2];
         
         /* CoreDataよりHistoryテーブルを読み出す */
         let dh = DataHandler()
-        templateArray = dh.fetchEntityData("Template")!
+        templateArray = dh.fetchEntityData("Template",sort:"order")!
+        //templateArray = dh.fetchEntityData("Template")!
         
     }
     
     override func viewWillAppear(animated: Bool) {
         var dh = DataHandler()
-        templateArray = dh.fetchEntityData("Template")!
+        templateArray = dh.fetchEntityData("Template",sort:"order")!
         templateTableView.reloadData()
         super.viewWillAppear(animated)
     }
@@ -147,5 +157,43 @@ class TemplateAdminViewController: UIViewController,UITableViewDelegate,UITableV
         }
     }
     
+    //セルの移動を許可
+    func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(tableView: UITableView, moveRowAtIndexPath sourceIndexPath: NSIndexPath, toIndexPath destinationIndexPath: NSIndexPath) {
+        if sourceIndexPath.section == destinationIndexPath.section { // 移動元と移動先は同じセクションです。
+            if destinationIndexPath.row < templateArray!.count {
+                var item:NSManagedObject = templateArray![sourceIndexPath.row] as! NSManagedObject// 移動対象を保持します。
+                templateArray!.removeAtIndex(sourceIndexPath.row)// 配列から一度消します。
+                templateArray!.insert(item, atIndex: destinationIndexPath.row)// 保持しておいた対象を挿入します。
+            }
+        }
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        updateOrder()
+    }
+    
     /*－－－－－－－－－－　テーブル関係　終了　－－－－－－－－－－*/
+    
+    /*　既存のEntityを修正　*/
+    func updateOrder(){
+        /* Get ManagedObjectContext from AppDelegate */
+        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let managedContext: NSManagedObjectContext = appDelegate.managedObjectContext!
+        
+        for cnt in 0 ..< templateArray!.count {
+            var templateObj:NSManagedObject = templateArray![cnt] as! NSManagedObject
+            templateObj.setValue(cnt, forKey: "order")
+        }
+        /* Save value to managedObjectContext */
+        var error: NSError?
+        if !managedContext.save(&error) {
+            println("Could not update \(error), \(error!.userInfo)")
+        }
+        
+        println("Object updated")
+    }
 }

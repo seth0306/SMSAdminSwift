@@ -38,8 +38,8 @@ class GroupOrderViewController: UIViewController,UITableViewDelegate,UITableView
         
         
         /* 追加ボタンをナビゲーションバーに追加 */
-        //self.navigationItem.rightBarButtonItems = [right2]
-        self.navigationItem.rightBarButtonItems = [right2,right1]
+        self.navigationItem.rightBarButtonItems = [right2]
+        //self.navigationItem.rightBarButtonItems = [right2,right1]
         
         /* CoreDataよりGroupテーブルを読み出す */
         let dh = DataHandler()

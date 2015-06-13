@@ -544,7 +544,7 @@
                                     </tableViewCell>
                                 </prototypes>
                                 <variation key="widthClass=compact" fixedFrame="YES">
-                                    <rect key="frame" x="0.0" y="64" width="400" height="600"/>
+                                    <rect key="frame" x="0.0" y="64" width="320" height="500"/>
                                 </variation>
                                 <connections>
                                     <outlet property="dataSource" destination="dSH-is-ewT" id="yfd-3J-4OF"/>
@@ -649,6 +649,9 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </prototypes>
+                                <variation key="widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="0.0" y="64" width="320" height="500"/>
+                                </variation>
                                 <connections>
                                     <outlet property="dataSource" destination="Q5d-ov-PZU" id="p3T-NW-Epo"/>
                                     <outlet property="delegate" destination="Q5d-ov-PZU" id="HK0-nq-y0D"/>
