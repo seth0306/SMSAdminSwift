@@ -447,7 +447,9 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
         /* CoreDataよりHistoryテーブルを読み出す */
         let dh = DataHandler()
         //recipientArray = dh.fetchEntityData("Recipient")!
-        templateArray = dh.fetchEntityData("Template")!
+        //templateArray = dh.fetchEntityData("Template")!
+        templateArray = dh.fetchEntityData("Template",sort:"order")!
+        
         
         /* AddressBookよりGroupのリスト */
         let ah = ABHandler()
