@@ -34,12 +34,12 @@ class ABHandler: NSObject {
     func showGroup() {
         var errorRef: Unmanaged<CFError>?
         addressBook = extractABAddressBookRef(ABAddressBookCreateWithOptions(nil, &errorRef))
-        var contactList: NSArray = ABAddressBookCopyArrayOfAllGroups(addressBook).takeRetainedValue()
+        let contactList: NSArray = ABAddressBookCopyArrayOfAllGroups(addressBook).takeRetainedValue()
         for record:ABRecordRef in contactList {
-            var contactGroup: ABRecordRef = record
+            let contactGroup: ABRecordRef = record
             let abrecord_id = ABRecordGetRecordID(contactGroup)
             let name = ABRecordCopyValue(contactGroup, kABGroupNameProperty)?.takeRetainedValue() as! String? ?? ""
-            println ("groupName \(name)")
+            print ("groupName \(name)")
         }
     }
     
@@ -48,13 +48,13 @@ class ABHandler: NSObject {
         var list:Array<Dictionary<String,Any> > = []
         var errorRef: Unmanaged<CFError>?
         addressBook = extractABAddressBookRef(ABAddressBookCreateWithOptions(nil, &errorRef))
-        var contactList: NSArray = ABAddressBookCopyArrayOfAllGroups(addressBook).takeRetainedValue()
+        let contactList: NSArray = ABAddressBookCopyArrayOfAllGroups(addressBook).takeRetainedValue()
         for record:ABRecordRef in contactList {
-            var contactGroup: ABRecordRef = record
+            let contactGroup: ABRecordRef = record
             let abrecord_id = ABRecordGetRecordID(contactGroup)
             let name = ABRecordCopyValue(contactGroup, kABGroupNameProperty)?.takeRetainedValue() as! String? ?? ""
-            println ("groupName \(name)")
-            var unit:Dictionary<String,Any> = ["abrecord_id":abrecord_id,"name":name]
+            print ("groupName \(name)")
+            let unit:Dictionary<String,Any> = ["abrecord_id":abrecord_id,"name":name]
             list.append(unit)
         }
         return list
@@ -65,17 +65,17 @@ class ABHandler: NSObject {
         var list:Array<Any> = []
         var errorRef: Unmanaged<CFError>?
         addressBook = extractABAddressBookRef(ABAddressBookCreateWithOptions(nil, &errorRef))
-        var contactList: NSArray = ABAddressBookCopyArrayOfAllGroups(addressBook).takeRetainedValue()
+        let contactList: NSArray = ABAddressBookCopyArrayOfAllGroups(addressBook).takeRetainedValue()
         for record:ABRecordRef in contactList {
-            var contactGroup: ABRecordRef = record
+            let contactGroup: ABRecordRef = record
             let abrecord_id = ABRecordGetRecordID(contactGroup)
             let ab_record:ABRecord = ABAddressBookGetGroupWithRecordID(addressBook, abrecord_id).takeRetainedValue()
             let name = ABRecordCopyValue(contactGroup, kABGroupNameProperty)?.takeRetainedValue() as! String? ?? ""
-            println ("groupName \(name)")
+            print ("groupName \(name)")
             
-            var recordList: NSArray = ABGroupCopyArrayOfAllMembers(ab_record)?.takeRetainedValue() ?? []
+            let recordList: NSArray = ABGroupCopyArrayOfAllMembers(ab_record)?.takeRetainedValue() ?? []
             let count:NSInteger = recordList.count as NSInteger? ?? 0
-            var unit:Dictionary<String,Any> = ["abrecord_id":abrecord_id,"count":String(count)]
+            let unit:Dictionary<String,Any> = ["abrecord_id":abrecord_id,"count":String(count)]
             list.append(unit)
         }
         return list
@@ -86,28 +86,28 @@ class ABHandler: NSObject {
         var list:Array<NSString> = []
         var errorRef: Unmanaged<CFError>?
         addressBook = extractABAddressBookRef(ABAddressBookCreateWithOptions(nil, &errorRef))
-        var ab_record:ABRecord = ABAddressBookGetGroupWithRecordID(addressBook, abrecord_id).takeRetainedValue()
-        var contactList: NSArray = ABGroupCopyArrayOfAllMembers(ab_record).takeRetainedValue()
+        let ab_record:ABRecord = ABAddressBookGetGroupWithRecordID(addressBook, abrecord_id).takeRetainedValue()
+        let contactList: NSArray = ABGroupCopyArrayOfAllMembers(ab_record).takeRetainedValue()
         for record:ABRecordRef in contactList {
-            var contactPerson: ABRecordRef = record
+            let contactPerson: ABRecordRef = record
             /* 名前を取得 */
             let first = ABRecordCopyValue(contactPerson, kABPersonFirstNameProperty)?.takeRetainedValue() as! String? ?? ""
             let last  = ABRecordCopyValue(contactPerson, kABPersonLastNameProperty)?.takeRetainedValue() as! String? ?? ""
             /* ABRecordIDを取得 */
             //let abrecord_id = ABRecordGetRecordID(contactPerson)
             /* 電話番号とメールアドレスを取得　一番上のもの */
-            var phoneArray:ABMultiValueRef = extractABPhoneRef(ABRecordCopyValue(contactPerson, kABPersonPhoneProperty))!
-            var emailArray:ABMultiValueRef = extractABPhoneRef(ABRecordCopyValue(contactPerson, kABPersonEmailProperty))!
+            let phoneArray:ABMultiValueRef = extractABPhoneRef(ABRecordCopyValue(contactPerson, kABPersonPhoneProperty))!
+            let emailArray:ABMultiValueRef = extractABPhoneRef(ABRecordCopyValue(contactPerson, kABPersonEmailProperty))!
             /* 一番最初のデータのみ取得 */
             let phoneNumber = ABMultiValueCopyValueAtIndex(phoneArray, 0)
-            var emailAddress = ABMultiValueCopyValueAtIndex(emailArray, 0)
+            let emailAddress = ABMultiValueCopyValueAtIndex(emailArray, 0)
             let myPhone:NSString? = extractABPhoneNumber(phoneNumber) as NSString?
             let myEMail:NSString? = extractABEmailAddress(emailAddress) as NSString?
             /*　fullname作成　*/
             let fullname = last + first
             /* 送信方式タイプ 名前が空白でない場合 */
             if (fullname != "") {
-                let index = advance(fullname.startIndex, 0)
+                let index = fullname.startIndex.advancedBy(0)
                 switch fullname[index] {
                 case "・","･","•":
                     if (typeofmethod == methodType.methodTypeLongSMS) {
@@ -156,8 +156,8 @@ class ABHandler: NSObject {
         
         var errorRef: Unmanaged<CFError>?
         addressBook = extractABAddressBookRef(ABAddressBookCreateWithOptions(nil, &errorRef))
-        var ab_record:ABRecord = ABAddressBookGetGroupWithRecordID(addressBook, abrecord_id).takeRetainedValue()
-        var contactList: NSArray = ABGroupCopyArrayOfAllMembers(ab_record)?.takeRetainedValue() ?? []
+        let ab_record:ABRecord = ABAddressBookGetGroupWithRecordID(addressBook, abrecord_id).takeRetainedValue()
+        let contactList: NSArray = ABGroupCopyArrayOfAllMembers(ab_record)?.takeRetainedValue() ?? []
         if contactList.count == 0 {
             /*戻り値をセット*/
             dics["EM"] = String(0)
@@ -166,25 +166,25 @@ class ABHandler: NSObject {
             
         } else {
             for record:ABRecordRef in contactList {
-                var contactPerson: ABRecordRef = record
+                let contactPerson: ABRecordRef = record
                 /* 名前を取得 */
                 let first = ABRecordCopyValue(contactPerson, kABPersonFirstNameProperty)?.takeRetainedValue() as! String? ?? ""
                 let last  = ABRecordCopyValue(contactPerson, kABPersonLastNameProperty)?.takeRetainedValue() as! String? ?? ""
                 /* ABRecordIDを取得 */
                 //let abrecord_id = ABRecordGetRecordID(contactPerson)
                 /* 電話番号とメールアドレスを取得　一番上のもの */
-                var phoneArray:ABMultiValueRef = extractABPhoneRef(ABRecordCopyValue(contactPerson, kABPersonPhoneProperty))!
-                var emailArray:ABMultiValueRef = extractABPhoneRef(ABRecordCopyValue(contactPerson, kABPersonEmailProperty))!
+                let phoneArray:ABMultiValueRef = extractABPhoneRef(ABRecordCopyValue(contactPerson, kABPersonPhoneProperty))!
+                let emailArray:ABMultiValueRef = extractABPhoneRef(ABRecordCopyValue(contactPerson, kABPersonEmailProperty))!
                 /* 一番最初のデータのみ取得 */
                 let phoneNumber = ABMultiValueCopyValueAtIndex(phoneArray, 0)
-                var emailAddress = ABMultiValueCopyValueAtIndex(emailArray, 0)
+                let emailAddress = ABMultiValueCopyValueAtIndex(emailArray, 0)
                 let myPhone:NSString? = extractABPhoneNumber(phoneNumber) as NSString?
                 let myEMail:NSString? = extractABEmailAddress(emailAddress) as NSString?
                 /*　fullname作成　*/
                 let fullname = last + first
                 /* 送信方式タイプ 名前が空白でない場合 */
                 if (fullname != "") {
-                    let index = advance(fullname.startIndex, 0)
+                    let index = fullname.startIndex.advancedBy(0)
                     switch fullname[index] {
                     case "・","･","•":
                         if (myPhone != nil) {
@@ -221,23 +221,23 @@ class ABHandler: NSObject {
     /* AddressBookの使用許可確認 */
     func startManagingAB() {
         if (ABAddressBookGetAuthorizationStatus() == ABAuthorizationStatus.NotDetermined) {
-            println("requesting access...")
+            print("requesting access...")
             var errorRef: Unmanaged<CFError>? = nil
             addressBook = extractABAddressBookRef(ABAddressBookCreateWithOptions(nil, &errorRef))
             ABAddressBookRequestAccessWithCompletion(addressBook, { success, error in
                 if success {
-                    println("success")
+                    print("success")
                 }
                 else {
-                    println("error")
+                    print("error")
                 }
             })
         }
         else if (ABAddressBookGetAuthorizationStatus() == ABAuthorizationStatus.Denied || ABAddressBookGetAuthorizationStatus() == ABAuthorizationStatus.Restricted) {
-            println("access denied")
+            print("access denied")
         }
         else if (ABAddressBookGetAuthorizationStatus() == ABAuthorizationStatus.Authorized) {
-            println("access granted")
+            print("access granted")
             //self.getContactNames()
         }
     }
@@ -256,30 +256,30 @@ class ABHandler: NSObject {
         var errorRef: Unmanaged<CFError>?
         addressBook = extractABAddressBookRef(ABAddressBookCreateWithOptions(nil, &errorRef))
         
-        var contactList: NSArray = ABAddressBookCopyArrayOfAllPeople(addressBook).takeRetainedValue()
-        println("records in the array \(contactList.count)")
+        let contactList: NSArray = ABAddressBookCopyArrayOfAllPeople(addressBook).takeRetainedValue()
+        print("records in the array \(contactList.count)")
         
         for record:ABRecordRef in contactList {
-            var contactPerson: ABRecordRef = record
+            let contactPerson: ABRecordRef = record
             /* 名前を取得 */
             let first = ABRecordCopyValue(contactPerson, kABPersonFirstNameProperty)?.takeRetainedValue() as! String? ?? ""
             let last  = ABRecordCopyValue(contactPerson, kABPersonLastNameProperty)?.takeRetainedValue() as! String? ?? ""
             /* ABRecordIDを取得 */
             let abrecord_id = ABRecordGetRecordID(contactPerson)
             
-            println ("contactName \(last + first)")
+            print ("contactName \(last + first)")
             /* 電話番号とメールアドレスを取得　一番上のもの */
             
-            var phoneArray:ABMultiValueRef = extractABPhoneRef(ABRecordCopyValue(contactPerson, kABPersonPhoneProperty))!
-            var emailArray:ABMultiValueRef = extractABPhoneRef(ABRecordCopyValue(contactPerson, kABPersonEmailProperty))!
-            var phoneNumber = ABMultiValueCopyValueAtIndex(phoneArray, 0)
-            var emailAddress = ABMultiValueCopyValueAtIndex(emailArray, 0)
+            let phoneArray:ABMultiValueRef = extractABPhoneRef(ABRecordCopyValue(contactPerson, kABPersonPhoneProperty))!
+            let emailArray:ABMultiValueRef = extractABPhoneRef(ABRecordCopyValue(contactPerson, kABPersonEmailProperty))!
+            let phoneNumber = ABMultiValueCopyValueAtIndex(phoneArray, 0)
+            let emailAddress = ABMultiValueCopyValueAtIndex(emailArray, 0)
             
-            var myPhone = extractABPhoneNumber(phoneNumber)
-            var myEMail = extractABEmailAddress(emailAddress)
+            let myPhone = extractABPhoneNumber(phoneNumber)
+            let myEMail = extractABEmailAddress(emailAddress)
             
-            println("phone: \(myPhone)")
-            println("email: \(myEMail)")
+            print("phone: \(myPhone)")
+            print("email: \(myEMail)")
             
             /* 電話番号の個数分Entityを追加 */
             let ABObject = NSManagedObject(entity: entity!, insertIntoManagedObjectContext: managedContext)
@@ -293,10 +293,13 @@ class ABHandler: NSObject {
             ABObject.setValue(NSNumber(int: abrecord_id), forKey: "abrecord_id")
             /* Entitiyを保存*/
             var error: NSError?
-            if !managedContext.save(&error) {
-                println("Could not save \(error), \(error?.userInfo)")
+            do {
+                try managedContext.save()
+            } catch let error1 as NSError {
+                error = error1
+                print("Could not save \(error), \(error?.userInfo)")
             }
-            println("object saved")
+            print("object saved")
             
             /*
             var phoneArray:ABMultiValueRef = extractABPhoneRef(ABRecordCopyValue(contactPerson, kABPersonPhoneProperty))!
@@ -331,25 +334,25 @@ class ABHandler: NSObject {
         var errorRef: Unmanaged<CFError>?
         addressBook = extractABAddressBookRef(ABAddressBookCreateWithOptions(nil, &errorRef))
         
-        var contactList: NSArray = ABAddressBookCopyArrayOfAllPeople(addressBook).takeRetainedValue()
-        println("records in the array \(contactList.count)")
+        let contactList: NSArray = ABAddressBookCopyArrayOfAllPeople(addressBook).takeRetainedValue()
+        print("records in the array \(contactList.count)")
         
         for record:ABRecordRef in contactList {
-            var contactPerson: ABRecordRef = record
+            let contactPerson: ABRecordRef = record
             
             //var contactName: String = ABRecordCopyCompositeName(contactPerson).takeRetainedValue() as NSString
             let first = ABRecordCopyValue(contactPerson, kABPersonFirstNameProperty)?.takeRetainedValue() as! String? ?? ""
             let last  = ABRecordCopyValue(contactPerson, kABPersonLastNameProperty)?.takeRetainedValue() as! String? ?? ""
             
-            println ("contactName \(last + first)")
+            print ("contactName \(last + first)")
             
-            var phoneArray:ABMultiValueRef = extractABPhoneRef(ABRecordCopyValue(contactPerson, kABPersonPhoneProperty))!
+            let phoneArray:ABMultiValueRef = extractABPhoneRef(ABRecordCopyValue(contactPerson, kABPersonPhoneProperty))!
             
             for (var j = 0; j < ABMultiValueGetCount(phoneArray); ++j)
             {
-                var phoneNumber = ABMultiValueCopyValueAtIndex(phoneArray, j)
-                var myString = extractABPhoneNumber(phoneNumber)
-                println("phone: \(myString)")
+                let phoneNumber = ABMultiValueCopyValueAtIndex(phoneArray, j)
+                let myString = extractABPhoneNumber(phoneNumber)
+                print("phone: \(myString)")
             }
         }
     }
@@ -396,30 +399,30 @@ class ABHandler: NSObject {
         var errorRef: Unmanaged<CFError>?
         addressBook = extractABAddressBookRef(ABAddressBookCreateWithOptions(nil, &errorRef))
         
-        var contactList: NSArray = ABAddressBookCopyArrayOfAllPeople(addressBook).takeRetainedValue()
-        println("records in the array \(contactList.count)")
+        let contactList: NSArray = ABAddressBookCopyArrayOfAllPeople(addressBook).takeRetainedValue()
+        print("records in the array \(contactList.count)")
         
         for record:ABRecordRef in contactList {
-            var contactPerson: ABRecordRef = record
+            let contactPerson: ABRecordRef = record
             /* 名前を取得 */
             let first = ABRecordCopyValue(contactPerson, kABPersonFirstNameProperty)?.takeRetainedValue() as! String? ?? ""
             let last  = ABRecordCopyValue(contactPerson, kABPersonLastNameProperty)?.takeRetainedValue() as! String? ?? ""
             /* ABRecordIDを取得 */
             let abrecord_id = ABRecordGetRecordID(contactPerson)
             
-            println ("contactName \(last + first)")
+            print ("contactName \(last + first)")
             /* 電話番号とメールアドレスを取得　一番上のもの */
             
-            var phoneArray:ABMultiValueRef = extractABPhoneRef(ABRecordCopyValue(contactPerson, kABPersonPhoneProperty))!
-            var emailArray:ABMultiValueRef = extractABPhoneRef(ABRecordCopyValue(contactPerson, kABPersonEmailProperty))!
-            var phoneNumber = ABMultiValueCopyValueAtIndex(phoneArray, 0)
-            var emailAddress = ABMultiValueCopyValueAtIndex(emailArray, 0)
+            let phoneArray:ABMultiValueRef = extractABPhoneRef(ABRecordCopyValue(contactPerson, kABPersonPhoneProperty))!
+            let emailArray:ABMultiValueRef = extractABPhoneRef(ABRecordCopyValue(contactPerson, kABPersonEmailProperty))!
+            let phoneNumber = ABMultiValueCopyValueAtIndex(phoneArray, 0)
+            let emailAddress = ABMultiValueCopyValueAtIndex(emailArray, 0)
             
-            var myPhone = extractABPhoneNumber(phoneNumber)
-            var myEMail = extractABEmailAddress(emailAddress)
+            let myPhone = extractABPhoneNumber(phoneNumber)
+            let myEMail = extractABEmailAddress(emailAddress)
             
-            println("phone: \(myPhone)")
-            println("email: \(myEMail)")
+            print("phone: \(myPhone)")
+            print("email: \(myEMail)")
             
             /* 電話番号の個数分Entityを追加 */
             let ABObject = NSManagedObject(entity: entity!, insertIntoManagedObjectContext: managedContext)
@@ -433,10 +436,13 @@ class ABHandler: NSObject {
             ABObject.setValue(NSNumber(int: abrecord_id), forKey: "abrecord_id")
             /* Entitiyを保存*/
             var error: NSError?
-            if !managedContext.save(&error) {
-                println("Could not save \(error), \(error?.userInfo)")
+            do {
+                try managedContext.save()
+            } catch let error1 as NSError {
+                error = error1
+                print("Could not save \(error), \(error?.userInfo)")
             }
-            println("object saved")
+            print("object saved")
             
         }
         

@@ -23,13 +23,13 @@ class TemplateAdminViewController: UIViewController,UITableViewDelegate,UITableV
         self.title = "テンプレート管理"
         
         /* 追加ボタンを作成 */
-        var right1 = UIBarButtonItem(title: "追加", style: .Plain, target: self, action: "showNewTemplate")
+        let right1 = UIBarButtonItem(title: "追加", style: .Plain, target: self, action: "showNewTemplate")
         if let font = UIFont(name: "HiraKakuProN-W6", size: 14 ) {
             right1.setTitleTextAttributes([NSFontAttributeName: font], forState: UIControlState.Normal)
         }
         
         /* 編集ボタンを作成 */
-        var right2 = self.editButtonItem()
+        let right2 = self.editButtonItem()
         if let font = UIFont(name: "HiraKakuProN-W6", size: 14 ) {
             right2.setTitleTextAttributes([NSFontAttributeName: font], forState: UIControlState.Normal)
         }
@@ -47,7 +47,7 @@ class TemplateAdminViewController: UIViewController,UITableViewDelegate,UITableV
     }
     
     override func viewWillAppear(animated: Bool) {
-        var dh = DataHandler()
+        let dh = DataHandler()
         templateArray = dh.fetchEntityData("Template",sort:"order")!
         templateTableView.reloadData()
         super.viewWillAppear(animated)
@@ -95,7 +95,7 @@ class TemplateAdminViewController: UIViewController,UITableViewDelegate,UITableV
         
         //let cell: HistoryTableViewCell = HistoryTableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "hisotryTableCell")
         let  cell = tableView.dequeueReusableCellWithIdentifier("templateTableCell") as! TemplateTableViewCell
-        var row = indexPath.row
+        let row = indexPath.row
         let template_title:NSString? = templateArray![row].valueForKey("title") as? NSString
         let template_summary:NSString? = templateArray![row].valueForKey("summary") as? NSString
         /* セルに値を設定 */
@@ -123,7 +123,7 @@ class TemplateAdminViewController: UIViewController,UITableViewDelegate,UITableV
     
     //セルが選択された場合の処理
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        var row = indexPath.row
+        let row = indexPath.row
         templateObj = templateArray![row] as? NSManagedObject
         showTemplateModify()
     }
@@ -140,16 +140,16 @@ class TemplateAdminViewController: UIViewController,UITableViewDelegate,UITableV
     /* 編集モード */
     override func setEditing(editing: Bool, animated: Bool) {
         super.setEditing(editing, animated: animated)
-        println(__FUNCTION__)
+        print(__FUNCTION__)
         self.templateTableView.setEditing(editing, animated: animated)
     }
     /* 編集・削除処理 */
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == UITableViewCellEditingStyle.Delete {
             /* 削除対象オブジェクトの取得 */
-            var removeObj:NSManagedObject = templateArray![indexPath.row] as! NSManagedObject;
+            let removeObj:NSManagedObject = templateArray![indexPath.row] as! NSManagedObject;
             /* CoreDataから削除　*/
-            var dh = DataHandler()
+            let dh = DataHandler()
             dh.deleteSpecifiedEntity(removeObj)
             /*　tableViewから削除　*/
             templateArray!.removeAtIndex(indexPath.row)
@@ -165,7 +165,7 @@ class TemplateAdminViewController: UIViewController,UITableViewDelegate,UITableV
     func tableView(tableView: UITableView, moveRowAtIndexPath sourceIndexPath: NSIndexPath, toIndexPath destinationIndexPath: NSIndexPath) {
         if sourceIndexPath.section == destinationIndexPath.section { // 移動元と移動先は同じセクションです。
             if destinationIndexPath.row < templateArray!.count {
-                var item:NSManagedObject = templateArray![sourceIndexPath.row] as! NSManagedObject// 移動対象を保持します。
+                let item:NSManagedObject = templateArray![sourceIndexPath.row] as! NSManagedObject// 移動対象を保持します。
                 templateArray!.removeAtIndex(sourceIndexPath.row)// 配列から一度消します。
                 templateArray!.insert(item, atIndex: destinationIndexPath.row)// 保持しておいた対象を挿入します。
             }
@@ -185,15 +185,18 @@ class TemplateAdminViewController: UIViewController,UITableViewDelegate,UITableV
         let managedContext: NSManagedObjectContext = appDelegate.managedObjectContext!
         
         for cnt in 0 ..< templateArray!.count {
-            var templateObj:NSManagedObject = templateArray![cnt] as! NSManagedObject
+            let templateObj:NSManagedObject = templateArray![cnt] as! NSManagedObject
             templateObj.setValue(cnt, forKey: "order")
         }
         /* Save value to managedObjectContext */
         var error: NSError?
-        if !managedContext.save(&error) {
-            println("Could not update \(error), \(error!.userInfo)")
+        do {
+            try managedContext.save()
+        } catch let error1 as NSError {
+            error = error1
+            print("Could not update \(error), \(error!.userInfo)")
         }
         
-        println("Object updated")
+        print("Object updated")
     }
 }

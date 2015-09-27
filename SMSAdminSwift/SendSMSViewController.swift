@@ -134,20 +134,20 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
     }
     
     // MARK: MFMailComposeViewControllerDelegate Method
-    func mailComposeController(controller: MFMailComposeViewController!, didFinishWithResult result: MFMailComposeResult, error: NSError!) {
-        switch (result.value) {
-        case MFMailComposeResultCancelled.value:
-            println("Message was cancelled")
+    func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?) {
+        switch (result.rawValue) {
+        case MFMailComposeResultCancelled.rawValue:
+            print("Message was cancelled")
             mailTempStatusInit()
             controller.dismissViewControllerAnimated(true, completion: nil)
-        case MFMailComposeResultFailed.value:
-            println("Message failed")
+        case MFMailComposeResultFailed.rawValue:
+            print("Message failed")
             /*　初期化 */
             mailTempStatusInit()
             controller.dismissViewControllerAnimated(true, completion: nil)
-        case MFMailComposeResultSent.value:
+        case MFMailComposeResultSent.rawValue:
             /* 成功した場合 */
-            println("Message was sent")
+            print("Message was sent")
             /* 一時保存メール送信数を送信メール数に追加 */
             sentCount += tmpSentCount
             /* 履歴に保存 */
@@ -176,8 +176,8 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
         /* 送信種別文字列をセット */
         methodString = "EM"
         /* 送信対象カウント取得 */
-        var startCnt:Int = startCount.text.toInt() ?? 0
-        var endCnt:Int = endCount.text.toInt() ?? 0
+        var startCnt:Int = Int(startCount.text) ?? 0
+        var endCnt:Int = Int(endCount.text) ?? 0
         
         /* Template */
         let temp_short = selectedTMP?.valueForKey("temp_short") as! NSString
@@ -257,8 +257,8 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
         let ah = ABHandler()
         var smsAddressList:Array<NSString> = ah.getRecipientListByGroup(selectedRCP, typeofmethod: methodType)
         /* 送信対象カウント取得 */
-        var startCnt:Int = startCount.text.toInt() ?? 0
-        var endCnt:Int = endCount.text.toInt() ?? 0
+        var startCnt:Int = Int(startCount.text) ?? 0
+        var endCnt:Int = Int(endCount.text) ?? 0
         allCount = smsAddressList.count
         if ( allCount == 0 ) {
             showNoDataErrorAlert()
@@ -362,10 +362,13 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
         let managedContext:NSManagedObjectContext = entity.managedObjectContext!
         /* Error handling */
         var error: NSError?
-        if !managedContext.save(&error) {
-            println("Could not save \(error), \(error?.userInfo)")
+        do {
+            try managedContext.save()
+        } catch let error1 as NSError {
+            error = error1
+            print("Could not save \(error), \(error?.userInfo)")
         }
-        println("object saved")
+        print("object saved")
         /* 保存後元の画面に戻る */
     }
     
@@ -374,19 +377,19 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
     /**
     送信完了後の処理
     */
-    func messageComposeViewController(controller: MFMessageComposeViewController!, didFinishWithResult result: MessageComposeResult) {
+    func messageComposeViewController(controller: MFMessageComposeViewController, didFinishWithResult result: MessageComposeResult) {
         /* カウントをクリア */
         allCount = 0
-        switch (result.value) {
-        case MessageComposeResultCancelled.value:
-            println("Message was cancelled")
+        switch (result.rawValue) {
+        case MessageComposeResultCancelled.rawValue:
+            print("Message was cancelled")
             self.dismissViewControllerAnimated(true, completion: nil)
-        case MessageComposeResultFailed.value:
-            println("Message failed")
+        case MessageComposeResultFailed.rawValue:
+            print("Message failed")
             self.dismissViewControllerAnimated(true, completion: nil)
-        case MessageComposeResultSent.value:
+        case MessageComposeResultSent.rawValue:
             /* 成功した場合 */
-            println("Message was sent")
+            print("Message was sent")
             /* 送信完了件数を１増加 */
             tmpSmsSentCount++
             /* 送信完了件数と送信リストの数が同じなら*/
@@ -421,16 +424,16 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
         let dh = DataHandler()
         
         for g in src! {
-            var res:NSManagedObject? = dh.fetchNSManagedObject("Group",targetColumn : "abrecord_id",targetValue : Int(g["abrecord_id"] as! Int32))
+            let res:NSManagedObject? = dh.fetchNSManagedObject("Group",targetColumn : "abrecord_id",targetValue : Int(g["abrecord_id"] as! Int32))
             if res == nil {
                 misList!.append(g)
             } else {
-                var order = res!.valueForKey("order") as! Int
+                let order = res!.valueForKey("order") as! Int
                 dics.updateValue(g, forKey: order)
             }
         }
         var keys = dics.keys.array
-        keys.sort(<)
+        keys.sortInPlace(<)
         for cnt in 0 ..< keys.count {
             tmpList!.append(dics[cnt]!)
         }
@@ -462,7 +465,7 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
         /* メソッドごとの人数をセット */
         for cnt in 0 ..< groupList!.count {
             var abdics:Dictionary<String,Any> = groupList![cnt]
-            var recid:ABRecordID = abdics["abrecord_id"] as! ABRecordID
+            let recid:ABRecordID = abdics["abrecord_id"] as! ABRecordID
             var dics:Dictionary<String,String> = ah.getEachMethodCountByGroup(recid)
             groupListShowCount!.append( (abdics["name"] as! String) + " EM-" + (dics["EM"])! + " LS-" + (dics["LS"])! + " SS-" + (dics["SS"])!)
         }
@@ -471,7 +474,7 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
         let list:Dictionary<String,Any> = groupList![0]
         let listCount:Dictionary<String,Any> = groupListCount![0] as! Dictionary<String,Any>
         
-        println(listCount["count"]!)
+        print(listCount["count"]!)
         
         //recipientListName.text = (list["name"] as! String) + " - " + (listCount["count"] as! String) + "名"
         recipientListName.text = groupListShowCount![0]
@@ -497,7 +500,7 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
     }
 
     /* 画面をタッチしたらKeyboardをしまう */
-    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         self.view.endEditing(true)
     }
 

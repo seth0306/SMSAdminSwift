@@ -36,7 +36,7 @@ class TemplateModifyViewController: UIViewController,UITextViewDelegate,UIScroll
     
     override func viewDidLoad() {
         /* 保存ボタンを作成 */
-        var right1 = UIBarButtonItem(title: targetButtonTitle, style: .Plain, target: self, action: "saveTemplate")
+        let right1 = UIBarButtonItem(title: targetButtonTitle, style: .Plain, target: self, action: "saveTemplate")
         if let font = UIFont(name: "HiraKakuProN-W6", size: 14) {
             right1.setTitleTextAttributes([NSFontAttributeName: font], forState: UIControlState.Normal)
         }
@@ -79,14 +79,17 @@ class TemplateModifyViewController: UIViewController,UITextViewDelegate,UIScroll
         
         /* Error handling */
         var error: NSError?
-        if !managedContext.save(&error) {
-            println("Could not save \(error), \(error?.userInfo)")
+        do {
+            try managedContext.save()
+        } catch let error1 as NSError {
+            error = error1
+            print("Could not save \(error), \(error?.userInfo)")
         }
-        println("object saved")
+        print("object saved")
     }
     
     /* 画面をタッチしたらKeyboardをしまう */
-    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         self.view.endEditing(true)
     }
     
@@ -124,8 +127,8 @@ class TemplateModifyViewController: UIViewController,UITextViewDelegate,UIScroll
             let txtBottom = txtActiveTextView.frame.origin.y + txtActiveTextView.frame.height + 8.0
             let kbdTop = myBoundSize.height - keyboardScreenEndFrame.size.height
         
-            println("テキストフィールドの下辺：\(txtBottom)")
-            println("キーボードの上辺：\(kbdTop)")
+            print("テキストフィールドの下辺：\(txtBottom)")
+            print("キーボードの上辺：\(kbdTop)")
         
             if txtBottom >= kbdTop {
                 scvBackGround.contentOffset.y = txtBottom - kbdTop - 50.0
@@ -153,11 +156,14 @@ class TemplateModifyViewController: UIViewController,UITextViewDelegate,UIScroll
         
         /* Save value to managedObjectContext */
         var error: NSError?
-        if !managedContext.save(&error) {
-            println("Could not update \(error), \(error!.userInfo)")
+        do {
+            try managedContext.save()
+        } catch let error1 as NSError {
+            error = error1
+            print("Could not update \(error), \(error!.userInfo)")
         }
         
-        println("Object updated")
+        print("Object updated")
     }
     /* Entitiyの追加・更新処理 */
     func saveTemplate() {

@@ -24,13 +24,13 @@ class GroupOrderViewController: UIViewController,UITableViewDelegate,UITableView
         self.title = "グループ表示順設定"
         
         /* 保存ボタンを作成 */
-        var right1 = UIBarButtonItem(title: "削除", style: .Plain, target: self, action: "deleteAllGroup")
+        let right1 = UIBarButtonItem(title: "削除", style: .Plain, target: self, action: "deleteAllGroup")
         if let font = UIFont(name: "HiraKakuProN-W6", size: 14 ) {
             right1.setTitleTextAttributes([NSFontAttributeName: font], forState: UIControlState.Normal)
         }
         
         /* 編集ボタンを作成 */
-        var right2 = self.editButtonItem()
+        let right2 = self.editButtonItem()
         if let font = UIFont(name: "HiraKakuProN-W6", size: 14 ) {
             right2.setTitleTextAttributes([NSFontAttributeName: font], forState: UIControlState.Normal)
         }
@@ -101,7 +101,7 @@ class GroupOrderViewController: UIViewController,UITableViewDelegate,UITableView
         
         // 編集中のときのみaddButtonをナビゲーションバーの左に表示する
         if editing {
-            println("編集中")
+            print("編集中")
         
         } else {
             modifyExist()
@@ -128,7 +128,7 @@ class GroupOrderViewController: UIViewController,UITableViewDelegate,UITableView
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let  cell = tableView.dequeueReusableCellWithIdentifier("groupCell") as! GroupOrderTableViewCell
-        var row = indexPath.row
+        let row = indexPath.row
         
         let groupName:NSString? = groupArray![row].valueForKey("name") as? String
         /* セルに値を設定 */
@@ -165,7 +165,7 @@ class GroupOrderViewController: UIViewController,UITableViewDelegate,UITableView
     func tableView(tableView: UITableView, moveRowAtIndexPath sourceIndexPath: NSIndexPath, toIndexPath destinationIndexPath: NSIndexPath) {
         if sourceIndexPath.section == destinationIndexPath.section { // 移動元と移動先は同じセクションです。
             if destinationIndexPath.row < groupArray!.count {
-                var item:NSManagedObject = groupArray![sourceIndexPath.row] as! NSManagedObject// 移動対象を保持します。
+                let item:NSManagedObject = groupArray![sourceIndexPath.row] as! NSManagedObject// 移動対象を保持します。
                 groupArray!.removeAtIndex(sourceIndexPath.row)// 配列から一度消します。
                 groupArray!.insert(item, atIndex: destinationIndexPath.row)// 保持しておいた対象を挿入します。
             }
@@ -214,10 +214,13 @@ class GroupOrderViewController: UIViewController,UITableViewDelegate,UITableView
         
         /* Error handling */
         var error: NSError?
-        if !managedContext.save(&error) {
-            println("Could not save \(error), \(error?.userInfo)")
+        do {
+            try managedContext.save()
+        } catch let error1 as NSError {
+            error = error1
+            print("Could not save \(error), \(error?.userInfo)")
         }
-        println("object saved")
+        print("object saved")
         return groupObject
     }
     
@@ -229,16 +232,19 @@ class GroupOrderViewController: UIViewController,UITableViewDelegate,UITableView
         let managedContext: NSManagedObjectContext = appDelegate.managedObjectContext!
         
         for cnt in 0 ..< groupArray!.count {
-            var groupObj:NSManagedObject = groupArray![cnt] as! NSManagedObject
+            let groupObj:NSManagedObject = groupArray![cnt] as! NSManagedObject
             groupObj.setValue(cnt, forKey: "order")
         }
         /* Save value to managedObjectContext */
         var error: NSError?
-        if !managedContext.save(&error) {
-            println("Could not update \(error), \(error!.userInfo)")
+        do {
+            try managedContext.save()
+        } catch let error1 as NSError {
+            error = error1
+            print("Could not update \(error), \(error!.userInfo)")
         }
         
-        println("Object updated")
+        print("Object updated")
     }
     
     

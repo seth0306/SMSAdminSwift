@@ -20,10 +20,13 @@ class DataHandler: NSObject {
         let options:NSDictionary  = [NSMigratePersistentStoresAutomaticallyOption: true,
             NSInferMappingModelAutomaticallyOption: true]
         
-        var coordinator: NSPersistentStoreCoordinator? = NSPersistentStoreCoordinator(managedObjectModel: appDelegate.managedObjectModel)
+        let coordinator: NSPersistentStoreCoordinator? = NSPersistentStoreCoordinator(managedObjectModel: appDelegate.managedObjectModel)
         var error: NSError? = nil
         let url = appDelegate.applicationDocumentsDirectory.URLByAppendingPathComponent("SMSAdminSwift.sqlite")
-        if coordinator!.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: url, options: options as [NSObject : AnyObject], error: &error) == nil {
+        do {
+            try coordinator!.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: url, options: options as [NSObject : AnyObject])
+        } catch let error1 as NSError {
+            error = error1
         }
     }
     
@@ -37,11 +40,11 @@ class DataHandler: NSObject {
         /* NSCalendarを取得 */
         let calendar = NSCalendar(identifier: NSCalendarIdentifierGregorian)!
         /* １日前 */
-        let startDate = calendar.dateBySettingHour(0, minute: 0, second: 0, ofDate: now, options: nil)!
+        let startDate = calendar.dateBySettingHour(0, minute: 0, second: 0, ofDate: now, options: [])!
         
         /* １日後 */
-        let tmpDate = calendar.dateByAddingUnit(NSCalendarUnit.CalendarUnitDay, value: 1, toDate: now, options: nil)
-        let endDate = calendar.dateBySettingHour(0, minute: 0, second: 0, ofDate: tmpDate!, options: nil)!
+        let tmpDate = calendar.dateByAddingUnit(NSCalendarUnit.Day, value: 1, toDate: now, options: [])
+        let endDate = calendar.dateBySettingHour(0, minute: 0, second: 0, ofDate: tmpDate!, options: [])!
         
         /* 検索条件設定 */
         let predicate = NSPredicate(format: "(sent_date >= %@ ) and (sent_date < %@)",startDate,endDate)
@@ -66,8 +69,14 @@ class DataHandler: NSObject {
         /* Query実行 */
         //let results = manageContext?.executeFetchRequest(fetch, error: nil) as NSArray?
         
-        /* Query実行 */
-        let fetchResults = manageContext.executeFetchRequest(fetchRequest, error: &error)
+    /* Query実行 */
+        let fetchResults: [AnyObject]?
+        do {
+            fetchResults = try manageContext.executeFetchRequest(fetchRequest)
+        } catch let error1 as NSError {
+            error = error1
+            fetchResults = nil
+        }
         
         var dics:Dictionary = ["EM":0, "LS":0, "SS":0]
         if (fetchResults?.count ?? 0 == 0) {
@@ -101,13 +110,19 @@ class DataHandler: NSObject {
         var error: NSError?
         
         /* Get result array from ManagedObjectContext */
-        let fetchResults = manageContext.executeFetchRequest(fetchRequest, error: &error)
+        let fetchResults: [AnyObject]?
+        do {
+            fetchResults = try manageContext.executeFetchRequest(fetchRequest)
+        } catch let error1 as NSError {
+            error = error1
+            fetchResults = nil
+        }
         
         if let results: Array = fetchResults {
-            println(results.count)
+            print(results.count)
             return results
         } else {
-            println("Could not fetch \(error) , \(error!.userInfo)")
+            print("Could not fetch \(error) , \(error!.userInfo)")
             return nil;
         }
     }
@@ -124,13 +139,19 @@ class DataHandler: NSObject {
         var error: NSError?
         
         /* Get result array from ManagedObjectContext */
-        let fetchResults = manageContext.executeFetchRequest(fetchRequest, error: &error)
+        let fetchResults: [AnyObject]?
+        do {
+            fetchResults = try manageContext.executeFetchRequest(fetchRequest)
+        } catch let error1 as NSError {
+            error = error1
+            fetchResults = nil
+        }
         
         if let results: Array = fetchResults {
-            println(results.count)
+            print(results.count)
             return results
         } else {
-            println("Could not fetch \(error) , \(error!.userInfo)")
+            print("Could not fetch \(error) , \(error!.userInfo)")
             return nil;
         }
     }
@@ -153,10 +174,16 @@ class DataHandler: NSObject {
         fetchRequest.predicate = predicate
         //fetchRequest.resultType = .DictionaryResultType
         
+    
         
-        
-        /* Get result array from ManagedObjectContext */
-        let fetchResults = manageContext.executeFetchRequest(fetchRequest, error: &error)
+    /* Get result array from ManagedObjectContext */
+        let fetchResults: [AnyObject]?
+        do {
+            fetchResults = try manageContext.executeFetchRequest(fetchRequest)
+        } catch let error1 as NSError {
+            error = error1
+            fetchResults = nil
+        }
         
         
         if fetchResults!.count != 0 {
@@ -189,10 +216,13 @@ class DataHandler: NSObject {
         
         /* Save value to managed context */
         var error: NSError?
-        if !managedContext.save(&error) {
-            println("Could not update \(error), \(error!.userInfo)")
+        do {
+            try managedContext.save()
+        } catch let error1 as NSError {
+            error = error1
+            print("Could not update \(error), \(error!.userInfo)")
         }
-        println("Object deleted")
+        print("Object deleted")
         
     }
 
