@@ -13,8 +13,9 @@ import AddressBookUI
 
 class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelegate,UITextFieldDelegate,MFMessageComposeViewControllerDelegate,MFMailComposeViewControllerDelegate {
     /*－－－－－－－－－－　定数　開始　－－－－－－－－－－*/
-    let recipientEmailAddress:NSString = "rikiya09048824527@gmail.com"
-
+    //let recipientEmailAddress:String = "rikiya09048824527@gmail.com"
+    var recipientEmailAddress:String = ""
+    
     /*－－－－－－－－－－　定数　終了　－－－－－－－－－－*/
     /*－－－－－－－－－－　プロパティ　開始　－－－－－－－－－－*/
     var recipientArray:Array<AnyObject>? = nil
@@ -29,6 +30,11 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
     var sentCount = 0                               //送信済み宛先
     var tmpSentCount = 0                            //一時保存送信済み宛先
     var mailAddressList:Array<NSString>? = nil      //送信対象メールリスト
+    
+    var props:Dictionary<String,String> = Dictionary<String,String>()
+    let pkey_fromMail:String = "fromMailAddress"
+    let defaulfromMail:String = "rikiya09048824527@gmail.com"
+
     /**
     送信用SMSアドレス保存
     */
@@ -61,16 +67,16 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
     /**
       メール送信画面設定用
     */
-    func configuredMailComposeViewController(mailTitle:NSString,mailBody: NSString,bccRecipients:Array<NSString> ) -> MFMailComposeViewController {
+    func configuredMailComposeViewController(mailTitle:NSString,mailBody: NSString,bccRecipients:[String] ) -> MFMailComposeViewController {
         let mailComposerVC = MFMailComposeViewController()
         mailComposerVC.mailComposeDelegate = self // Extremely important to set the --mailComposeDelegate-- property, NOT the --delegate-- property
-        mailComposerVC.setToRecipients([recipientEmailAddress])
+        //mailComposerVC.setToRecipients([recipientEmailAddress])
         /*　BCCをセット　*/
         mailComposerVC.setBccRecipients(bccRecipients)
         /*　件名をセット　*/
         mailComposerVC.setSubject(mailTitle as String)
         /*　本文をセット　*/
-        mailComposerVC.setMessageBody(String(UTF8String: "\(mailBody)"), isHTML: false)
+        mailComposerVC.setMessageBody(String(UTF8String: "\(mailBody)")!, isHTML: false)
         
         return mailComposerVC
     }
@@ -176,8 +182,8 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
         /* 送信種別文字列をセット */
         methodString = "EM"
         /* 送信対象カウント取得 */
-        var startCnt:Int = Int(startCount.text) ?? 0
-        var endCnt:Int = Int(endCount.text) ?? 0
+        var startCnt:Int = Int(startCount.text!) ?? 0
+        var endCnt:Int = Int(endCount.text!) ?? 0
         
         /* Template */
         let temp_short = selectedTMP?.valueForKey("temp_short") as! NSString
@@ -189,18 +195,18 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
             mailAddressList = ah.getRecipientListByGroup(selectedRCP, typeofmethod: ABHandler.methodType.methodTypeMail)
             allCount = mailAddressList!.count
         }
-        var list:Array<NSString> = []
+        var list:[String] = []
         if ( allCount == 0 ) {
             mailAddressList = nil
             showNoDataErrorAlert()
         } else if (startCnt == 0 && endCnt == 0) {
             if (allCount - sentCount >= 100) {
                 for (var cnt = 0 + sentCount  ; cnt < 99 + sentCount; cnt++) {
-                    list.append(mailAddressList![cnt])
+                    list.append(mailAddressList![cnt] as String)
                 }
             } else {
                 for (var cnt = 0 + sentCount  ; cnt < allCount; cnt++) {
-                    list.append(mailAddressList![cnt])
+                    list.append(mailAddressList![cnt] as String)
                 }
                 //list = mailAddressList!
             }
@@ -228,7 +234,7 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
                 allCount = endCnt
                 /*送信リスト作成*/
                 for (var cnt = startCnt - 1 ; cnt < endCnt; cnt++) {
-                    list.append(mailAddressList![cnt])
+                    list.append(mailAddressList![cnt] as String)
                 }
                 /* 一時送信メールにセット */
                 tmpSentCount = startCnt + list.count
@@ -257,8 +263,8 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
         let ah = ABHandler()
         var smsAddressList:Array<NSString> = ah.getRecipientListByGroup(selectedRCP, typeofmethod: methodType)
         /* 送信対象カウント取得 */
-        var startCnt:Int = Int(startCount.text) ?? 0
-        var endCnt:Int = Int(endCount.text) ?? 0
+        var startCnt:Int = Int(startCount.text!) ?? 0
+        var endCnt:Int = Int(endCount.text!) ?? 0
         allCount = smsAddressList.count
         if ( allCount == 0 ) {
             showNoDataErrorAlert()
@@ -295,9 +301,9 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
     /**
     アドレスリストから指定の一件を取得
     */
-    func pickAnAddressFromList() -> Array<NSString>{
-        var ary:Array<NSString> = []
-        ary.append(tmpSmsAddressList![tmpSmsSentCount])
+    func pickAnAddressFromList() -> [String]{
+        var ary:[String] = []
+        ary.append(tmpSmsAddressList![tmpSmsSentCount] as String)
         return ary
     }
     
@@ -328,7 +334,7 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
         sendSMS(methodString,body: temp_short,title: temp_title,methodType: ABHandler.methodType.methodTypeShortSMS)
     }
     
-    func showSMSWindow(body:String,list:Array<NSString>){
+    func showSMSWindow(body:String,list:[String]){
         /* SMS送信 */
         let picker = MFMessageComposeViewController()
         picker.messageComposeDelegate = self;
@@ -346,7 +352,7 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
         /* 今日の日付 */
         let today = NSDate()
         /* 宛先リスト名 */
-        let rcp_name:NSString = recipientListName.text
+        let rcp_name:NSString = recipientListName.text!
         /* 件数 */
         let count = tmpSentCount
         /* 件名を取得 */
@@ -357,7 +363,7 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
         entity.setValue(tmp_name, forKey: "tmp_name")
         entity.setValue(methodString, forKey: "method")
         entity.setValue(count, forKey: "count")
-        let context = entity.managedObjectContext
+        //_t = entity.managedObjectContext
         /* Get ManagedObjectContext from AppDelegate */
         let managedContext:NSManagedObjectContext = entity.managedObjectContext!
         /* Error handling */
@@ -424,7 +430,7 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
         let dh = DataHandler()
         
         for g in src! {
-            let res:NSManagedObject? = dh.fetchNSManagedObject("Group",targetColumn : "abrecord_id",targetValue : Int(g["abrecord_id"] as! Int32))
+            let res:NSManagedObject? = dh.fetchNSManagedObjectInt("Group",targetColumn : "abrecord_id",targetValue : Int(g["abrecord_id"] as! Int32))
             if res == nil {
                 misList!.append(g)
             } else {
@@ -432,7 +438,9 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
                 dics.updateValue(g, forKey: order)
             }
         }
-        var keys = dics.keys.array
+        
+        //var keys = dics.keys.array
+        var keys: [Int] = [Int](dics.keys)
         keys.sortInPlace(<)
         for cnt in 0 ..< keys.count {
             tmpList!.append(dics[cnt]!)
@@ -451,8 +459,16 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
         let dh = DataHandler()
         //recipientArray = dh.fetchEntityData("Recipient")!
         //templateArray = dh.fetchEntityData("Template")!
-        templateArray = dh.fetchEntityData("Template",sort:"order")!
+        templateArray = dh.fetchEntityDataSort("Template",sort:"order")!
         
+        //Property取得
+        props = dh.getProperties()
+        /* 送信元メールアドレスセット */
+        if (props[pkey_fromMail] == nil) {
+            props[pkey_fromMail] = defaulfromMail
+            dh.writeProperty(pkey_fromMail, value: props[pkey_fromMail]!)
+        }
+        recipientEmailAddress = props[pkey_fromMail]!
         
         /* AddressBookよりGroupのリスト */
         let ah = ABHandler()
@@ -517,7 +533,7 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
             return templateArray!.count
         }
     }
-    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String! {
+    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         if pickerView.tag == 0 {
             //let list:Dictionary<String,Any> = groupList![row] as! Dictionary<String,Any>
             //let listCount:Dictionary<String,Any> = groupListCount![row] as! Dictionary<String,Any>

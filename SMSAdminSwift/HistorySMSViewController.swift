@@ -19,7 +19,7 @@ class HistorySMSViewController: UIViewController,UITableViewDataSource,UITableVi
         self.title = "送信履歴"
         /* CoreDataよりHistoryテーブルを読み出す */
         let dh = DataHandler()
-        historyArray = dh.fetchEntityData("History")!
+        historyArray = dh.fetchEntityDataNoSort("History")!
         /* sent_dateでソートする */
         let dateSortDescriptor:NSSortDescriptor = NSSortDescriptor(key:"sent_date", ascending:false)
         historyArray = historyArray.sortedArrayUsingDescriptors([dateSortDescriptor])

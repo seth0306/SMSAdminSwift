@@ -41,14 +41,14 @@ class TemplateAdminViewController: UIViewController,UITableViewDelegate,UITableV
         
         /* CoreDataよりHistoryテーブルを読み出す */
         let dh = DataHandler()
-        templateArray = dh.fetchEntityData("Template",sort:"order")!
+        templateArray = dh.fetchEntityDataSort("Template",sort:"order")!
         //templateArray = dh.fetchEntityData("Template")!
         
     }
     
     override func viewWillAppear(animated: Bool) {
         let dh = DataHandler()
-        templateArray = dh.fetchEntityData("Template",sort:"order")!
+        templateArray = dh.fetchEntityDataSort("Template",sort:"order")!
         templateTableView.reloadData()
         super.viewWillAppear(animated)
     }

@@ -43,7 +43,7 @@ class GroupOrderViewController: UIViewController,UITableViewDelegate,UITableView
         
         /* CoreDataよりGroupテーブルを読み出す */
         let dh = DataHandler()
-        groupArray = dh.fetchEntityData("Group",sort:"order")!
+        groupArray = dh.fetchEntityDataSort("Group",sort:"order")!
         
         /* AddressBookより読み出し */
         let ab = ABHandler()
@@ -57,6 +57,7 @@ class GroupOrderViewController: UIViewController,UITableViewDelegate,UITableView
             for_g:for gObj in groupArray! {
                 let gid = (gObj as! NSManagedObject).valueForKey("abrecord_id") as? Int
                 if abid == Int32(gid!) {
+                    gObj.setValue(abObj["name"]as! String, forKey: "name")
                     noMatch = false
                     break for_g
                 }
@@ -67,23 +68,29 @@ class GroupOrderViewController: UIViewController,UITableViewDelegate,UITableView
                 groupArray!.insert(nsm, atIndex: 0)
             }
         }
-        /* AddressBookのGroupとEntity Groupの内容を比較 */
+        
+        /* Entity GroupとAddressBookのGroupとの内容を比較 */
+        var idxAry:Array<AnyObject> = Array<AnyObject>()
         for_g:for gObj in groupArray! {
             let gid = (gObj as! NSManagedObject).valueForKey("abrecord_id") as? Int
             var noMatch: Bool = true
-                for_ab:for cnt in 0..<groupList!.count {
-                    let abObj:Dictionary<String,Any> = groupList![cnt]
-                    let abid = abObj["abrecord_id"] as! Int32
-                    if abid == Int32(gid!) {
-                        noMatch = false
-                        break for_ab
-                    }
+            for_ab:for cnt in 0..<groupList!.count {
+                let abObj:Dictionary<String,Any> = groupList![cnt]
+                let abid = abObj["abrecord_id"] as! Int32
+                if abid == Int32(gid!) {
+                    noMatch = false
+                    break for_ab
+                }
             }
             if noMatch {
-                //いなければEntitiyを削除
-                groupArray!.removeAtIndex(((gObj as! NSManagedObject).valueForKey("order") as? Int)!)
-                dh.deleteSpecifiedEntity(gObj as! NSManagedObject)
+                //idxAry.append(gid!)
+                idxAry.append(gObj)
             }
+        }
+        for gObj in idxAry {
+            //いなければEntitiyを削除
+            groupArray!.removeAtIndex(((gObj as! NSManagedObject).valueForKey("order") as? Int)!)
+            dh.deleteSpecifiedEntity(gObj as! NSManagedObject)
         }
         /* DBに書き込み */
         modifyExist()
@@ -246,8 +253,5 @@ class GroupOrderViewController: UIViewController,UITableViewDelegate,UITableView
         
         print("Object updated")
     }
-    
-    
     /*－－－－－－－－－－　CoreData　終了　－－－－－－－－－－*/
-
 }

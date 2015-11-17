@@ -31,6 +31,7 @@
 		5DB13DCD1A5D1A61004FAF4E /* TemplateAdminViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DB13DCC1A5D1A61004FAF4E /* TemplateAdminViewController.swift */; };
 		5DB13DD11A5D21E2004FAF4E /* TemplateTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DB13DD01A5D21E2004FAF4E /* TemplateTableViewCell.swift */; };
 		5DB13DD31A5D21FC004FAF4E /* TemplateTableViewHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DB13DD21A5D21FC004FAF4E /* TemplateTableViewHeaderCell.swift */; };
+		5DE61CB51BB92D6400073ACE /* map04to05.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 5DE61CB41BB92D6400073ACE /* map04to05.xcmappingmodel */; settings = {ASSET_TAGS = (); }; };
 		5DF3DCE81A9CDA81002BE415 /* map01to02.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 5DF3DCE71A9CDA81002BE415 /* map01to02.xcmappingmodel */; };
 /* End PBXBuildFile section */
 
@@ -75,6 +76,8 @@
 		5DB13DCC1A5D1A61004FAF4E /* TemplateAdminViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TemplateAdminViewController.swift; sourceTree = "<group>"; };
 		5DB13DD01A5D21E2004FAF4E /* TemplateTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TemplateTableViewCell.swift; sourceTree = "<group>"; };
 		5DB13DD21A5D21FC004FAF4E /* TemplateTableViewHeaderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TemplateTableViewHeaderCell.swift; sourceTree = "<group>"; };
+		5DE61CB31BB92CBE00073ACE /* SMSAdminSwift 5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "SMSAdminSwift 5.xcdatamodel"; sourceTree = "<group>"; };
+		5DE61CB41BB92D6400073ACE /* map04to05.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; name = map04to05.xcmappingmodel; path = SMSAdminSwift/map04to05.xcmappingmodel; sourceTree = "<group>"; };
 		5DF3DCE41A9CD7A8002BE415 /* SMSAdminSwift 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "SMSAdminSwift 2.xcdatamodel"; sourceTree = "<group>"; };
 		5DF3DCE71A9CDA81002BE415 /* map01to02.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = map01to02.xcmappingmodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -103,6 +106,7 @@
 				5D27B8AA1B2C851000A9A64A /* map03to04.xcmappingmodel */,
 				5D80C38F1B1B32DC004F8590 /* map02to03.xcmappingmodel */,
 				5DF3DCE71A9CDA81002BE415 /* map01to02.xcmappingmodel */,
+				5DE61CB41BB92D6400073ACE /* map04to05.xcmappingmodel */,
 				5D0805311A5BB6EC006A2932 /* Products */,
 				5D0805321A5BB6EC006A2932 /* SMSAdminSwift */,
 				5D08054B1A5BB6ED006A2932 /* SMSAdminSwiftTests */,
@@ -218,11 +222,12 @@
 			attributes = {
 				LastSwiftMigration = 0700;
 				LastSwiftUpdateCheck = 0700;
-				LastUpgradeCheck = 0610;
+				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "Information Shower, Inc.";
 				TargetAttributes = {
 					5D08052F1A5BB6EC006A2932 = {
 						CreatedOnToolsVersion = 6.1.1;
+						DevelopmentTeam = 99NMCDEJD7;
 					};
 					5D0805471A5BB6ED006A2932 = {
 						CreatedOnToolsVersion = 6.1.1;
@@ -284,6 +289,7 @@
 				5DB13DD11A5D21E2004FAF4E /* TemplateTableViewCell.swift in Sources */,
 				5DB13DCB1A5D0DC6004FAF4E /* DataHandler.swift in Sources */,
 				5DB13DCD1A5D1A61004FAF4E /* TemplateAdminViewController.swift in Sources */,
+				5DE61CB51BB92D6400073ACE /* map04to05.xcmappingmodel in Sources */,
 				5D80C38B1B1B1557004F8590 /* GroupOrderTableView.swift in Sources */,
 				5DF3DCE81A9CDA81002BE415 /* map01to02.xcmappingmodel in Sources */,
 				5D80C3941B1B4C3B004F8590 /* GroupOrderTableViewHeaderCell.swift in Sources */,
@@ -356,6 +362,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -417,9 +424,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = SMSAdminSwift/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.information-shower.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -427,9 +438,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = SMSAdminSwift/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.information-shower.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};
@@ -447,6 +462,7 @@
 				);
 				INFOPLIST_FILE = SMSAdminSwiftTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.information-shower.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SMSAdminSwift.app/SMSAdminSwift";
 			};
@@ -462,6 +478,7 @@
 				);
 				INFOPLIST_FILE = SMSAdminSwiftTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.information-shower.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SMSAdminSwift.app/SMSAdminSwift";
 			};
@@ -503,12 +520,13 @@
 		5D0805371A5BB6EC006A2932 /* SMSAdminSwift.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				5DE61CB31BB92CBE00073ACE /* SMSAdminSwift 5.xcdatamodel */,
 				5D27B8A91B2C84AE00A9A64A /* SMSAdminSwift 4.xcdatamodel */,
 				5D80C38E1B1B235C004F8590 /* SMSAdminSwift 3.xcdatamodel */,
 				5DF3DCE41A9CD7A8002BE415 /* SMSAdminSwift 2.xcdatamodel */,
 				5D0805381A5BB6EC006A2932 /* SMSAdminSwift.xcdatamodel */,
 			);
-			currentVersion = 5D27B8A91B2C84AE00A9A64A /* SMSAdminSwift 4.xcdatamodel */;
+			currentVersion = 5DE61CB31BB92CBE00073ACE /* SMSAdminSwift 5.xcdatamodel */;
 			path = SMSAdminSwift.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

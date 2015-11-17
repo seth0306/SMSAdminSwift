@@ -8,13 +8,19 @@
 
 import UIKit
 import AddressBook
+import CoreData
 
 class MainMenuViewController: UIViewController,UIAlertViewDelegate,UIPopoverPresentationControllerDelegate {
     
     @IBOutlet weak var mailCount: UILabel!
     @IBOutlet weak var lsCount: UILabel!
     @IBOutlet weak var ssCount: UILabel!
+    @IBOutlet weak var fromMailAddress: UITextField!
     
+    
+    var props:Dictionary<String,String> = Dictionary<String,String>()
+    let pkey_fromMail:String = "fromMailAddress"
+    let defaulfromMail:String = "rikiya09048824527@gmail.com"
     
     override func viewDidLoad() {
         
@@ -28,8 +34,26 @@ class MainMenuViewController: UIViewController,UIAlertViewDelegate,UIPopoverPres
         /* group表示 */
         abh.showGroup()
         
+        /* Property取得 */
+        let dh = DataHandler()
+        props = dh.getProperties()
+        /* 送信元メールアドレスセット */
+        if (props[pkey_fromMail] == nil) {
+            props[pkey_fromMail] = defaulfromMail
+            dh.writeProperty(pkey_fromMail, value: props[pkey_fromMail]!)
+        }
+        fromMailAddress.text = props[pkey_fromMail]
         
         
+    }
+    
+    @IBAction func changeFromMailAddress(sender: AnyObject) {
+        let dh = DataHandler()
+        props[pkey_fromMail] = fromMailAddress.text
+        dh.writeProperty(pkey_fromMail, value: props[pkey_fromMail]!)
+        
+        let messageSentAlert = UIAlertView(title: "変更完了", message: "送信元メールアドレスの変更が完了しました", delegate: self, cancelButtonTitle: "OK")
+        messageSentAlert.show()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -45,7 +69,7 @@ class MainMenuViewController: UIViewController,UIAlertViewDelegate,UIPopoverPres
     @IBAction func showSendSMS(sender: UIButton) {
         /* Templateがゼロの場合は遷移しない */
         let dh = DataHandler()
-        if (dh.fetchEntityData("Template")!.count > 0) {
+        if (dh.fetchEntityDataNoSort("Template")!.count > 0) {
             performSegueWithIdentifier("showSendSMS", sender: nil)
         } else {
             let NoTemplateErrorAlert = UIAlertView(title: "Templateなし", message: "Templateが一つもありません", delegate: self, cancelButtonTitle: "OK")

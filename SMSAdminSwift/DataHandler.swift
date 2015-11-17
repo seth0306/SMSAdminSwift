@@ -28,7 +28,57 @@ class DataHandler: NSObject {
         } catch let error1 as NSError {
             error = error1
         }
+        catch {
+            print("Unknown Error")
+        }
+        
     }
+    
+    func getProperties()->Dictionary<String,String> {
+        
+        var dics = Dictionary<String,String>()
+        
+        let results = fetchEntityDataNoSort("Other")
+        if (results != nil) {
+            if (results!.count > 0) {
+                for result:AnyObject in results! {
+                    let colKey = result.valueForKey("key") as! String
+                    let colValue = result.valueForKey("property") as! String
+                    dics[colKey] = colValue
+                }
+            }
+        }
+        return dics
+    }
+
+    func writeProperty(key:String,value:String) {
+        var obj:NSManagedObject? = fetchNSManagedObjectString("Other", targetColumn: "key", targetValue: key)
+        if (obj == nil) {
+            obj = createNewEntity("Other")
+        }
+
+        obj!.setValue(key, forKey: "key")
+        obj!.setValue(value, forKey: "property")
+        
+        /* Get ManagedObjectContext from AppDelegate */
+        let managedContext:NSManagedObjectContext = obj!.managedObjectContext!
+        /* Error handling */
+        var error: NSError?
+        do {
+            try managedContext.save()
+        } catch let error1 as NSError {
+            error = error1
+            print("Could not save \(error), \(error?.userInfo)")
+        }
+        catch {
+            print("Unknown Error")
+        }
+        
+        print("object saved")
+        
+    }
+
+    
     
     func countSentMail()->Dictionary<String,Int> {
         /* Get ManagedObjectContext from AppDelegate */
@@ -77,8 +127,17 @@ class DataHandler: NSObject {
             error = error1
             fetchResults = nil
         }
+        catch {
+            print("Unknown Error")
+            fetchResults = nil
+        }
+
+
+        var dics:Dictionary<String,Int> = Dictionary<String,Int>()
+        dics["EM"] = 0
+        dics["LS"] = 0
+        dics["SS"] = 0
         
-        var dics:Dictionary = ["EM":0, "LS":0, "SS":0]
         if (fetchResults?.count ?? 0 == 0) {
             return dics
         }
@@ -95,7 +154,7 @@ class DataHandler: NSObject {
         
     }
 
-    func fetchEntityData(entity:String,sort sortColumn:String)->[AnyObject]? {
+    func fetchEntityDataSort(entity:String,sort sortColumn:String)->[AnyObject]? {
         
         /* Get ManagedObjectContext from AppDelegate */
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
@@ -117,6 +176,11 @@ class DataHandler: NSObject {
             error = error1
             fetchResults = nil
         }
+        catch {
+            print("Unknown Error")
+            fetchResults = nil
+        }
+
         
         if let results: Array = fetchResults {
             print(results.count)
@@ -128,7 +192,7 @@ class DataHandler: NSObject {
     }
     
     
-    func fetchEntityData(entity:String)->[AnyObject]? {
+    func fetchEntityDataNoSort(entity:String)->[AnyObject]? {
         
         /* Get ManagedObjectContext from AppDelegate */
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
@@ -146,6 +210,11 @@ class DataHandler: NSObject {
             error = error1
             fetchResults = nil
         }
+        catch {
+            print("Unknown Error")
+            fetchResults = nil
+        }
+
         
         if let results: Array = fetchResults {
             print(results.count)
@@ -156,7 +225,7 @@ class DataHandler: NSObject {
         }
     }
     
-    func fetchNSManagedObject(entity:String, targetColumn tcol:String, targetValue tval:Int)->NSManagedObject? {
+    func fetchNSManagedObjectInt(entity:String, targetColumn tcol:String, targetValue tval:Int)->NSManagedObject? {
         
         /* Get ManagedObjectContext from AppDelegate */
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
@@ -184,6 +253,11 @@ class DataHandler: NSObject {
             error = error1
             fetchResults = nil
         }
+        catch {
+            print("Unknown Error")
+            fetchResults = nil
+        }
+
         
         
         if fetchResults!.count != 0 {
@@ -193,6 +267,49 @@ class DataHandler: NSObject {
             return nil;
         }
     }
+    func fetchNSManagedObjectString(entity:String, targetColumn tcol:String, targetValue tval:String)->NSManagedObject? {
+        
+        /* Get ManagedObjectContext from AppDelegate */
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let manageContext = appDelegate.managedObjectContext!
+        
+        /* Set search conditions */
+        let fetchRequest = NSFetchRequest(entityName: entity)
+        var error: NSError?
+        
+        /* 検索条件設定 */
+        let predicate = NSPredicate(format: "%K = %@",tcol,tval)
+        
+        /* Set search conditions */
+        
+        fetchRequest.predicate = predicate
+        //fetchRequest.resultType = .DictionaryResultType
+        
+        
+        
+        /* Get result array from ManagedObjectContext */
+        let fetchResults: [AnyObject]?
+        do {
+            fetchResults = try manageContext.executeFetchRequest(fetchRequest)
+        } catch let error1 as NSError {
+            error = error1
+            fetchResults = nil
+        }
+        catch {
+            print("Unknown Error")
+            fetchResults = nil
+        }
+        
+        
+        
+        if fetchResults!.count != 0 {
+            return fetchResults!.first as? NSManagedObject
+        } else {
+            //println("Could not fetch \(error) , \(error!.userInfo)")
+            return nil;
+        }
+    }
+
     
     /* entityの新規作成 */
     func createNewEntity(entityName:NSString) -> NSManagedObject{
@@ -222,6 +339,10 @@ class DataHandler: NSObject {
             error = error1
             print("Could not update \(error), \(error!.userInfo)")
         }
+        catch {
+            print("Unknown Error")
+        }
+
         print("Object deleted")
         
     }

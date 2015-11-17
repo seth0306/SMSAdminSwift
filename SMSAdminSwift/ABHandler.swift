@@ -37,7 +37,7 @@ class ABHandler: NSObject {
         let contactList: NSArray = ABAddressBookCopyArrayOfAllGroups(addressBook).takeRetainedValue()
         for record:ABRecordRef in contactList {
             let contactGroup: ABRecordRef = record
-            let abrecord_id = ABRecordGetRecordID(contactGroup)
+            //let abrecord_id = ABRecordGetRecordID(contactGroup)
             let name = ABRecordCopyValue(contactGroup, kABGroupNameProperty)?.takeRetainedValue() as! String? ?? ""
             print ("groupName \(name)")
         }
