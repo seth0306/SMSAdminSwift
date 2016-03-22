@@ -12,7 +12,6 @@ import CoreData
 
 class ABHandler: NSObject {
     
-    
     enum methodType:Int32 {
         case methodTypeMail = 0
         case methodTypeLongSMS = 1
@@ -188,12 +187,12 @@ class ABHandler: NSObject {
                     switch fullname[index] {
                     case "・","･","•":
                         if (myPhone != nil) {
-                            lsCount++
+                            lsCount += 1
                         }
                         break
                     case ":","：":
                         if (myPhone != nil) {
-                            ssCount++
+                            ssCount += 1
                         }
                         break
                     case "、":
@@ -202,7 +201,7 @@ class ABHandler: NSObject {
                         break
                     default:
                         if (myEMail != nil) {
-                            emCount++
+                            emCount += 1
                         }
                         break
                     }
@@ -348,7 +347,7 @@ class ABHandler: NSObject {
             
             let phoneArray:ABMultiValueRef = extractABPhoneRef(ABRecordCopyValue(contactPerson, kABPersonPhoneProperty))!
             
-            for (var j = 0; j < ABMultiValueGetCount(phoneArray); ++j)
+            for (var j = 0; j < ABMultiValueGetCount(phoneArray); j += 1)
             {
                 let phoneNumber = ABMultiValueCopyValueAtIndex(phoneArray, j)
                 let myString = extractABPhoneNumber(phoneNumber)

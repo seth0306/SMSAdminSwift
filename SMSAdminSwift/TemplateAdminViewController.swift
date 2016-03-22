@@ -23,7 +23,7 @@ class TemplateAdminViewController: UIViewController,UITableViewDelegate,UITableV
         self.title = "テンプレート管理"
         
         /* 追加ボタンを作成 */
-        let right1 = UIBarButtonItem(title: "追加", style: .Plain, target: self, action: "showNewTemplate")
+        let right1 = UIBarButtonItem(title: "追加", style: .Plain, target: self, action: #selector(TemplateAdminViewController.showNewTemplate))
         if let font = UIFont(name: "HiraKakuProN-W6", size: 14 ) {
             right1.setTitleTextAttributes([NSFontAttributeName: font], forState: UIControlState.Normal)
         }
@@ -140,7 +140,7 @@ class TemplateAdminViewController: UIViewController,UITableViewDelegate,UITableV
     /* 編集モード */
     override func setEditing(editing: Bool, animated: Bool) {
         super.setEditing(editing, animated: animated)
-        print(__FUNCTION__)
+        print(#function)
         self.templateTableView.setEditing(editing, animated: animated)
     }
     /* 編集・削除処理 */

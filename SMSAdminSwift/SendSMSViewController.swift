@@ -182,8 +182,8 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
         /* 送信種別文字列をセット */
         methodString = "EM"
         /* 送信対象カウント取得 */
-        var startCnt:Int = Int(startCount.text!) ?? 0
-        var endCnt:Int = Int(endCount.text!) ?? 0
+        let startCnt:Int = Int(startCount.text!) ?? 0
+        let endCnt:Int = Int(endCount.text!) ?? 0
         
         /* Template */
         let temp_short = selectedTMP?.valueForKey("temp_short") as! NSString
@@ -201,11 +201,11 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
             showNoDataErrorAlert()
         } else if (startCnt == 0 && endCnt == 0) {
             if (allCount - sentCount >= 100) {
-                for (var cnt = 0 + sentCount  ; cnt < 99 + sentCount; cnt++) {
+                for (var cnt = 0 + sentCount  ; cnt < 99 + sentCount; cnt += 1) {
                     list.append(mailAddressList![cnt] as String)
                 }
             } else {
-                for (var cnt = 0 + sentCount  ; cnt < allCount; cnt++) {
+                for (var cnt = 0 + sentCount  ; cnt < allCount; cnt += 1) {
                     list.append(mailAddressList![cnt] as String)
                 }
                 //list = mailAddressList!
@@ -233,7 +233,7 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
                 /* allCountに最終送信カウントを設定 */
                 allCount = endCnt
                 /*送信リスト作成*/
-                for (var cnt = startCnt - 1 ; cnt < endCnt; cnt++) {
+                for (var cnt = startCnt - 1 ; cnt < endCnt; cnt += 1) {
                     list.append(mailAddressList![cnt] as String)
                 }
                 /* 一時送信メールにセット */
@@ -263,8 +263,8 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
         let ah = ABHandler()
         var smsAddressList:Array<NSString> = ah.getRecipientListByGroup(selectedRCP, typeofmethod: methodType)
         /* 送信対象カウント取得 */
-        var startCnt:Int = Int(startCount.text!) ?? 0
-        var endCnt:Int = Int(endCount.text!) ?? 0
+        let startCnt:Int = Int(startCount.text!) ?? 0
+        let endCnt:Int = Int(endCount.text!) ?? 0
         allCount = smsAddressList.count
         if ( allCount == 0 ) {
             showNoDataErrorAlert()
@@ -287,7 +287,7 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
             } else {
                 var list:Array<NSString> = []
                 allCount = endCnt - startCnt + 1
-                for (var cnt = startCnt - 1 ; cnt < endCnt; cnt++) {
+                for (var cnt = startCnt - 1 ; cnt < endCnt; cnt += 1) {
                     list.append(smsAddressList[cnt])
                 }
                 /* SMS送信リストを保存 */
@@ -397,11 +397,11 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
             /* 成功した場合 */
             print("Message was sent")
             /* 送信完了件数を１増加 */
-            tmpSmsSentCount++
+            tmpSmsSentCount += 1
             /* 送信完了件数と送信リストの数が同じなら*/
             if ( tmpSmsSentPlan == tmpSmsSentCount ) {
                 //履歴用カウントに送信数をセット
-                tmpSentCount = tmpSmsSentCount++
+                tmpSentCount = tmpSmsSentCount + 1
                 /* 履歴に保存 */
                 saveToHistory()
                 showMessageSentAlert()
@@ -494,7 +494,7 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
         
         //recipientListName.text = (list["name"] as! String) + " - " + (listCount["count"] as! String) + "名"
         recipientListName.text = groupListShowCount![0]
-        templateListName.text = templateArray?.first?.valueForKey("title") as! String
+        templateListName.text = templateArray?.first?.valueForKey("title") as? String
         /* 選択されたEntitiyに初期値を設定 */
         selectedRCP = list["abrecord_id"] as! ABRecordID
         selectedTMP = templateArray?.first as? NSManagedObject
@@ -544,7 +544,7 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
             
         } else {
             let targetObj:NSManagedObject = templateArray![row] as! NSManagedObject
-            return  targetObj.valueForKey("title") as! String
+            return  targetObj.valueForKey("title") as? String
         }
     }
     
@@ -582,7 +582,7 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
         } else {
             let targetObj:NSManagedObject = templateArray![row] as! NSManagedObject
             selectedTMP = templateArray![row] as? NSManagedObject
-            templateListName.text = targetObj.valueForKey("title") as! String
+            templateListName.text = targetObj.valueForKey("title") as? String
         }
     }
     

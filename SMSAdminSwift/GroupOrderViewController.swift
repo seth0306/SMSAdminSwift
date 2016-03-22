@@ -24,7 +24,7 @@ class GroupOrderViewController: UIViewController,UITableViewDelegate,UITableView
         self.title = "グループ表示順設定"
         
         /* 保存ボタンを作成 */
-        let right1 = UIBarButtonItem(title: "削除", style: .Plain, target: self, action: "deleteAllGroup")
+        let right1 = UIBarButtonItem(title: "削除", style: .Plain, target: self, action: #selector(GroupOrderViewController.deleteAllGroup))
         if let font = UIFont(name: "HiraKakuProN-W6", size: 14 ) {
             right1.setTitleTextAttributes([NSFontAttributeName: font], forState: UIControlState.Normal)
         }

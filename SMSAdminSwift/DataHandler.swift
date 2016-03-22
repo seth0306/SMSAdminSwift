@@ -346,5 +346,13 @@ class DataHandler: NSObject {
         print("Object deleted")
         
     }
+    
+    func backup() {
+        
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let url = appDelegate.applicationDocumentsDirectory.URLByAppendingPathComponent("SMSAdminSwift.sqlite")
+        
+    }
+    
 
 }

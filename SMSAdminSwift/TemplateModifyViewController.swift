@@ -36,7 +36,7 @@ class TemplateModifyViewController: UIViewController,UITextViewDelegate,UIScroll
     
     override func viewDidLoad() {
         /* 保存ボタンを作成 */
-        let right1 = UIBarButtonItem(title: targetButtonTitle, style: .Plain, target: self, action: "saveTemplate")
+        let right1 = UIBarButtonItem(title: targetButtonTitle, style: .Plain, target: self, action: #selector(TemplateModifyViewController.saveTemplate))
         if let font = UIFont(name: "HiraKakuProN-W6", size: 14) {
             right1.setTitleTextAttributes([NSFontAttributeName: font], forState: UIControlState.Normal)
         }
@@ -107,8 +107,8 @@ class TemplateModifyViewController: UIViewController,UITextViewDelegate,UIScroll
         super.viewWillAppear(animated)
         
         let notificationCenter = NSNotificationCenter.defaultCenter()
-        notificationCenter.addObserver(self, selector: "handleKeyboardWillShowNotification:", name: UIKeyboardWillShowNotification, object: nil)
-        notificationCenter.addObserver(self, selector: "handleKeyboardWillHideNotification:", name: UIKeyboardWillHideNotification, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(TemplateModifyViewController.handleKeyboardWillShowNotification(_:)), name: UIKeyboardWillShowNotification, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(TemplateModifyViewController.handleKeyboardWillHideNotification(_:)), name: UIKeyboardWillHideNotification, object: nil)
     }
     
     override func viewDidDisappear(animated: Bool) {
