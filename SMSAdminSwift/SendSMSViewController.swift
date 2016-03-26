@@ -87,43 +87,80 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
     @param maxNum 最大登録件数
     */
     func showAddressBookMaxErrorAlert(maxNum:Int) {
-        let sendMailErrorAlert = UIAlertView(title: "アドレス件数", message: "グループの登録件数は\(maxNum)件までです。", delegate: self, cancelButtonTitle: "OK")
-        sendMailErrorAlert.show()
+        let alertController = UIAlertController(title: "アドレス件数", message: "グループの登録件数は\(maxNum)件までです。", preferredStyle: .Alert)
+        let cancelAction = UIAlertAction(title: "OK", style: .Cancel) {
+            action in NSLog("いいえボタンが押されました")
+        }
+        alertController.addAction(cancelAction)
+        presentViewController(alertController, animated: true, completion: nil)
+        
+        //let sendMailErrorAlert = UIAlertView(title: "アドレス件数", message: "グループの登録件数は\(maxNum)件までです。", delegate: self, cancelButtonTitle: "OK")
+        //sendMailErrorAlert.show()
     }
     /**
     最大送信件数エラー表示
     */
     func showMaxErrorAlert() {
-        let sendMailErrorAlert = UIAlertView(title: "最大送信件数", message: "一度に送信できる件数は１００件までです。", delegate: self, cancelButtonTitle: "OK")
-        sendMailErrorAlert.show()
+        let alertController = UIAlertController(title: "最大送信件数", message: "一度に送信できる件数は１００件までです。", preferredStyle: .Alert)
+        let cancelAction = UIAlertAction(title: "OK", style: .Cancel) {
+            action in NSLog("いいえボタンが押されました")
+        }
+        alertController.addAction(cancelAction)
+        presentViewController(alertController, animated: true, completion: nil)
+        //let sendMailErrorAlert = UIAlertView(title: "最大送信件数", message: "一度に送信できる件数は１００件までです。", delegate: self, cancelButtonTitle: "OK")
+        //sendMailErrorAlert.show()
     }
     /**
     送信件数エラー表示
     */
     func showCountErrorAlert() {
-        let sendMailErrorAlert = UIAlertView(title: "送信件数", message: "送信件数をを確認の上再実行してください", delegate: self, cancelButtonTitle: "OK")
-        sendMailErrorAlert.show()
+        let alertController = UIAlertController(title: "送信件数", message: "送信件数をを確認の上再実行してください", preferredStyle: .Alert)
+        let cancelAction = UIAlertAction(title: "OK", style: .Cancel) {
+            action in NSLog("いいえボタンが押されました")
+        }
+        alertController.addAction(cancelAction)
+        presentViewController(alertController, animated: true, completion: nil)
+        //let sendMailErrorAlert = UIAlertView(title: "送信件数", message: "送信件数をを確認の上再実行してください", delegate: self, cancelButtonTitle: "OK")
+        //sendMailErrorAlert.show()
     }
     /**
     メール送信エラー表示
     */
     func showSendMailErrorAlert() {
-        let sendMailErrorAlert = UIAlertView(title: "メール送信失敗", message: "メール設定を確認の上再実行してください", delegate: self, cancelButtonTitle: "OK")
-        sendMailErrorAlert.show()
+        let alertController = UIAlertController(title: "メール送信失敗", message: "メール設定を確認の上再実行してください", preferredStyle: .Alert)
+        let cancelAction = UIAlertAction(title: "OK", style: .Cancel) {
+            action in NSLog("いいえボタンが押されました")
+        }
+        alertController.addAction(cancelAction)
+        presentViewController(alertController, animated: true, completion: nil)
+        //let sendMailErrorAlert = UIAlertView(title: "メール送信失敗", message: "メール設定を確認の上再実行してください", delegate: self, cancelButtonTitle: "OK")
+        //sendMailErrorAlert.show()
     }
     /**
     送信対象データなしエラー表示
     */
     func showNoDataErrorAlert() {
-        let noDataErrorAlert = UIAlertView(title: "送信対象データなし", message: "送信対象のデータがありません", delegate: self, cancelButtonTitle: "OK")
-        noDataErrorAlert.show()
+        let alertController = UIAlertController(title: "送信対象データなし", message: "送信対象のデータがありません", preferredStyle: .Alert)
+        let cancelAction = UIAlertAction(title: "OK", style: .Cancel) {
+            action in NSLog("いいえボタンが押されました")
+        }
+        alertController.addAction(cancelAction)
+        presentViewController(alertController, animated: true, completion: nil)
+        //let noDataErrorAlert = UIAlertView(title: "送信対象データなし", message: "送信対象のデータがありません", delegate: self, cancelButtonTitle: "OK")
+        //noDataErrorAlert.show()
     }
     /**
     送信完了メッセージ表示
     */
     func showMessageSentAlert() {
-        let messageSentAlert = UIAlertView(title: "送信完了", message: "メッセージの送信が完了しました", delegate: self, cancelButtonTitle: "OK")
-        messageSentAlert.show()
+        let alertController = UIAlertController(title: "送信完了", message: "メッセージの送信が完了しました", preferredStyle: .Alert)
+        let cancelAction = UIAlertAction(title: "OK", style: .Cancel) {
+            action in NSLog("いいえボタンが押されました")
+        }
+        alertController.addAction(cancelAction)
+        presentViewController(alertController, animated: true, completion: nil)
+        //let messageSentAlert = UIAlertView(title: "送信完了", message: "メッセージの送信が完了しました", delegate: self, cancelButtonTitle: "OK")
+        //messageSentAlert.show()
     }
     /**
     メール送信後初期化処理
@@ -194,11 +231,9 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
         /* Recipient */
         //let ah = ABHandler()
         
-        if #available(iOS 9.0, *) {
-            let cn = CNHandler()
-            if (mailAddressList == nil) {
-                mailAddressList = cn.getRecipientListByGroup(selectedRCP, typeofmethod: CNHandler.methodType.methodTypeMail)
-            }
+        let cn = CNHandler()
+        if (mailAddressList == nil) {
+            mailAddressList = cn.getRecipientListByGroup(selectedRCP, typeofmethod: CNHandler.methodType.methodTypeMail)
         }
         allCount = mailAddressList!.count
         
@@ -270,13 +305,9 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
         
         /* 受信者リスト */
         var smsAddressList:Array<NSString> = Array<NSString>()
-        if #available(iOS 9.0, *) {
-            let cn = CNHandler()
-            smsAddressList = cn.getRecipientListByGroup(selectedRCP, typeofmethod: methodType)
-            allCount = smsAddressList.count
-        } else {
-            // Fallback on earlier versions
-        }
+        let cn = CNHandler()
+        smsAddressList = cn.getRecipientListByGroup(selectedRCP, typeofmethod: methodType)
+        allCount = smsAddressList.count
         
         /* 送信対象カウント取得 */
         let startCnt:Int = Int(startCount.text!) ?? 0
@@ -334,12 +365,8 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
         /* Template */
         let temp_long = selectedTMP?.valueForKey("temp_long") as! String
         let temp_title = selectedTMP?.valueForKey("title") as! String
-
-        if #available(iOS 9.0, *) {
-            sendSMS(methodString,body: temp_long,title: temp_title,methodType: CNHandler.methodType.methodTypeLongSMS)
-        } else {
-            // Fallback on earlier versions
-        }
+        
+        sendSMS(methodString,body: temp_long,title: temp_title,methodType: CNHandler.methodType.methodTypeLongSMS)
         
     }
     /**
@@ -352,11 +379,8 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
         let temp_short = selectedTMP?.valueForKey("temp_short") as! String
         let temp_title = selectedTMP?.valueForKey("title") as! String
         
-        if #available(iOS 9.0, *) {
-            sendSMS(methodString,body: temp_short,title: temp_title,methodType: CNHandler.methodType.methodTypeShortSMS)
-        } else {
-            // Fallback on earlier versions
-        }
+        sendSMS(methodString,body: temp_short,title: temp_title,methodType: CNHandler.methodType.methodTypeShortSMS)
+        
     }
     
     func showSMSWindow(body:String,list:[String]){
@@ -455,7 +479,7 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
         let dh = DataHandler()
         
         for g in src! {
-            let res:NSManagedObject? = dh.fetchNSManagedObjectInt("Group",targetColumn : "abrecord_id",targetValue : Int(g["abrecord_id"] as! Int32))
+            let res:NSManagedObject? = dh.fetchNSManagedObjectString("Group",targetColumn : "groupIdentifier",targetValue : g["groupIdentifier"] as! String)
             if res == nil {
                 misList!.append(g)
             } else {
@@ -496,14 +520,10 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
         recipientEmailAddress = props[pkey_fromMail]!
         
         /* AddressBookよりGroupのリスト */
-        if #available(iOS 9.0, *) {
-            let cn = CNHandler()
-            groupList =  cn.getGroupList()
-            groupList =  reOrder(groupList)
-            groupListCount = cn.getGroupRecordCountList()
-        } else {
-            // Fallback on earlier versions
-        }
+        let cn = CNHandler()
+        groupList =  cn.getGroupList()
+        groupList =  reOrder(groupList)
+        groupListCount = cn.getGroupRecordCountList()
         
         groupListShowCount = Array<String>()
         
@@ -511,11 +531,9 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
         for cnt in 0 ..< groupList!.count {
             var abdics:Dictionary<String,Any> = groupList![cnt]
             let recid:String = abdics["groupIdentifier"] as! String
-            if #available(iOS 9.0, *) {
-                let cn = CNHandler()
-                var dics:Dictionary<String,String> = cn.getEachMethodCountByGroup(recid)
-                groupListShowCount!.append( (abdics["name"] as! String) + " EM-" + (dics["EM"])! + " LS-" + (dics["LS"])! + " SS-" + (dics["SS"])!)
-            }
+            let cn = CNHandler()
+            var dics:Dictionary<String,String> = cn.getEachMethodCountByGroup(recid)
+            groupListShowCount!.append( (abdics["name"] as! String) + " EM-" + (dics["EM"])! + " LS-" + (dics["LS"])! + " SS-" + (dics["SS"])!)
         }
         
         /* TextFieldに初期値を設定 */

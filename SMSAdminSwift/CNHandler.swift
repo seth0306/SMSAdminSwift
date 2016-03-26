@@ -131,7 +131,7 @@ class CNHandler: NSObject {
     
     /**
      リスト内のメソッドごとのカウントを表示
-     @param abrecord_id ABRecordID
+     @param groupIdentifier String
      @param typeofmethod methodType
      */
     func getEachMethodCountByGroup(groupIdentifier:String) -> Dictionary<String,String> {

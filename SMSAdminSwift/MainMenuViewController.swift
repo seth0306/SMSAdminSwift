@@ -24,13 +24,13 @@ class MainMenuViewController: UIViewController,UIAlertViewDelegate,UIPopoverPres
     
     override func viewDidLoad() {
         
-        if #available(iOS 9.0, *) {
-            let cnh = CNHandler()
-            /* AddressBookのアクセスチェック */
-            cnh.startManagingAB()
-            /* group表示 */
-            cnh.showGroup()
-        }
+        
+        let cnh = CNHandler()
+        /* AddressBookのアクセスチェック */
+        cnh.startManagingAB()
+        /* group表示 */
+        cnh.showGroup()
+        
         
         /* タイトルを設定 */
         self.title = "SMSAdminメニュー"
@@ -55,8 +55,15 @@ class MainMenuViewController: UIViewController,UIAlertViewDelegate,UIPopoverPres
         props[pkey_fromMail] = fromMailAddress.text
         dh.writeProperty(pkey_fromMail, value: props[pkey_fromMail]!)
         
-        let messageSentAlert = UIAlertView(title: "変更完了", message: "送信元メールアドレスの変更が完了しました", delegate: self, cancelButtonTitle: "OK")
-        messageSentAlert.show()
+        let alertController = UIAlertController(title: "変更完了", message: "送信元メールアドレスの変更が完了しました", preferredStyle: .Alert)
+        let cancelAction = UIAlertAction(title: "OK", style: .Cancel) {
+            action in NSLog("いいえボタンが押されました")
+        }
+        alertController.addAction(cancelAction)
+        presentViewController(alertController, animated: true, completion: nil)
+
+        //let messageSentAlert = UIAlertView(title: "変更完了", message: "送信元メールアドレスの変更が完了しました", delegate: self, cancelButtonTitle: "OK")
+        //messageSentAlert.show()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -75,8 +82,15 @@ class MainMenuViewController: UIViewController,UIAlertViewDelegate,UIPopoverPres
         if (dh.fetchEntityDataNoSort("Template")!.count > 0) {
             performSegueWithIdentifier("showSendSMS", sender: nil)
         } else {
-            let NoTemplateErrorAlert = UIAlertView(title: "Templateなし", message: "Templateが一つもありません", delegate: self, cancelButtonTitle: "OK")
-            NoTemplateErrorAlert.show()
+            let alertController = UIAlertController(title: "Templateなし", message: "Templateが一つもありません", preferredStyle: .Alert)
+            let cancelAction = UIAlertAction(title: "OK", style: .Cancel) {
+                action in NSLog("いいえボタンが押されました")
+            }
+            alertController.addAction(cancelAction)
+            presentViewController(alertController, animated: true, completion: nil)
+
+            //let NoTemplateErrorAlert = UIAlertView(title: "Templateなし", message: "Templateが一つもありません", delegate: self, cancelButtonTitle: "OK")
+            //NoTemplateErrorAlert.show()
         }
     }
     

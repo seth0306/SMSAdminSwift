@@ -347,12 +347,5 @@ class DataHandler: NSObject {
         
     }
     
-    func backup() {
-        
-        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-        let url = appDelegate.applicationDocumentsDirectory.URLByAppendingPathComponent("SMSAdminSwift.sqlite")
-        
-    }
-    
 
 }

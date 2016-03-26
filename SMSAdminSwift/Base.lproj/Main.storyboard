@@ -192,8 +192,8 @@
                                 <fontDescription key="fontDescription" name="HiraginoSans-W3" family="Hiragino Sans" pointSize="10"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6Y4-nF-AjC">
-                                <rect key="frame" x="427" y="357" width="39" height="27"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6Y4-nF-AjC">
+                                <rect key="frame" x="427" y="357" width="30" height="27"/>
                                 <fontDescription key="fontDescription" name="HiraKakuProN-W3" family="Hiragino Kaku Gothic ProN" pointSize="15"/>
                                 <state key="normal" title="変更">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -1031,8 +1031,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="受信者リストを選択してください" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1e6-ay-DrV">
-                                <rect key="frame" x="16" y="100" width="300" height="11"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="受信者リストを選択してください" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1e6-ay-DrV">
+                                <rect key="frame" x="20" y="100" width="300" height="11"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="300" id="q48-8d-06L"/>
                                 </constraints>
@@ -1040,8 +1040,8 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="送信するテンプレートを選択してください" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8CC-yr-vfQ">
-                                <rect key="frame" x="16" y="157" width="300" height="11"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="送信するテンプレートを選択してください" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8CC-yr-vfQ">
+                                <rect key="frame" x="20" y="157" width="300" height="11"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="300" id="acK-4q-GM8"/>
                                 </constraints>
@@ -1069,8 +1069,8 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rA0-y0-he5">
-                                <rect key="frame" x="16" y="119" width="300" height="30"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rA0-y0-he5">
+                                <rect key="frame" x="20" y="119" width="300" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="300" id="F1j-1W-keU"/>
                                 </constraints>
@@ -1080,8 +1080,8 @@
                                     <outlet property="delegate" destination="sSK-tB-JS0" id="fTx-v3-8Bp"/>
                                 </connections>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="6Hi-nX-ce8">
-                                <rect key="frame" x="16" y="176" width="300" height="30"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="6Hi-nX-ce8">
+                                <rect key="frame" x="20" y="176" width="300" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="300" id="ceO-xp-vJD"/>
                                 </constraints>
@@ -1117,8 +1117,8 @@
                                     <outlet property="delegate" destination="sSK-tB-JS0" id="qPZ-iL-ltj"/>
                                 </connections>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XET-rP-Yal">
-                                <rect key="frame" x="16" y="222" width="300" height="27"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XET-rP-Yal">
+                                <rect key="frame" x="20" y="222" width="300" height="27"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="300" id="d2V-kH-t03"/>
                                 </constraints>
@@ -1128,8 +1128,8 @@
                                     <action selector="sendEMail:" destination="sSK-tB-JS0" eventType="touchUpInside" id="edB-g2-Cg6"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lRN-Ah-Lff">
-                                <rect key="frame" x="16" y="257" width="300" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lRN-Ah-Lff">
+                                <rect key="frame" x="20" y="257" width="300" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="300" id="WnB-CF-Qjy"/>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="300" id="ghJ-Tq-UIA"/>
@@ -1141,8 +1141,8 @@
                                     <action selector="sendLongSMS:" destination="sSK-tB-JS0" eventType="touchUpInside" id="zxe-8b-9X3"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oVJ-y6-Lbc">
-                                <rect key="frame" x="16" y="295" width="300" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oVJ-y6-Lbc">
+                                <rect key="frame" x="20" y="295" width="300" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="300" id="2kh-Cx-VhU"/>
                                     <constraint firstAttribute="height" constant="30" id="JPo-iA-sHX"/>

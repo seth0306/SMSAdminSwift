@@ -46,22 +46,19 @@ class GroupOrderViewController: UIViewController,UITableViewDelegate,UITableView
         groupArray = dh.fetchEntityDataSort("Group",sort:"order")!
         
         /* AddressBookより読み出し */
-        //let ab = ABHandler()
-        if #available(iOS 9.0, *) {
-            let cn = CNHandler()
-            groupList = cn.getGroupList()
-        }
+        let cn = CNHandler()
+        groupList = cn.getGroupList()
         
         
         
         /* AddressBookのGroupとEntity Groupの内容を比較 */
         for_ab:for cnt in 0..<groupList!.count {
             let abObj:Dictionary<String,Any> = groupList![cnt]
-            let abid = abObj["abrecord_id"] as! Int32
+            let abid = abObj["groupIdentifier"] as! String
             var noMatch: Bool = true
             for_g:for gObj in groupArray! {
-                let gid = (gObj as! NSManagedObject).valueForKey("abrecord_id") as? Int
-                if abid == Int32(gid!) {
+                let gid = (gObj as! NSManagedObject).valueForKey("groupIdentifier") as? String
+                if abid == gid {
                     gObj.setValue(abObj["name"]as! String, forKey: "name")
                     noMatch = false
                     break for_g
@@ -77,12 +74,12 @@ class GroupOrderViewController: UIViewController,UITableViewDelegate,UITableView
         /* Entity GroupとAddressBookのGroupとの内容を比較 */
         var idxAry:Array<AnyObject> = Array<AnyObject>()
         for_g:for gObj in groupArray! {
-            let gid = (gObj as! NSManagedObject).valueForKey("abrecord_id") as? Int
+            let gid = (gObj as! NSManagedObject).valueForKey("groupIdentifier") as? String
             var noMatch: Bool = true
             for_ab:for cnt in 0..<groupList!.count {
                 let abObj:Dictionary<String,Any> = groupList![cnt]
-                let abid = abObj["abrecord_id"] as! Int32
-                if abid == Int32(gid!) {
+                let abid = abObj["groupIdentifier"] as! String
+                if abid == gid! {
                     noMatch = false
                     break for_ab
                 }
@@ -210,7 +207,7 @@ class GroupOrderViewController: UIViewController,UITableViewDelegate,UITableView
     }
     
     /*　新しいEntityを追加　*/
-    func createNewEntity(abrecord_id:Int32, name:String, order:Int32) -> NSManagedObject {
+    func createNewEntity(groupIdentifier:String, name:String, order:Int32) -> NSManagedObject {
         /* Get ManagedObjectContext from AppDelegate */
         let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let managedContext: NSManagedObjectContext = appDelegate.managedObjectContext!
@@ -221,7 +218,7 @@ class GroupOrderViewController: UIViewController,UITableViewDelegate,UITableView
         
         /* Set the name attribute using key-value coding */
         groupObject.setValue(name, forKey: "name")
-        groupObject.setValue(Int(abrecord_id), forKey: "abrecord_id")
+        groupObject.setValue(groupIdentifier, forKey: "groupIdentifier")
         groupObject.setValue(Int(order), forKey: "order")
         
         /* Error handling */

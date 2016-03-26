@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="10171" systemVersion="15E65" minimumToolsVersion="Automatic">
+    <entity name="AddressBookUnit" syncable="YES">
+        <attribute name="created_date" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="identifier" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="method_type" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="modified_date" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="selected" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="selected_mail" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="selected_mail_index" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="selected_phone" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="selected_phone_index" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <relationship name="recipient" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Recipient" inverseName="addressBookUnits" inverseEntity="Recipient" syncable="YES"/>
+    </entity>
+    <entity name="Group" syncable="YES">
+        <attribute name="groupIdentifier" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="order" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+    </entity>
+    <entity name="History" syncable="YES">
+        <attribute name="count" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="method" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="rcp_name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="sent_date" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="tmp_name" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="Other" syncable="YES">
+        <attribute name="created_date" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="key" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="modified_date" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="property" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="Recipient" syncable="YES">
+        <attribute name="created_date" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="modified_date" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="addressBookUnits" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="AddressBookUnit" inverseName="recipient" inverseEntity="AddressBookUnit" syncable="YES"/>
+    </entity>
+    <entity name="Template" syncable="YES">
+        <attribute name="created_date" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="modified_date" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="order" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="summary" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="temp_long" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="temp_short" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="AddressBookUnit" positionX="-92" positionY="-163" width="128" height="225"/>
+        <element name="Group" positionX="-306" positionY="-324" width="128" height="105"/>
+        <element name="History" positionX="-135" positionY="-472" width="128" height="135"/>
+        <element name="Other" positionX="-306" positionY="-324" width="128" height="120"/>
+        <element name="Recipient" positionX="-515" positionY="-216" width="128" height="118"/>
+        <element name="Template" positionX="124" positionY="-324" width="128" height="165"/>
+    </elements>
+</model>
