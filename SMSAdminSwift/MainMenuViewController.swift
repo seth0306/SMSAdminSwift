@@ -24,15 +24,18 @@ class MainMenuViewController: UIViewController,UIAlertViewDelegate,UIPopoverPres
     
     override func viewDidLoad() {
         
-        /* AddressBookのアクセスチェック */
-        let abh = ABHandler()
-        abh.startManagingAB()
+        if #available(iOS 9.0, *) {
+            let cnh = CNHandler()
+            /* AddressBookのアクセスチェック */
+            cnh.startManagingAB()
+            /* group表示 */
+            cnh.showGroup()
+        }
         
         /* タイトルを設定 */
         self.title = "SMSAdminメニュー"
         
-        /* group表示 */
-        abh.showGroup()
+        
         
         /* Property取得 */
         let dh = DataHandler()

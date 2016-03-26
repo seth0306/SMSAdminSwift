@@ -20,7 +20,9 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
     /*－－－－－－－－－－　プロパティ　開始　－－－－－－－－－－*/
     var recipientArray:Array<AnyObject>? = nil
     var templateArray:Array<AnyObject>? = nil
-    var selectedRCP:Int32 = 0
+    //var selectedRCP:Int32 = 0
+    var selectedRCP:String = ""
+    
     var selectedTMP:NSManagedObject? = nil
     var methodString:String = ""
     var groupList:Array<Dictionary<String,Any>>? = nil                 //グループのリスト　ABRecordID,name
@@ -186,26 +188,32 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
         let endCnt:Int = Int(endCount.text!) ?? 0
         
         /* Template */
-        let temp_short = selectedTMP?.valueForKey("temp_short") as! NSString
+        //let temp_short = selectedTMP?.valueForKey("temp_short") as! NSString
         let temp_long = selectedTMP?.valueForKey("temp_long") as! NSString
         let temp_title = selectedTMP?.valueForKey("title") as! NSString
         /* Recipient */
-        let ah = ABHandler()
-        if (mailAddressList == nil) {
-            mailAddressList = ah.getRecipientListByGroup(selectedRCP, typeofmethod: ABHandler.methodType.methodTypeMail)
-            allCount = mailAddressList!.count
+        //let ah = ABHandler()
+        
+        if #available(iOS 9.0, *) {
+            let cn = CNHandler()
+            if (mailAddressList == nil) {
+                mailAddressList = cn.getRecipientListByGroup(selectedRCP, typeofmethod: CNHandler.methodType.methodTypeMail)
+            }
         }
+        allCount = mailAddressList!.count
+        
         var list:[String] = []
         if ( allCount == 0 ) {
             mailAddressList = nil
             showNoDataErrorAlert()
         } else if (startCnt == 0 && endCnt == 0) {
             if (allCount - sentCount >= 100) {
-                for (var cnt = 0 + sentCount  ; cnt < 99 + sentCount; cnt += 1) {
+                //for (var cnt = 0 + sentCount  ; cnt < 99 + sentCount; cnt += 1) {
+                for cnt in 0 + sentCount   ..< 99 + sentCount {
                     list.append(mailAddressList![cnt] as String)
                 }
             } else {
-                for (var cnt = 0 + sentCount  ; cnt < allCount; cnt += 1) {
+                for cnt in 0 + sentCount   ..< allCount {
                     list.append(mailAddressList![cnt] as String)
                 }
                 //list = mailAddressList!
@@ -233,7 +241,7 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
                 /* allCountに最終送信カウントを設定 */
                 allCount = endCnt
                 /*送信リスト作成*/
-                for (var cnt = startCnt - 1 ; cnt < endCnt; cnt += 1) {
+                for cnt in startCnt - 1  ..< endCnt {
                     list.append(mailAddressList![cnt] as String)
                 }
                 /* 一時送信メールにセット */
@@ -252,20 +260,29 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
     /**
     SMS送信アクション
     */
-    func sendSMS(methodStr:String,body:String,title:String,methodType:ABHandler.methodType){
+    func sendSMS(methodStr:String,body:String,title:String,methodType:CNHandler.methodType){
         /* 送信種別文字列をセット */
         methodString = methodStr
         /* メッセージ本体を保存 */
         tmpSmsBody = body
         /* 送信済みカウントをクリア */
         tmpSmsSentCount = 0
+        
         /* 受信者リスト */
-        let ah = ABHandler()
-        var smsAddressList:Array<NSString> = ah.getRecipientListByGroup(selectedRCP, typeofmethod: methodType)
+        var smsAddressList:Array<NSString> = Array<NSString>()
+        if #available(iOS 9.0, *) {
+            let cn = CNHandler()
+            smsAddressList = cn.getRecipientListByGroup(selectedRCP, typeofmethod: methodType)
+            allCount = smsAddressList.count
+        } else {
+            // Fallback on earlier versions
+        }
+        
         /* 送信対象カウント取得 */
         let startCnt:Int = Int(startCount.text!) ?? 0
         let endCnt:Int = Int(endCount.text!) ?? 0
-        allCount = smsAddressList.count
+        
+        
         if ( allCount == 0 ) {
             showNoDataErrorAlert()
         } else if (startCnt == 0 && endCnt == 0) {
@@ -287,7 +304,7 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
             } else {
                 var list:Array<NSString> = []
                 allCount = endCnt - startCnt + 1
-                for (var cnt = startCnt - 1 ; cnt < endCnt; cnt += 1) {
+                for cnt in startCnt - 1  ..< endCnt {
                     list.append(smsAddressList[cnt])
                 }
                 /* SMS送信リストを保存 */
@@ -318,7 +335,11 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
         let temp_long = selectedTMP?.valueForKey("temp_long") as! String
         let temp_title = selectedTMP?.valueForKey("title") as! String
 
-        sendSMS(methodString,body: temp_long,title: temp_title,methodType: ABHandler.methodType.methodTypeLongSMS)
+        if #available(iOS 9.0, *) {
+            sendSMS(methodString,body: temp_long,title: temp_title,methodType: CNHandler.methodType.methodTypeLongSMS)
+        } else {
+            // Fallback on earlier versions
+        }
         
     }
     /**
@@ -331,7 +352,11 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
         let temp_short = selectedTMP?.valueForKey("temp_short") as! String
         let temp_title = selectedTMP?.valueForKey("title") as! String
         
-        sendSMS(methodString,body: temp_short,title: temp_title,methodType: ABHandler.methodType.methodTypeShortSMS)
+        if #available(iOS 9.0, *) {
+            sendSMS(methodString,body: temp_short,title: temp_title,methodType: CNHandler.methodType.methodTypeShortSMS)
+        } else {
+            // Fallback on earlier versions
+        }
     }
     
     func showSMSWindow(body:String,list:[String]){
@@ -424,7 +449,7 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
         var misList:Array<Dictionary<String,Any>>? = []
         var tmpList:Array<Dictionary<String,Any>>? = []
         var dics:Dictionary<Int,Dictionary<String,Any>> = Dictionary<Int,Dictionary<String,Any>>()
-        var groupArray:Array<AnyObject>? = nil
+        //var groupArray:Array<AnyObject>? = nil
         
         /* CoreDataよりGroupテーブルを読み出す */
         let dh = DataHandler()
@@ -471,19 +496,26 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
         recipientEmailAddress = props[pkey_fromMail]!
         
         /* AddressBookよりGroupのリスト */
-        let ah = ABHandler()
-        groupList =  ah.getGroupList()
-        groupList = reOrder(groupList)
+        if #available(iOS 9.0, *) {
+            let cn = CNHandler()
+            groupList =  cn.getGroupList()
+            groupList =  reOrder(groupList)
+            groupListCount = cn.getGroupRecordCountList()
+        } else {
+            // Fallback on earlier versions
+        }
         
-        groupListCount = ah.getGroupRecordCountList()
         groupListShowCount = Array<String>()
         
         /* メソッドごとの人数をセット */
         for cnt in 0 ..< groupList!.count {
             var abdics:Dictionary<String,Any> = groupList![cnt]
-            let recid:ABRecordID = abdics["abrecord_id"] as! ABRecordID
-            var dics:Dictionary<String,String> = ah.getEachMethodCountByGroup(recid)
-            groupListShowCount!.append( (abdics["name"] as! String) + " EM-" + (dics["EM"])! + " LS-" + (dics["LS"])! + " SS-" + (dics["SS"])!)
+            let recid:String = abdics["groupIdentifier"] as! String
+            if #available(iOS 9.0, *) {
+                let cn = CNHandler()
+                var dics:Dictionary<String,String> = cn.getEachMethodCountByGroup(recid)
+                groupListShowCount!.append( (abdics["name"] as! String) + " EM-" + (dics["EM"])! + " LS-" + (dics["LS"])! + " SS-" + (dics["SS"])!)
+            }
         }
         
         /* TextFieldに初期値を設定 */
@@ -496,7 +528,7 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
         recipientListName.text = groupListShowCount![0]
         templateListName.text = templateArray?.first?.valueForKey("title") as? String
         /* 選択されたEntitiyに初期値を設定 */
-        selectedRCP = list["abrecord_id"] as! ABRecordID
+        selectedRCP = list["groupIdentifier"] as! String
         selectedTMP = templateArray?.first as? NSManagedObject
         
         /* 受信者リスト用PikcerView */
@@ -575,7 +607,7 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
         if pickerView.tag == 0 {
             let list:Dictionary<String,Any> = groupList![row]
             //let listCount:Dictionary<String,Any> = groupListCount![row] as! Dictionary<String,Any>
-            selectedRCP = list["abrecord_id"] as! ABRecordID
+            selectedRCP = list["groupIdentifier"] as! String
             
             recipientListName.text = groupListShowCount![row]
             //recipientListName.text = (list["name"] as! String) + " - " + (listCount["count"] as! String) + "名"

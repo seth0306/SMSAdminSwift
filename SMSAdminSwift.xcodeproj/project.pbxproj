@@ -19,19 +19,21 @@
 		5D0805611A5BDB4D006A2932 /* HistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D0805601A5BDB4D006A2932 /* HistoryTableViewCell.swift */; };
 		5D27B8AB1B2C851000A9A64A /* map03to04.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 5D27B8AA1B2C851000A9A64A /* map03to04.xcmappingmodel */; };
 		5D408D091A5DA16D0029508B /* TemplateModifyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D408D081A5DA16D0029508B /* TemplateModifyViewController.swift */; };
+		5D7864301CA650B100D12F07 /* CNHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D78642F1CA650B100D12F07 /* CNHandler.swift */; };
 		5D80C3891B1B139D004F8590 /* GroupOrderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D80C3881B1B139D004F8590 /* GroupOrderViewController.swift */; };
 		5D80C38B1B1B1557004F8590 /* GroupOrderTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D80C38A1B1B1557004F8590 /* GroupOrderTableView.swift */; };
 		5D80C38D1B1B157A004F8590 /* GroupOrderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D80C38C1B1B157A004F8590 /* GroupOrderTableViewCell.swift */; };
 		5D80C3901B1B32DC004F8590 /* map02to03.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 5D80C38F1B1B32DC004F8590 /* map02to03.xcmappingmodel */; };
 		5D80C3941B1B4C3B004F8590 /* GroupOrderTableViewHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D80C3931B1B4C3B004F8590 /* GroupOrderTableViewHeaderCell.swift */; };
 		5DA92A371AAF5CF300B82FEE /* TemplateModifyScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DA92A361AAF5CF300B82FEE /* TemplateModifyScrollView.swift */; };
-		5DB13DC71A5CDFB2004FAF4E /* ABHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DB13DC61A5CDFB2004FAF4E /* ABHandler.swift */; };
+		5DA935871CA2F48C00CBCA47 /* Contacts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DA935861CA2F48C00CBCA47 /* Contacts.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		5DA935891CA2F49600CBCA47 /* ContactsUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DA935881CA2F49600CBCA47 /* ContactsUI.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		5DB13DC91A5D0239004FAF4E /* HistoryTableViewHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DB13DC81A5D0239004FAF4E /* HistoryTableViewHeaderCell.swift */; };
 		5DB13DCB1A5D0DC6004FAF4E /* DataHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DB13DCA1A5D0DC6004FAF4E /* DataHandler.swift */; };
 		5DB13DCD1A5D1A61004FAF4E /* TemplateAdminViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DB13DCC1A5D1A61004FAF4E /* TemplateAdminViewController.swift */; };
 		5DB13DD11A5D21E2004FAF4E /* TemplateTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DB13DD01A5D21E2004FAF4E /* TemplateTableViewCell.swift */; };
 		5DB13DD31A5D21FC004FAF4E /* TemplateTableViewHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DB13DD21A5D21FC004FAF4E /* TemplateTableViewHeaderCell.swift */; };
-		5DE61CB51BB92D6400073ACE /* map04to05.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 5DE61CB41BB92D6400073ACE /* map04to05.xcmappingmodel */; settings = {ASSET_TAGS = (); }; };
+		5DE61CB51BB92D6400073ACE /* map04to05.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 5DE61CB41BB92D6400073ACE /* map04to05.xcmappingmodel */; };
 		5DF3DCE81A9CDA81002BE415 /* map01to02.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 5DF3DCE71A9CDA81002BE415 /* map01to02.xcmappingmodel */; };
 /* End PBXBuildFile section */
 
@@ -63,6 +65,7 @@
 		5D27B8A91B2C84AE00A9A64A /* SMSAdminSwift 4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "SMSAdminSwift 4.xcdatamodel"; sourceTree = "<group>"; };
 		5D27B8AA1B2C851000A9A64A /* map03to04.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = map03to04.xcmappingmodel; sourceTree = "<group>"; };
 		5D408D081A5DA16D0029508B /* TemplateModifyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TemplateModifyViewController.swift; sourceTree = "<group>"; };
+		5D78642F1CA650B100D12F07 /* CNHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CNHandler.swift; sourceTree = "<group>"; };
 		5D80C3881B1B139D004F8590 /* GroupOrderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupOrderViewController.swift; sourceTree = "<group>"; };
 		5D80C38A1B1B1557004F8590 /* GroupOrderTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupOrderTableView.swift; sourceTree = "<group>"; };
 		5D80C38C1B1B157A004F8590 /* GroupOrderTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupOrderTableViewCell.swift; sourceTree = "<group>"; };
@@ -70,7 +73,8 @@
 		5D80C38F1B1B32DC004F8590 /* map02to03.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = map02to03.xcmappingmodel; sourceTree = "<group>"; };
 		5D80C3931B1B4C3B004F8590 /* GroupOrderTableViewHeaderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GroupOrderTableViewHeaderCell.swift; path = ../GroupOrderTableViewHeaderCell.swift; sourceTree = "<group>"; };
 		5DA92A361AAF5CF300B82FEE /* TemplateModifyScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TemplateModifyScrollView.swift; sourceTree = "<group>"; };
-		5DB13DC61A5CDFB2004FAF4E /* ABHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ABHandler.swift; sourceTree = "<group>"; };
+		5DA935861CA2F48C00CBCA47 /* Contacts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Contacts.framework; path = System/Library/Frameworks/Contacts.framework; sourceTree = SDKROOT; };
+		5DA935881CA2F49600CBCA47 /* ContactsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ContactsUI.framework; path = System/Library/Frameworks/ContactsUI.framework; sourceTree = SDKROOT; };
 		5DB13DC81A5D0239004FAF4E /* HistoryTableViewHeaderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryTableViewHeaderCell.swift; sourceTree = "<group>"; };
 		5DB13DCA1A5D0DC6004FAF4E /* DataHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataHandler.swift; sourceTree = "<group>"; };
 		5DB13DCC1A5D1A61004FAF4E /* TemplateAdminViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TemplateAdminViewController.swift; sourceTree = "<group>"; };
@@ -87,6 +91,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5DA935891CA2F49600CBCA47 /* ContactsUI.framework in Frameworks */,
+				5DA935871CA2F48C00CBCA47 /* Contacts.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -103,6 +109,8 @@
 		5D0805271A5BB6EC006A2932 = {
 			isa = PBXGroup;
 			children = (
+				5DA935881CA2F49600CBCA47 /* ContactsUI.framework */,
+				5DA935861CA2F48C00CBCA47 /* Contacts.framework */,
 				5D27B8AA1B2C851000A9A64A /* map03to04.xcmappingmodel */,
 				5D80C38F1B1B32DC004F8590 /* map02to03.xcmappingmodel */,
 				5DF3DCE71A9CDA81002BE415 /* map01to02.xcmappingmodel */,
@@ -125,7 +133,7 @@
 		5D0805321A5BB6EC006A2932 /* SMSAdminSwift */ = {
 			isa = PBXGroup;
 			children = (
-				5DB13DC61A5CDFB2004FAF4E /* ABHandler.swift */,
+				5D78642F1CA650B100D12F07 /* CNHandler.swift */,
 				5D0805351A5BB6EC006A2932 /* AppDelegate.swift */,
 				5DB13DCA1A5D0DC6004FAF4E /* DataHandler.swift */,
 				5D80C38A1B1B1557004F8590 /* GroupOrderTableView.swift */,
@@ -284,7 +292,6 @@
 				5D0805591A5BB8F3006A2932 /* MainMenuViewController.swift in Sources */,
 				5DA92A371AAF5CF300B82FEE /* TemplateModifyScrollView.swift in Sources */,
 				5D0805611A5BDB4D006A2932 /* HistoryTableViewCell.swift in Sources */,
-				5DB13DC71A5CDFB2004FAF4E /* ABHandler.swift in Sources */,
 				5D27B8AB1B2C851000A9A64A /* map03to04.xcmappingmodel in Sources */,
 				5DB13DD11A5D21E2004FAF4E /* TemplateTableViewCell.swift in Sources */,
 				5DB13DCB1A5D0DC6004FAF4E /* DataHandler.swift in Sources */,
@@ -298,6 +305,7 @@
 				5D408D091A5DA16D0029508B /* TemplateModifyViewController.swift in Sources */,
 				5D80C38D1B1B157A004F8590 /* GroupOrderTableViewCell.swift in Sources */,
 				5D08055F1A5BBFE5006A2932 /* HistorySMSViewController.swift in Sources */,
+				5D7864301CA650B100D12F07 /* CNHandler.swift in Sources */,
 				5D0805361A5BB6EC006A2932 /* AppDelegate.swift in Sources */,
 				5D0805391A5BB6EC006A2932 /* SMSAdminSwift.xcdatamodeld in Sources */,
 				5D80C3901B1B32DC004F8590 /* map02to03.xcmappingmodel in Sources */,

@@ -46,8 +46,13 @@ class GroupOrderViewController: UIViewController,UITableViewDelegate,UITableView
         groupArray = dh.fetchEntityDataSort("Group",sort:"order")!
         
         /* AddressBookより読み出し */
-        let ab = ABHandler()
-        groupList = ab.getGroupList()
+        //let ab = ABHandler()
+        if #available(iOS 9.0, *) {
+            let cn = CNHandler()
+            groupList = cn.getGroupList()
+        }
+        
+        
         
         /* AddressBookのGroupとEntity Groupの内容を比較 */
         for_ab:for cnt in 0..<groupList!.count {

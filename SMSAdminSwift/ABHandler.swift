@@ -8,6 +8,7 @@
 
 import UIKit
 import AddressBook
+
 import CoreData
 
 class ABHandler: NSObject {
@@ -237,7 +238,6 @@ class ABHandler: NSObject {
         }
         else if (ABAddressBookGetAuthorizationStatus() == ABAuthorizationStatus.Authorized) {
             print("access granted")
-            //self.getContactNames()
         }
     }
     
