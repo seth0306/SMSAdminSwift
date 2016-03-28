@@ -84,27 +84,33 @@ class CNHandler: NSObject {
             let contactList = try store.unifiedContactsMatchingPredicate(predicate, keysToFetch: keys)
             for contact:CNContact in contactList {
                 /* 電話番号を取得　一番上のもの */
-                let phonenumbder = contact.phoneNumbers[0].value as! CNPhoneNumber
-                let myPhone:String? = phonenumbder.stringValue
+                var myPhone:String = ""
+                if contact.phoneNumbers.count > 0 {
+                    let phonenumbder = contact.phoneNumbers[0].value as! CNPhoneNumber
+                    myPhone = phonenumbder.stringValue
+                }
                 /* メールアドレスを取得　一番上のもの */
-                let myEMail:String? = contact.emailAddresses[0].value as? String
-                /*　fullname作成　*/
+                var myEMail:String = ""
+                if contact.emailAddresses.count > 0 {
+                    myEMail = contact.emailAddresses[0].value as! String
+                }
+                /* 電話番号を取得　一番上のもの */
                 let fullname = contact.familyName + contact.givenName
                 if (fullname != "") {
                     let index = fullname.startIndex.advancedBy(0)
                     switch fullname[index] {
                     case "・","･","•":
                         if (typeofmethod == methodType.methodTypeLongSMS) {
-                            if (myPhone != nil) {
-                                list.append(myPhone!)
+                            if (myPhone != "") {
+                                list.append(myPhone)
                             }
                             
                         }
                         break
                     case ":","：":
                         if (typeofmethod == methodType.methodTypeShortSMS) {
-                            if (myPhone != nil) {
-                                list.append(myPhone!)
+                            if (myPhone != "") {
+                                list.append(myPhone)
                             }
                         }
                         break
@@ -114,8 +120,8 @@ class CNHandler: NSObject {
                         break
                     default:
                         if (typeofmethod == methodType.methodTypeMail) {
-                            if (myEMail != nil) {
-                                list.append(myEMail!)
+                            if (myEMail != "") {
+                                list.append(myEMail)
                             }
                         }
                         break
@@ -154,10 +160,19 @@ class CNHandler: NSObject {
             } else {
                 for contact:CNContact in contactList {
                     /* 電話番号を取得　一番上のもの */
-                    let phonenumbder = contact.phoneNumbers[0].value as! CNPhoneNumber
-                    let myPhone:String? = phonenumbder.stringValue
+                    //let phonenumbder = contact.phoneNumbers[0].value as! CNPhoneNumber
+                    //let myPhone:String? = phonenumbder.stringValue
+                    var myPhone:String = ""
+                    if contact.phoneNumbers.count > 0 {
+                        let phonenumbder = contact.phoneNumbers[0].value as! CNPhoneNumber
+                        myPhone = phonenumbder.stringValue
+                    }
                     /* メールアドレスを取得　一番上のもの */
-                    let myEMail:String? = contact.emailAddresses[0].value as? String
+                    var myEMail:String = ""
+                    if contact.emailAddresses.count > 0 {
+                        myEMail = contact.emailAddresses[0].value as! String
+                    }
+                    
                     /*　fullname作成　*/
                     let fullname = contact.familyName + contact.givenName
                     /* 送信方式タイプ 名前が空白でない場合 */
@@ -165,12 +180,12 @@ class CNHandler: NSObject {
                         let index = fullname.startIndex.advancedBy(0)
                         switch fullname[index] {
                         case "・","･","•":
-                            if (myPhone != nil) {
+                            if (myPhone != "") {
                                 lsCount += 1
                             }
                             break
                         case ":","：":
-                            if (myPhone != nil) {
+                            if (myPhone != "") {
                                 ssCount += 1
                             }
                             break
@@ -179,7 +194,7 @@ class CNHandler: NSObject {
                         case "X":
                             break
                         default:
-                            if (myEMail != nil) {
+                            if (myEMail != "") {
                                 emCount += 1
                             }
                             break
@@ -204,9 +219,18 @@ class CNHandler: NSObject {
         case .Authorized:
             print("access granted")
         case .NotDetermined:
-            store.requestAccessForEntityType(.Contacts){succeeded, err in
+            store.requestAccessForEntityType(.Contacts){
+                succeeded, err in
                 guard err == nil && succeeded else{
-                    print("access granted")
+                    print("access failed")
+                    return
+                }
+            }
+        case .Denied:
+            store.requestAccessForEntityType(.Contacts){
+                succeeded, err in
+                guard err == nil && succeeded else{
+                    print("access denied")
                     return
                 }
             }

@@ -29,7 +29,7 @@ class MainMenuViewController: UIViewController,UIAlertViewDelegate,UIPopoverPres
         /* AddressBookのアクセスチェック */
         cnh.startManagingAB()
         /* group表示 */
-        cnh.showGroup()
+        //cnh.showGroup()
         
         
         /* タイトルを設定 */

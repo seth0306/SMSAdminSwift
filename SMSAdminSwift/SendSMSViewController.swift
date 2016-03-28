@@ -529,9 +529,10 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
         
         /* メソッドごとの人数をセット */
         for cnt in 0 ..< groupList!.count {
+            print("cnt = " + String(cnt))
             var abdics:Dictionary<String,Any> = groupList![cnt]
             let recid:String = abdics["groupIdentifier"] as! String
-            let cn = CNHandler()
+            //let cn = CNHandler()
             var dics:Dictionary<String,String> = cn.getEachMethodCountByGroup(recid)
             groupListShowCount!.append( (abdics["name"] as! String) + " EM-" + (dics["EM"])! + " LS-" + (dics["LS"])! + " SS-" + (dics["SS"])!)
         }
