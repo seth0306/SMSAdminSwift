@@ -36,9 +36,9 @@ class TemplateModifyViewController: UIViewController,UITextViewDelegate,UIScroll
     
     override func viewDidLoad() {
         /* 保存ボタンを作成 */
-        let right1 = UIBarButtonItem(title: targetButtonTitle, style: .Plain, target: self, action: #selector(TemplateModifyViewController.saveTemplate))
+        let right1 = UIBarButtonItem(title: targetButtonTitle, style: .plain, target: self, action: #selector(TemplateModifyViewController.saveTemplate))
         if let font = UIFont(name: "HiraKakuProN-W6", size: 14) {
-            right1.setTitleTextAttributes([NSFontAttributeName: font], forState: UIControlState.Normal)
+            right1.setTitleTextAttributes([NSFontAttributeName: font], for: UIControlState())
         }
         /* 追加ボタンをナビゲーションバーに追加 */
         self.navigationItem.rightBarButtonItems = [right1];
@@ -46,10 +46,10 @@ class TemplateModifyViewController: UIViewController,UITextViewDelegate,UIScroll
         /*　更新の場合既存のEntityの内容をセット　*/
         if targetObj != nil {
             /* Objectからデータを取り出す */
-            let t_title:NSString? = targetObj!.valueForKey("title") as? NSString
-            let t_summary:NSString? = targetObj!.valueForKey("summary") as? NSString
-            let t_short:NSString? = targetObj!.valueForKey("temp_short") as? NSString
-            let t_long:NSString? = targetObj!.valueForKey("temp_long") as? NSString
+            let t_title:NSString? = targetObj!.value(forKey: "title") as? NSString
+            let t_summary:NSString? = targetObj!.value(forKey: "summary") as? NSString
+            let t_short:NSString? = targetObj!.value(forKey: "temp_short") as? NSString
+            let t_long:NSString? = targetObj!.value(forKey: "temp_long") as? NSString
             /* データを画面にセット */
             template_title.text = t_title! as String
             template_summary.text = t_summary! as String
@@ -64,12 +64,12 @@ class TemplateModifyViewController: UIViewController,UITextViewDelegate,UIScroll
     /*　新しいEntityを追加　*/
     func createNewEntity(){
         /* Get ManagedObjectContext from AppDelegate */
-        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let managedContext: NSManagedObjectContext = appDelegate.managedObjectContext!
         
         /* Create new ManagedObject */
-        let entity = NSEntityDescription.entityForName("Template", inManagedObjectContext: managedContext)
-        let templateObject = NSManagedObject(entity: entity!, insertIntoManagedObjectContext: managedContext)
+        let entity = NSEntityDescription.entity(forEntityName: "Template", in: managedContext)
+        let templateObject = NSManagedObject(entity: entity!, insertInto: managedContext)
         
         /* Set the name attribute using key-value coding */
         templateObject.setValue(template_title.text, forKey: "title")
@@ -89,40 +89,40 @@ class TemplateModifyViewController: UIViewController,UITextViewDelegate,UIScroll
     }
     
     /* 画面をタッチしたらKeyboardをしまう */
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
     
     /* keyboardとtextfieldが被った場合の処理 */
-    func textViewShouldBeginEditing(textView: UITextView) -> Bool {
+    func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
         txtActiveTextView = textView
         return true
     }
     
-    func textViewDidEndEditing(textView: UITextView) {
+    func textViewDidEndEditing(_ textView: UITextView) {
         textView.endEditing(true)
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        let notificationCenter = NSNotificationCenter.defaultCenter()
-        notificationCenter.addObserver(self, selector: #selector(TemplateModifyViewController.handleKeyboardWillShowNotification(_:)), name: UIKeyboardWillShowNotification, object: nil)
-        notificationCenter.addObserver(self, selector: #selector(TemplateModifyViewController.handleKeyboardWillHideNotification(_:)), name: UIKeyboardWillHideNotification, object: nil)
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self, selector: #selector(TemplateModifyViewController.handleKeyboardWillShowNotification(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(TemplateModifyViewController.handleKeyboardWillHideNotification(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
-    override func viewDidDisappear(animated: Bool) {
+    override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         
-        let notificationCenter = NSNotificationCenter.defaultCenter()
-        notificationCenter.removeObserver(self, name: UIKeyboardWillShowNotification, object: nil)
-        notificationCenter.removeObserver(self, name: UIKeyboardWillHideNotification, object: nil)
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        notificationCenter.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
-    func handleKeyboardWillShowNotification(notification: NSNotification) {
+    func handleKeyboardWillShowNotification(_ notification: Notification) {
         if  txtActiveTextView.tag == 99 {
-            let userInfo = notification.userInfo!
-            let keyboardScreenEndFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
-            let myBoundSize: CGSize = UIScreen.mainScreen().bounds.size
+            let userInfo = (notification as NSNotification).userInfo!
+            let keyboardScreenEndFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
+            let myBoundSize: CGSize = UIScreen.main.bounds.size
         
             let txtBottom = txtActiveTextView.frame.origin.y + txtActiveTextView.frame.height + 8.0
             let kbdTop = myBoundSize.height - keyboardScreenEndFrame.size.height
@@ -136,7 +136,7 @@ class TemplateModifyViewController: UIViewController,UITextViewDelegate,UIScroll
         }
     }
     
-    func handleKeyboardWillHideNotification(notification: NSNotification) {
+    func handleKeyboardWillHideNotification(_ notification: Notification) {
         if  txtActiveTextView.tag == 99 {
             scvBackGround.contentOffset.y = 0
         }
@@ -145,7 +145,7 @@ class TemplateModifyViewController: UIViewController,UITextViewDelegate,UIScroll
     /*　既存のEntityを修正　*/
     func modifyExist(){
         /* Get ManagedObjectContext from AppDelegate */
-        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let managedContext: NSManagedObjectContext = appDelegate.managedObjectContext!
         
         /* Set the name attribute using key-value coding */
@@ -175,7 +175,7 @@ class TemplateModifyViewController: UIViewController,UITextViewDelegate,UIScroll
         }
         
         /* 保存後元の画面に戻る */
-        self.navigationController?.popViewControllerAnimated(true)
+        self.navigationController?.popViewController(animated: true)
     }
     
     /*－－－－－－－－－－　CoreData　終了　－－－－－－－－－－*/

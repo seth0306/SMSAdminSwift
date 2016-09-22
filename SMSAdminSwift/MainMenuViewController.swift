@@ -50,23 +50,23 @@ class MainMenuViewController: UIViewController,UIAlertViewDelegate,UIPopoverPres
         
     }
     
-    @IBAction func changeFromMailAddress(sender: AnyObject) {
+    @IBAction func changeFromMailAddress(_ sender: AnyObject) {
         let dh = DataHandler()
         props[pkey_fromMail] = fromMailAddress.text
         dh.writeProperty(pkey_fromMail, value: props[pkey_fromMail]!)
         
-        let alertController = UIAlertController(title: "変更完了", message: "送信元メールアドレスの変更が完了しました", preferredStyle: .Alert)
-        let cancelAction = UIAlertAction(title: "OK", style: .Cancel) {
+        let alertController = UIAlertController(title: "変更完了", message: "送信元メールアドレスの変更が完了しました", preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "OK", style: .cancel) {
             action in NSLog("いいえボタンが押されました")
         }
         alertController.addAction(cancelAction)
-        presentViewController(alertController, animated: true, completion: nil)
+        present(alertController, animated: true, completion: nil)
 
         //let messageSentAlert = UIAlertView(title: "変更完了", message: "送信元メールアドレスの変更が完了しました", delegate: self, cancelButtonTitle: "OK")
         //messageSentAlert.show()
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         let dh = DataHandler()
         var dics:Dictionary<String,Int> = dh.countSentMail()
         mailCount.text = String(dics["EM"]!) + "通"
@@ -76,18 +76,18 @@ class MainMenuViewController: UIViewController,UIAlertViewDelegate,UIPopoverPres
         
     
     /*　SMS送信画面表示　*/
-    @IBAction func showSendSMS(sender: UIButton) {
+    @IBAction func showSendSMS(_ sender: UIButton) {
         /* Templateがゼロの場合は遷移しない */
         let dh = DataHandler()
         if (dh.fetchEntityDataNoSort("Template")!.count > 0) {
-            performSegueWithIdentifier("showSendSMS", sender: nil)
+            performSegue(withIdentifier: "showSendSMS", sender: nil)
         } else {
-            let alertController = UIAlertController(title: "Templateなし", message: "Templateが一つもありません", preferredStyle: .Alert)
-            let cancelAction = UIAlertAction(title: "OK", style: .Cancel) {
+            let alertController = UIAlertController(title: "Templateなし", message: "Templateが一つもありません", preferredStyle: .alert)
+            let cancelAction = UIAlertAction(title: "OK", style: .cancel) {
                 action in NSLog("いいえボタンが押されました")
             }
             alertController.addAction(cancelAction)
-            presentViewController(alertController, animated: true, completion: nil)
+            present(alertController, animated: true, completion: nil)
 
             //let NoTemplateErrorAlert = UIAlertView(title: "Templateなし", message: "Templateが一つもありません", delegate: self, cancelButtonTitle: "OK")
             //NoTemplateErrorAlert.show()
@@ -95,16 +95,16 @@ class MainMenuViewController: UIViewController,UIAlertViewDelegate,UIPopoverPres
     }
     
     /*　履歴画面表示　*/
-    @IBAction func showHistory(sender: UIButton) {
-        performSegueWithIdentifier("showHistorySMS", sender: nil)
+    @IBAction func showHistory(_ sender: UIButton) {
+        performSegue(withIdentifier: "showHistorySMS", sender: nil)
     }
     /* テンプレート管理画面表示 */
-    @IBAction func showTemplateAdmin(sender: UIButton) {
-        performSegueWithIdentifier("showTemplateAdmin", sender: nil)
+    @IBAction func showTemplateAdmin(_ sender: UIButton) {
+        performSegue(withIdentifier: "showTemplateAdmin", sender: nil)
     }
     
-    @IBAction func showGroupOrder(sender: AnyObject) {
-        performSegueWithIdentifier("showGroupOrder", sender: nil)
+    @IBAction func showGroupOrder(_ sender: AnyObject) {
+        performSegue(withIdentifier: "showGroupOrder", sender: nil)
     }
     
     /*　受信者管理画面表示　*/

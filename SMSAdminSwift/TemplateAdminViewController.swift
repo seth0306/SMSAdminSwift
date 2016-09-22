@@ -23,15 +23,15 @@ class TemplateAdminViewController: UIViewController,UITableViewDelegate,UITableV
         self.title = "テンプレート管理"
         
         /* 追加ボタンを作成 */
-        let right1 = UIBarButtonItem(title: "追加", style: .Plain, target: self, action: #selector(TemplateAdminViewController.showNewTemplate))
+        let right1 = UIBarButtonItem(title: "追加", style: .plain, target: self, action: #selector(TemplateAdminViewController.showNewTemplate))
         if let font = UIFont(name: "HiraKakuProN-W6", size: 14 ) {
-            right1.setTitleTextAttributes([NSFontAttributeName: font], forState: UIControlState.Normal)
+            right1.setTitleTextAttributes([NSFontAttributeName: font], for: UIControlState())
         }
         
         /* 編集ボタンを作成 */
-        let right2 = self.editButtonItem()
+        let right2 = self.editButtonItem
         if let font = UIFont(name: "HiraKakuProN-W6", size: 14 ) {
-            right2.setTitleTextAttributes([NSFontAttributeName: font], forState: UIControlState.Normal)
+            right2.setTitleTextAttributes([NSFontAttributeName: font], for: UIControlState())
         }
         right2.setValue("編集", forKey: "title")
 
@@ -46,7 +46,7 @@ class TemplateAdminViewController: UIViewController,UITableViewDelegate,UITableV
         
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         let dh = DataHandler()
         templateArray = dh.fetchEntityDataSort("Template",sort:"order")!
         templateTableView.reloadData()
@@ -57,25 +57,25 @@ class TemplateAdminViewController: UIViewController,UITableViewDelegate,UITableV
     
     /* テンプレート詳細画面（新規追加）を表示 */
     func showNewTemplate() {
-        performSegueWithIdentifier("showNewTemplate", sender: self)
+        performSegue(withIdentifier: "showNewTemplate", sender: self)
     }
 
     /* テンプレート詳細画面（修正）を表示 */
     func showTemplateModify() {
-        performSegueWithIdentifier("showTemplateModify", sender: self)
+        performSegue(withIdentifier: "showTemplateModify", sender: self)
     }
     
     /* 画面間データ受け渡し */
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if segue.identifier == "showTemplateModify" {
-            let ctrl:TemplateModifyViewController = segue.destinationViewController as! TemplateModifyViewController
+            let ctrl:TemplateModifyViewController = segue.destination as! TemplateModifyViewController
             ctrl.title = "テンプレート修正"
             ctrl.targetButtonTitle = "更新"
             ctrl.targetObj = templateObj
             
         } else if segue.identifier == "showNewTemplate" {
-            let ctrl:TemplateModifyViewController = segue.destinationViewController as! TemplateModifyViewController
+            let ctrl:TemplateModifyViewController = segue.destination as! TemplateModifyViewController
             ctrl.title = "新規テンプレート"
             ctrl.targetButtonTitle = "保存"
         }
@@ -86,18 +86,18 @@ class TemplateAdminViewController: UIViewController,UITableViewDelegate,UITableV
     /*－－－－－－－－－－　テーブル関係　開始　－－－－－－－－－－*/
     
     /* TableView内のセクション数を返す */
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1;
     }
     
     /* TableView内のCellの表示 */
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         //let cell: HistoryTableViewCell = HistoryTableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "hisotryTableCell")
-        let  cell = tableView.dequeueReusableCellWithIdentifier("templateTableCell") as! TemplateTableViewCell
-        let row = indexPath.row
-        let template_title:NSString? = templateArray![row].valueForKey("title") as? NSString
-        let template_summary:NSString? = templateArray![row].valueForKey("summary") as? NSString
+        let  cell = tableView.dequeueReusableCell(withIdentifier: "templateTableCell") as! TemplateTableViewCell
+        let row = (indexPath as NSIndexPath).row
+        let template_title:NSString? = templateArray![row].value(forKey: "title") as? NSString
+        let template_summary:NSString? = templateArray![row].value(forKey: "summary") as? NSString
         /* セルに値を設定 */
         cell.template_summary.text = template_summary as? String
         cell.template_title.text = template_title as? String
@@ -105,74 +105,74 @@ class TemplateAdminViewController: UIViewController,UITableViewDelegate,UITableV
     }
     
     /* TableView内のセクション内の行数を返す */
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return templateArray!.count
     }
     
     /* headerの高さを指定 */
-    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return  32
     }
     
     /* headerを作成 */
-    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let  headerCell = tableView.dequeueReusableCellWithIdentifier("templateTableHeaderCell") as! TemplateTableViewHeaderCell
-        headerCell.backgroundColor = UIColor.cyanColor()
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let  headerCell = tableView.dequeueReusableCell(withIdentifier: "templateTableHeaderCell") as! TemplateTableViewHeaderCell
+        headerCell.backgroundColor = UIColor.cyan
         return headerCell
     }
     
     //セルが選択された場合の処理
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let row = indexPath.row
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let row = (indexPath as NSIndexPath).row
         templateObj = templateArray![row] as? NSManagedObject
         showTemplateModify()
     }
     
     //UITableViewDelegateに追加されたメソッド
-    func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle {
-        return UITableViewCellEditingStyle.Delete
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
+        return UITableViewCellEditingStyle.delete
     }
     /* 削除許可 */
-    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }
     
     /* 編集モード */
-    override func setEditing(editing: Bool, animated: Bool) {
+    override func setEditing(_ editing: Bool, animated: Bool) {
         super.setEditing(editing, animated: animated)
         print(#function)
         self.templateTableView.setEditing(editing, animated: animated)
     }
     /* 編集・削除処理 */
-    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == UITableViewCellEditingStyle.Delete {
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == UITableViewCellEditingStyle.delete {
             /* 削除対象オブジェクトの取得 */
-            let removeObj:NSManagedObject = templateArray![indexPath.row] as! NSManagedObject;
+            let removeObj:NSManagedObject = templateArray![(indexPath as NSIndexPath).row] as! NSManagedObject;
             /* CoreDataから削除　*/
             let dh = DataHandler()
             dh.deleteSpecifiedEntity(removeObj)
             /*　tableViewから削除　*/
-            templateArray!.removeAtIndex(indexPath.row)
-            self.templateTableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Fade)
+            templateArray!.remove(at: (indexPath as NSIndexPath).row)
+            self.templateTableView.deleteRows(at: [indexPath], with: UITableViewRowAnimation.fade)
         }
     }
     
     //セルの移動を許可
-    func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+    func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
         return true
     }
     
-    func tableView(tableView: UITableView, moveRowAtIndexPath sourceIndexPath: NSIndexPath, toIndexPath destinationIndexPath: NSIndexPath) {
-        if sourceIndexPath.section == destinationIndexPath.section { // 移動元と移動先は同じセクションです。
-            if destinationIndexPath.row < templateArray!.count {
-                let item:NSManagedObject = templateArray![sourceIndexPath.row] as! NSManagedObject// 移動対象を保持します。
-                templateArray!.removeAtIndex(sourceIndexPath.row)// 配列から一度消します。
-                templateArray!.insert(item, atIndex: destinationIndexPath.row)// 保持しておいた対象を挿入します。
+    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        if (sourceIndexPath as NSIndexPath).section == (destinationIndexPath as NSIndexPath).section { // 移動元と移動先は同じセクションです。
+            if (destinationIndexPath as NSIndexPath).row < templateArray!.count {
+                let item:NSManagedObject = templateArray![(sourceIndexPath as NSIndexPath).row] as! NSManagedObject// 移動対象を保持します。
+                templateArray!.remove(at: (sourceIndexPath as NSIndexPath).row)// 配列から一度消します。
+                templateArray!.insert(item, at: (destinationIndexPath as NSIndexPath).row)// 保持しておいた対象を挿入します。
             }
         }
     }
     
-    override func viewDidDisappear(animated: Bool) {
+    override func viewDidDisappear(_ animated: Bool) {
         updateOrder()
     }
     
@@ -181,7 +181,7 @@ class TemplateAdminViewController: UIViewController,UITableViewDelegate,UITableV
     /*　既存のEntityを修正　*/
     func updateOrder(){
         /* Get ManagedObjectContext from AppDelegate */
-        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let managedContext: NSManagedObjectContext = appDelegate.managedObjectContext!
         
         for cnt in 0 ..< templateArray!.count {

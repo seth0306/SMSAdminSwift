@@ -13,44 +13,58 @@ class HistorySMSViewController: UIViewController,UITableViewDataSource,UITableVi
 
     @IBOutlet weak var historyTableView: UITableView!
     
-    var historyArray = [];
+    //var historyArray:NSArray? = [];
+    var historyArray:Array<AnyObject> = [];
     
     override func viewDidLoad() {
         self.title = "送信履歴"
         /* CoreDataよりHistoryテーブルを読み出す */
         let dh = DataHandler()
-        historyArray = dh.fetchEntityDataNoSort("History")!
+        
+        //historyArray = dh.fetchEntityDataNoSort("History")! as NSArray
+        //historyArray = dh.fetchEntityDataNoSort("History")! as Array<AnyObject>
+        
+        historyArray = dh.fetchEntityDataSort("History",sort:"sent_date")!
+        historyArray.reverse()
+        
         /* sent_dateでソートする */
-        let dateSortDescriptor:NSSortDescriptor = NSSortDescriptor(key:"sent_date", ascending:false)
-        historyArray = historyArray.sortedArrayUsingDescriptors([dateSortDescriptor])
+        //let dateSortDescriptor:NSSortDescriptor = NSSortDescriptor(key:"sent_date", ascending:false)
+        //historyArray = historyArray.sortedArray(using: [dateSortDescriptor])
+        /*
+        historyArray.sort(by: {
+            (a:AnyObject,b:AnyObject) -> Bool in return
+            ((a as! NSManagedObject).value(forKey: "sent_date") as! Date) >
+                ((b as! NSManagedObject).value(forKey: "sent_date") as! Date)
+        });
+        */
         
     }
     
     /* TableView内のセクション数を返す */
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1;
     }
 
     /* TableView内のCellの表示 */
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         //let cell: HistoryTableViewCell = HistoryTableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "hisotryTableCell")
-        let  cell = tableView.dequeueReusableCellWithIdentifier("hisotryTableCell") as! HistoryTableViewCell
-        let row = indexPath.row
-        let sent_date:NSDate? = historyArray[row].valueForKey("sent_date") as? NSDate
-        let methodString:String? = historyArray[row].valueForKey("method") as? String ?? ""
-        let rcp_name:String? = historyArray[row].valueForKey("rcp_name") as? String ?? ""
-        let tmp_name:String? = historyArray[row].valueForKey("tmp_name") as? String ?? ""
-        let count:NSNumber? = historyArray[row].valueForKey("count") as? NSNumber ?? 0
+        let  cell = tableView.dequeueReusableCell(withIdentifier: "hisotryTableCell") as! HistoryTableViewCell
+        let row = (indexPath as NSIndexPath).row
+        let sent_date:Date? = (historyArray[row] as AnyObject).value(forKey: "sent_date") as? Date
+        let methodString:String? = (historyArray[row] as AnyObject).value(forKey: "method") as? String ?? ""
+        let rcp_name:String? = (historyArray[row] as AnyObject).value(forKey: "rcp_name") as? String ?? ""
+        let tmp_name:String? = (historyArray[row] as AnyObject).value(forKey: "tmp_name") as? String ?? ""
+        let count:NSNumber? = (historyArray[row] as AnyObject).value(forKey: "count") as? NSNumber ?? 0
         
         // NSDateFormatter を用意
-        let formatter = NSDateFormatter()
+        let formatter = DateFormatter()
         // 変換用の書式を設定
-        formatter.timeStyle = .NoStyle
+        formatter.timeStyle = .none
         formatter.dateFormat = "YYYY-MM-dd"
         /* セルに値を設定 */
         cell.sentTitle.text = tmp_name
-        cell.sentDate.text = formatter.stringFromDate(sent_date!);
+        cell.sentDate.text = formatter.string(from: sent_date!);
         cell.sentRcpName.text = rcp_name
         cell.sentMethodType.text = methodString
         cell.sentCount.text = count?.stringValue
@@ -58,20 +72,20 @@ class HistorySMSViewController: UIViewController,UITableViewDataSource,UITableVi
     }
     
     /* TableView内のセクション内の行数を返す */
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return historyArray.count
     }
     
     /* headerの高さを指定 */
-    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return  32
     }
     
     /* headerを作成 */
-    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
-        let  headerCell = tableView.dequeueReusableCellWithIdentifier("hisotryTableHeaderCell") as! HistoryTableViewHeaderCell
-        headerCell.backgroundColor = UIColor.cyanColor()
+        let  headerCell = tableView.dequeueReusableCell(withIdentifier: "hisotryTableHeaderCell") as! HistoryTableViewHeaderCell
+        headerCell.backgroundColor = UIColor.cyan
         return headerCell
     }
     

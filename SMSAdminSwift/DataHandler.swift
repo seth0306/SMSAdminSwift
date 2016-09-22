@@ -14,7 +14,7 @@ class DataHandler: NSObject {
     override init() {
         super.init()
         
-        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
 
         //自動マイグレーション用にオプションを指定
         let options:NSDictionary  = [NSMigratePersistentStoresAutomaticallyOption: true,
@@ -22,9 +22,9 @@ class DataHandler: NSObject {
         
         let coordinator: NSPersistentStoreCoordinator? = NSPersistentStoreCoordinator(managedObjectModel: appDelegate.managedObjectModel)
         var error: NSError? = nil
-        let url = appDelegate.applicationDocumentsDirectory.URLByAppendingPathComponent("SMSAdminSwift.sqlite")
+        let url = appDelegate.applicationDocumentsDirectory.appendingPathComponent("SMSAdminSwift.sqlite")
         do {
-            try coordinator!.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: url, options: options as [NSObject : AnyObject])
+            try coordinator!.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: url, options: options as! [AnyHashable: Any])
         } catch let error1 as NSError {
             error = error1
         }
@@ -42,8 +42,8 @@ class DataHandler: NSObject {
         if (results != nil) {
             if (results!.count > 0) {
                 for result:AnyObject in results! {
-                    let colKey = result.valueForKey("key") as! String
-                    let colValue = result.valueForKey("property") as! String
+                    let colKey = result.value(forKey: "key") as! String
+                    let colValue = result.value(forKey: "property") as! String
                     dics[colKey] = colValue
                 }
             }
@@ -51,7 +51,7 @@ class DataHandler: NSObject {
         return dics
     }
 
-    func writeProperty(key:String,value:String) {
+    func writeProperty(_ key:String,value:String) {
         var obj:NSManagedObject? = fetchNSManagedObjectString("Other", targetColumn: "key", targetValue: key)
         if (obj == nil) {
             obj = createNewEntity("Other")
@@ -82,36 +82,36 @@ class DataHandler: NSObject {
     
     func countSentMail()->Dictionary<String,Int> {
         /* Get ManagedObjectContext from AppDelegate */
-        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let manageContext = appDelegate.managedObjectContext!
 
         /* 今日の日付を取得 */
-        let now = NSDate()
+        let now = Date()
         /* NSCalendarを取得 */
-        let calendar = NSCalendar(identifier: NSCalendarIdentifierGregorian)!
+        let calendar = Calendar(identifier: Calendar.Identifier.gregorian)
         /* １日前 */
-        let startDate = calendar.dateBySettingHour(0, minute: 0, second: 0, ofDate: now, options: [])!
+        let startDate = (calendar as NSCalendar).date(bySettingHour: 0, minute: 0, second: 0, of: now, options: [])!
         
         /* １日後 */
-        let tmpDate = calendar.dateByAddingUnit(NSCalendarUnit.Day, value: 1, toDate: now, options: [])
-        let endDate = calendar.dateBySettingHour(0, minute: 0, second: 0, ofDate: tmpDate!, options: [])!
+        let tmpDate = (calendar as NSCalendar).date(byAdding: NSCalendar.Unit.day, value: 1, to: now, options: [])
+        let endDate = (calendar as NSCalendar).date(bySettingHour: 0, minute: 0, second: 0, of: tmpDate!, options: [])!
         
         /* 検索条件設定 */
-        let predicate = NSPredicate(format: "(sent_date >= %@ ) and (sent_date < %@)",startDate,endDate)
+        let predicate = NSPredicate(format: "(sent_date >= %@ ) and (sent_date < %@)",startDate as CVarArg,endDate as CVarArg)
         
         /* Set search conditions */
-        let fetchRequest = NSFetchRequest(entityName: "History")
+        let fetchRequest:NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "History")
         var error: NSError?
         
         fetchRequest.predicate = predicate
-        fetchRequest.resultType = .DictionaryResultType
+        fetchRequest.resultType = .dictionaryResultType
         
         /* countのsumを設定 */
         let sumExpression = NSExpression(format: "sum:(count)")
         let sumED = NSExpressionDescription()
         sumED.expression = sumExpression
         sumED.name = "sumOfCount"
-        sumED.expressionResultType = .DoubleAttributeType
+        sumED.expressionResultType = .doubleAttributeType
         fetchRequest.propertiesToFetch = ["method", sumED]
         fetchRequest.propertiesToGroupBy = ["method"]
         let sort = NSSortDescriptor(key: "method", ascending: false)
@@ -122,7 +122,7 @@ class DataHandler: NSObject {
     /* Query実行 */
         let fetchResults: [AnyObject]?
         do {
-            fetchResults = try manageContext.executeFetchRequest(fetchRequest)
+            fetchResults = try manageContext.fetch(fetchRequest)
         } catch let error1 as NSError {
             error = error1
             fetchResults = nil
@@ -142,26 +142,26 @@ class DataHandler: NSObject {
             return dics
         }
         for rs in fetchResults! {
-            if ("EM" == rs.valueForKey("method") as! String) {
-                dics["EM"] = rs.valueForKey("sumOfCount") as? Int ?? 0
-            } else if ("LS" == rs.valueForKey("method") as! String) {
-                dics["LS"] = rs.valueForKey("sumOfCount") as? Int ?? 0
-            } else if ("SS" == rs.valueForKey("method") as! String) {
-                dics["SS"] = rs.valueForKey("sumOfCount") as? Int ?? 0
+            if ("EM" == rs.value(forKey: "method") as! String) {
+                dics["EM"] = rs.value(forKey: "sumOfCount") as? Int ?? 0
+            } else if ("LS" == rs.value(forKey: "method") as! String) {
+                dics["LS"] = rs.value(forKey: "sumOfCount") as? Int ?? 0
+            } else if ("SS" == rs.value(forKey: "method") as! String) {
+                dics["SS"] = rs.value(forKey: "sumOfCount") as? Int ?? 0
             }
         }
         return dics
         
     }
 
-    func fetchEntityDataSort(entity:String,sort sortColumn:String)->[AnyObject]? {
+    func fetchEntityDataSort(_ entity:String,sort sortColumn:String)->[AnyObject]? {
         
         /* Get ManagedObjectContext from AppDelegate */
-        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let manageContext = appDelegate.managedObjectContext!
         
         /* Set search conditions */
-        let fetchRequest = NSFetchRequest(entityName: entity)
+        let fetchRequest:NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: entity)
         
         let sort = NSSortDescriptor(key: sortColumn, ascending: true)
         fetchRequest.sortDescriptors = [sort]
@@ -171,7 +171,7 @@ class DataHandler: NSObject {
         /* Get result array from ManagedObjectContext */
         let fetchResults: [AnyObject]?
         do {
-            fetchResults = try manageContext.executeFetchRequest(fetchRequest)
+            fetchResults = try manageContext.fetch(fetchRequest)
         } catch let error1 as NSError {
             error = error1
             fetchResults = nil
@@ -192,20 +192,20 @@ class DataHandler: NSObject {
     }
     
     
-    func fetchEntityDataNoSort(entity:String)->[AnyObject]? {
+    func fetchEntityDataNoSort(_ entity:String)->[AnyObject]? {
         
         /* Get ManagedObjectContext from AppDelegate */
-        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let manageContext = appDelegate.managedObjectContext!
         
         /* Set search conditions */
-        let fetchRequest = NSFetchRequest(entityName: entity)
+        let fetchRequest:NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: entity)
         var error: NSError?
         
         /* Get result array from ManagedObjectContext */
         let fetchResults: [AnyObject]?
         do {
-            fetchResults = try manageContext.executeFetchRequest(fetchRequest)
+            fetchResults = try manageContext.fetch(fetchRequest)
         } catch let error1 as NSError {
             error = error1
             fetchResults = nil
@@ -225,14 +225,14 @@ class DataHandler: NSObject {
         }
     }
     
-    func fetchNSManagedObjectInt(entity:String, targetColumn tcol:String, targetValue tval:Int)->NSManagedObject? {
+    func fetchNSManagedObjectInt(_ entity:String, targetColumn tcol:String, targetValue tval:Int)->NSManagedObject? {
         
         /* Get ManagedObjectContext from AppDelegate */
-        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let manageContext = appDelegate.managedObjectContext!
         
         /* Set search conditions */
-        let fetchRequest = NSFetchRequest(entityName: entity)
+        let fetchRequest:NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: entity)
         var error: NSError?
         
         /* 検索条件設定 */
@@ -248,7 +248,7 @@ class DataHandler: NSObject {
     /* Get result array from ManagedObjectContext */
         let fetchResults: [AnyObject]?
         do {
-            fetchResults = try manageContext.executeFetchRequest(fetchRequest)
+            fetchResults = try manageContext.fetch(fetchRequest)
         } catch let error1 as NSError {
             error = error1
             fetchResults = nil
@@ -267,14 +267,14 @@ class DataHandler: NSObject {
             return nil;
         }
     }
-    func fetchNSManagedObjectString(entity:String, targetColumn tcol:String, targetValue tval:String)->NSManagedObject? {
+    func fetchNSManagedObjectString(_ entity:String, targetColumn tcol:String, targetValue tval:String)->NSManagedObject? {
         
         /* Get ManagedObjectContext from AppDelegate */
-        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let manageContext = appDelegate.managedObjectContext!
         
         /* Set search conditions */
-        let fetchRequest = NSFetchRequest(entityName: entity)
+        let fetchRequest:NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: entity)
         var error: NSError?
         
         /* 検索条件設定 */
@@ -290,7 +290,7 @@ class DataHandler: NSObject {
         /* Get result array from ManagedObjectContext */
         let fetchResults: [AnyObject]?
         do {
-            fetchResults = try manageContext.executeFetchRequest(fetchRequest)
+            fetchResults = try manageContext.fetch(fetchRequest)
         } catch let error1 as NSError {
             error = error1
             fetchResults = nil
@@ -312,24 +312,24 @@ class DataHandler: NSObject {
 
     
     /* entityの新規作成 */
-    func createNewEntity(entityName:NSString) -> NSManagedObject{
+    func createNewEntity(_ entityName:NSString) -> NSManagedObject{
         /* Get ManagedObjectContext from AppDelegate */
-        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let managedContext: NSManagedObjectContext = appDelegate.managedObjectContext!
         /* Create new ManagedObject */
-        let entityDesc = NSEntityDescription.entityForName(entityName as String, inManagedObjectContext: managedContext)
-        let newObject = NSManagedObject(entity: entityDesc!, insertIntoManagedObjectContext: managedContext)
+        let entityDesc = NSEntityDescription.entity(forEntityName: entityName as String, in: managedContext)
+        let newObject = NSManagedObject(entity: entityDesc!, insertInto: managedContext)
         return newObject
     }
     
-    func deleteSpecifiedEntity(managedObject: NSManagedObject) {
+    func deleteSpecifiedEntity(_ managedObject: NSManagedObject) {
         
         /* Get ManagedObjectContext from AppDelegate */
-        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let appDelegate: AppDelegate = UIApplication.shared.delegate as! AppDelegate
         let managedContext: NSManagedObjectContext = appDelegate.managedObjectContext!
         
         /* Delete managedObject from managed context */
-        managedContext.deleteObject(managedObject)
+        managedContext.delete(managedObject)
         
         /* Save value to managed context */
         var error: NSError?

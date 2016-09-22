@@ -28,7 +28,7 @@ class CNHandler: NSObject {
     /* Group表示 */
     func showGroup() {
         do {
-            let groups = try store.groupsMatchingPredicate(nil)
+            let groups = try store.groups(matching: nil)
             
             for record:CNGroup in groups {
                 print ("groupName \(record.name)")
@@ -44,7 +44,7 @@ class CNHandler: NSObject {
     func getGroupList() -> Array<Dictionary<String,Any> > {
         var list:Array<Dictionary<String,Any> > = []
         do {
-            let groups = try store.groupsMatchingPredicate(nil)
+            let groups = try store.groups(matching: nil)
             for group:CNGroup in groups {
                 let unit:Dictionary<String,Any> = ["groupIdentifier":group.identifier,"name":group.name]
                 list.append(unit)
@@ -60,10 +60,10 @@ class CNHandler: NSObject {
     func getGroupRecordCountList() -> Array<Any> {
         var list:Array<Any> = []
         do {
-            let groups = try store.groupsMatchingPredicate(nil)
+            let groups = try store.groups(matching: nil)
             for group:CNGroup in groups {
-                let predicate = CNContact.predicateForContactsInGroupWithIdentifier(group.identifier)
-                let contactList = try store.unifiedContactsMatchingPredicate(predicate, keysToFetch: [CNContactGivenNameKey])
+                let predicate = CNContact.predicateForContactsInGroup(withIdentifier: group.identifier)
+                let contactList = try store.unifiedContacts(matching: predicate, keysToFetch: [CNContactGivenNameKey as CNKeyDescriptor])
                 let count:NSInteger = contactList.count as NSInteger? ?? 0
                 let unit:Dictionary<String,Any> = ["groupIdentifier":group.identifier,"count":String(count)]
                 list.append(unit)
@@ -76,28 +76,28 @@ class CNHandler: NSObject {
     }
     
     /* RecipientList取得 */
-    func getRecipientListByGroup(groupIdentifier:String,typeofmethod:methodType) -> Array<String> {
+    func getRecipientListByGroup(_ groupIdentifier:String,typeofmethod:methodType) -> Array<String> {
         var list:Array<String> = []
         do {
-            let predicate = CNContact.predicateForContactsInGroupWithIdentifier(groupIdentifier)
+            let predicate = CNContact.predicateForContactsInGroup(withIdentifier: groupIdentifier)
             let keys = [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactPhoneNumbersKey,CNContactEmailAddressesKey]
-            let contactList = try store.unifiedContactsMatchingPredicate(predicate, keysToFetch: keys)
+            let contactList = try store.unifiedContacts(matching: predicate, keysToFetch: keys as [CNKeyDescriptor])
             for contact:CNContact in contactList {
                 /* 電話番号を取得　一番上のもの */
                 var myPhone:String = ""
                 if contact.phoneNumbers.count > 0 {
-                    let phonenumbder = contact.phoneNumbers[0].value as! CNPhoneNumber
+                    let phonenumbder = contact.phoneNumbers[0].value 
                     myPhone = phonenumbder.stringValue
                 }
                 /* メールアドレスを取得　一番上のもの */
                 var myEMail:String = ""
                 if contact.emailAddresses.count > 0 {
-                    myEMail = contact.emailAddresses[0].value as! String
+                    myEMail = contact.emailAddresses[0].value as String
                 }
                 /* 電話番号を取得　一番上のもの */
                 let fullname = contact.familyName + contact.givenName
                 if (fullname != "") {
-                    let index = fullname.startIndex.advancedBy(0)
+                    let index = fullname.characters.index(fullname.startIndex, offsetBy: 0)
                     switch fullname[index] {
                     case "・","･","•":
                         if (typeofmethod == methodType.methodTypeLongSMS) {
@@ -140,7 +140,7 @@ class CNHandler: NSObject {
      @param groupIdentifier String
      @param typeofmethod methodType
      */
-    func getEachMethodCountByGroup(groupIdentifier:String) -> Dictionary<String,String> {
+    func getEachMethodCountByGroup(_ groupIdentifier:String) -> Dictionary<String,String> {
         /* 戻り値用 */
         var dics:Dictionary<String,String> = ["EM":"0","LS":"0","SS":"0"]
         /* 一時カウント用 */
@@ -149,9 +149,9 @@ class CNHandler: NSObject {
         var ssCount:Int = 0
         
         do {
-            let predicate = CNContact.predicateForContactsInGroupWithIdentifier(groupIdentifier)
+            let predicate = CNContact.predicateForContactsInGroup(withIdentifier: groupIdentifier)
             let keys = [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactPhoneNumbersKey,CNContactEmailAddressesKey]
-            let contactList = try store.unifiedContactsMatchingPredicate(predicate, keysToFetch: keys)
+            let contactList = try store.unifiedContacts(matching: predicate, keysToFetch: keys as [CNKeyDescriptor])
             if contactList.count == 0 {
                 /*戻り値をセット*/
                 dics["EM"] = String(0)
@@ -164,20 +164,20 @@ class CNHandler: NSObject {
                     //let myPhone:String? = phonenumbder.stringValue
                     var myPhone:String = ""
                     if contact.phoneNumbers.count > 0 {
-                        let phonenumbder = contact.phoneNumbers[0].value as! CNPhoneNumber
+                        let phonenumbder = contact.phoneNumbers[0].value 
                         myPhone = phonenumbder.stringValue
                     }
                     /* メールアドレスを取得　一番上のもの */
                     var myEMail:String = ""
                     if contact.emailAddresses.count > 0 {
-                        myEMail = contact.emailAddresses[0].value as! String
+                        myEMail = contact.emailAddresses[0].value as String
                     }
                     
                     /*　fullname作成　*/
                     let fullname = contact.familyName + contact.givenName
                     /* 送信方式タイプ 名前が空白でない場合 */
                     if (fullname != "") {
-                        let index = fullname.startIndex.advancedBy(0)
+                        let index = fullname.characters.index(fullname.startIndex, offsetBy: 0)
                         switch fullname[index] {
                         case "・","･","•":
                             if (myPhone != "") {
@@ -215,19 +215,19 @@ class CNHandler: NSObject {
     /* AddressBookの使用許可確認 */
     func startManagingAB() {
         
-        switch CNContactStore.authorizationStatusForEntityType(.Contacts){
-        case .Authorized:
+        switch CNContactStore.authorizationStatus(for: .contacts){
+        case .authorized:
             print("access granted")
-        case .NotDetermined:
-            store.requestAccessForEntityType(.Contacts){
+        case .notDetermined:
+            store.requestAccess(for: .contacts){
                 succeeded, err in
                 guard err == nil && succeeded else{
                     print("access failed")
                     return
                 }
             }
-        case .Denied:
-            store.requestAccessForEntityType(.Contacts){
+        case .denied:
+            store.requestAccess(for: .contacts){
                 succeeded, err in
                 guard err == nil && succeeded else{
                     print("access denied")
