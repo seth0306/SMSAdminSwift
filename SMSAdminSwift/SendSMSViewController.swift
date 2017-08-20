@@ -480,6 +480,7 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
         
         for g in src! {
             let res:NSManagedObject? = dh.fetchNSManagedObjectString("Group",targetColumn : "groupIdentifier",targetValue : g["groupIdentifier"] as! String)
+            
             if res == nil {
                 misList!.append(g)
             } else {
@@ -491,7 +492,11 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
         //var keys = dics.keys.array
         var keys: [Int] = [Int](dics.keys)
         keys.sort(by: <)
-        for cnt in 0 ..< keys.count {
+        
+        for cnt in keys {
+            print(cnt)
+        //for cnt in 0 ..< keys.count {
+            
             tmpList!.append(dics[cnt]!)
         }
         

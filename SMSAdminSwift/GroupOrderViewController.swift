@@ -91,7 +91,23 @@ class GroupOrderViewController: UIViewController,UITableViewDelegate,UITableView
         }
         for gObj in idxAry {
             //いなければEntitiyを削除
-            groupArray!.remove(at: ((gObj as! NSManagedObject).value(forKey: "order") as? Int)!)
+            //print((gObj as! NSManagedObject).value(forKey: "order") as? Int)
+            let odr = (gObj as! NSManagedObject).value(forKey: "order") as? Int
+            
+            let max = groupArray!.count
+            
+            var removeIdx:Int? = nil
+            for rCnt in 0..<max {
+                print(rCnt)
+                if odr == ((groupArray![rCnt]) as! NSManagedObject).value(forKey: "order") as? Int {
+                    removeIdx = rCnt
+                }
+            }
+            if removeIdx != nil {
+                groupArray!.remove(at: removeIdx!)
+            }
+            //groupArray!.remove(at: ((gObj as! NSManagedObject).value(forKey: "order") as? Int)!)
+            
             dh.deleteSpecifiedEntity(gObj as! NSManagedObject)
         }
         /* DBに書き込み */
