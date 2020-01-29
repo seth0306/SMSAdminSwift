@@ -385,12 +385,34 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
     
     func showSMSWindow(_ body:String,list:[String]){
         /* SMS送信 */
+        /*
         let picker = MFMessageComposeViewController()
         picker.messageComposeDelegate = self;
         picker.recipients = list
         picker.body = String(validatingUTF8: "\(body)")
+        picker.modalPresentationStyle =  .overFullScreen
         present(picker, animated: true, completion: nil)
         self.present(picker, animated: true, completion: nil)
+        */
+        
+        let messageViewController = MFMessageComposeViewController()
+        messageViewController.messageComposeDelegate = self
+        messageViewController.recipients = list
+        messageViewController.body = String(validatingUTF8: "\(body)")
+
+        let containerViewController = UIViewController()
+        containerViewController.view.addSubview(messageViewController.view)
+        messageViewController.willMove(toParent: nil)
+        containerViewController.addChild(messageViewController)
+        messageViewController.didMove(toParent: containerViewController)
+
+        containerViewController.modalPresentationStyle = .fullScreen
+        containerViewController.transitioningDelegate = self as? UIViewControllerTransitioningDelegate
+        present(containerViewController, animated: true, completion: nil)
+
+        
+        
+        
     }
     
     func saveToHistory() {
@@ -421,7 +443,7 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
             try managedContext.save()
         } catch let error1 as NSError {
             error = error1
-            print("Could not save \(error), \(error?.userInfo)")
+            print("Could not save \(String(describing:error)), \(String(describing: error?.userInfo))")
         }
         print("object saved")
         /* 保存後元の画面に戻る */
@@ -435,6 +457,7 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
     func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
         /* カウントをクリア */
         allCount = 0
+        
         switch (result.rawValue) {
         case MessageComposeResult.cancelled.rawValue:
             print("Message was cancelled")
@@ -455,7 +478,9 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
                 saveToHistory()
                 showMessageSentAlert()
             }
+            
             self.dismiss(animated: true, completion: nil)
+            
         default:
             break;
         }
@@ -468,7 +493,7 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
             showSMSWindow(tmpSmsBody,list: pickAnAddressFromList())
         }
     }
-    
+
     func reOrder(_ src:Array<Dictionary<String,Any>>?) -> Array<Dictionary<String,Any>>? {
         var misList:Array<Dictionary<String,Any>>? = []
         var tmpList:Array<Dictionary<String,Any>>? = []
@@ -535,10 +560,10 @@ class SendSMSViewController: UIViewController,UIPickerViewDataSource,UIPickerVie
         /* メソッドごとの人数をセット */
         for cnt in 0 ..< groupList!.count {
             print("cnt = " + String(cnt))
-            var abdics:Dictionary<String,Any> = groupList![cnt]
+            let abdics:Dictionary<String,Any> = groupList![cnt]
             let recid:String = abdics["groupIdentifier"] as! String
             //let cn = CNHandler()
-            var dics:Dictionary<String,String> = cn.getEachMethodCountByGroup(recid)
+            let dics:Dictionary<String,String> = cn.getEachMethodCountByGroup(recid)
             groupListShowCount!.append( (abdics["name"] as! String) + " EM-" + (dics["EM"])! + " LS-" + (dics["LS"])! + " SS-" + (dics["SS"])!)
         }
         

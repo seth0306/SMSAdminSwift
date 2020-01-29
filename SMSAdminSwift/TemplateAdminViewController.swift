@@ -25,13 +25,13 @@ class TemplateAdminViewController: UIViewController,UITableViewDelegate,UITableV
         /* 追加ボタンを作成 */
         let right1 = UIBarButtonItem(title: "追加", style: .plain, target: self, action: #selector(TemplateAdminViewController.showNewTemplate))
         if let font = UIFont(name: "HiraKakuProN-W6", size: 14 ) {
-            right1.setTitleTextAttributes([NSFontAttributeName: font], for: UIControlState())
+            right1.setTitleTextAttributes([NSAttributedString.Key.font: font], for: UIControl.State())
         }
         
         /* 編集ボタンを作成 */
         let right2 = self.editButtonItem
         if let font = UIFont(name: "HiraKakuProN-W6", size: 14 ) {
-            right2.setTitleTextAttributes([NSFontAttributeName: font], for: UIControlState())
+            right2.setTitleTextAttributes([NSAttributedString.Key.font: font], for: UIControl.State())
         }
         right2.setValue("編集", forKey: "title")
 
@@ -56,7 +56,7 @@ class TemplateAdminViewController: UIViewController,UITableViewDelegate,UITableV
     /*－－－－－－－－－－　画面遷移　開始　－－－－－－－－－－*/
     
     /* テンプレート詳細画面（新規追加）を表示 */
-    func showNewTemplate() {
+    @objc func showNewTemplate() {
         performSegue(withIdentifier: "showNewTemplate", sender: self)
     }
 
@@ -99,8 +99,8 @@ class TemplateAdminViewController: UIViewController,UITableViewDelegate,UITableV
         let template_title:NSString? = templateArray![row].value(forKey: "title") as? NSString
         let template_summary:NSString? = templateArray![row].value(forKey: "summary") as? NSString
         /* セルに値を設定 */
-        cell.template_summary.text = template_summary as? String
-        cell.template_title.text = template_title as? String
+        cell.template_summary.text = template_summary as String?
+        cell.template_title.text = template_title as String?
         return cell
     }
     
@@ -129,8 +129,8 @@ class TemplateAdminViewController: UIViewController,UITableViewDelegate,UITableV
     }
     
     //UITableViewDelegateに追加されたメソッド
-    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
-        return UITableViewCellEditingStyle.delete
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        return UITableViewCell.EditingStyle.delete
     }
     /* 削除許可 */
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -144,8 +144,8 @@ class TemplateAdminViewController: UIViewController,UITableViewDelegate,UITableV
         self.templateTableView.setEditing(editing, animated: animated)
     }
     /* 編集・削除処理 */
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == UITableViewCellEditingStyle.delete {
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == UITableViewCell.EditingStyle.delete {
             /* 削除対象オブジェクトの取得 */
             let removeObj:NSManagedObject = templateArray![(indexPath as NSIndexPath).row] as! NSManagedObject;
             /* CoreDataから削除　*/
@@ -153,7 +153,7 @@ class TemplateAdminViewController: UIViewController,UITableViewDelegate,UITableV
             dh.deleteSpecifiedEntity(removeObj)
             /*　tableViewから削除　*/
             templateArray!.remove(at: (indexPath as NSIndexPath).row)
-            self.templateTableView.deleteRows(at: [indexPath], with: UITableViewRowAnimation.fade)
+            self.templateTableView.deleteRows(at: [indexPath], with: UITableView.RowAnimation.fade)
         }
     }
     
@@ -194,7 +194,7 @@ class TemplateAdminViewController: UIViewController,UITableViewDelegate,UITableV
             try managedContext.save()
         } catch let error1 as NSError {
             error = error1
-            print("Could not update \(error), \(error!.userInfo)")
+            print("Could not update \(String(describing:error)), \(error!.userInfo)")
         }
         
         print("Object updated")

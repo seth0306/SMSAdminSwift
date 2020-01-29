@@ -38,7 +38,7 @@ class TemplateModifyViewController: UIViewController,UITextViewDelegate,UIScroll
         /* 保存ボタンを作成 */
         let right1 = UIBarButtonItem(title: targetButtonTitle, style: .plain, target: self, action: #selector(TemplateModifyViewController.saveTemplate))
         if let font = UIFont(name: "HiraKakuProN-W6", size: 14) {
-            right1.setTitleTextAttributes([NSFontAttributeName: font], for: UIControlState())
+            right1.setTitleTextAttributes([NSAttributedString.Key.font: font], for: UIControl.State())
         }
         /* 追加ボタンをナビゲーションバーに追加 */
         self.navigationItem.rightBarButtonItems = [right1];
@@ -83,7 +83,7 @@ class TemplateModifyViewController: UIViewController,UITextViewDelegate,UIScroll
             try managedContext.save()
         } catch let error1 as NSError {
             error = error1
-            print("Could not save \(error), \(error?.userInfo)")
+            print("Could not save \(String(describing: error)), \(String(describing: error?.userInfo))")
         }
         print("object saved")
     }
@@ -107,21 +107,21 @@ class TemplateModifyViewController: UIViewController,UITextViewDelegate,UIScroll
         super.viewWillAppear(animated)
         
         let notificationCenter = NotificationCenter.default
-        notificationCenter.addObserver(self, selector: #selector(TemplateModifyViewController.handleKeyboardWillShowNotification(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        notificationCenter.addObserver(self, selector: #selector(TemplateModifyViewController.handleKeyboardWillHideNotification(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(TemplateModifyViewController.handleKeyboardWillShowNotification(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(TemplateModifyViewController.handleKeyboardWillHideNotification(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         
         let notificationCenter = NotificationCenter.default
-        notificationCenter.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        notificationCenter.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        notificationCenter.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        notificationCenter.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
-    func handleKeyboardWillShowNotification(_ notification: Notification) {
+    @objc func handleKeyboardWillShowNotification(_ notification: Notification) {
         if  txtActiveTextView.tag == 99 {
             let userInfo = (notification as NSNotification).userInfo!
-            let keyboardScreenEndFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
+            let keyboardScreenEndFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
             let myBoundSize: CGSize = UIScreen.main.bounds.size
         
             let txtBottom = txtActiveTextView.frame.origin.y + txtActiveTextView.frame.height + 8.0
@@ -136,7 +136,7 @@ class TemplateModifyViewController: UIViewController,UITextViewDelegate,UIScroll
         }
     }
     
-    func handleKeyboardWillHideNotification(_ notification: Notification) {
+    @objc func handleKeyboardWillHideNotification(_ notification: Notification) {
         if  txtActiveTextView.tag == 99 {
             scvBackGround.contentOffset.y = 0
         }
@@ -160,13 +160,13 @@ class TemplateModifyViewController: UIViewController,UITextViewDelegate,UIScroll
             try managedContext.save()
         } catch let error1 as NSError {
             error = error1
-            print("Could not update \(error), \(error!.userInfo)")
+            print("Could not update \(String(describing:error)), \(error!.userInfo)")
         }
         
         print("Object updated")
     }
     /* Entitiyの追加・更新処理 */
-    func saveTemplate() {
+    @objc func saveTemplate() {
         
         if targetButtonTitle == "保存" {
             createNewEntity()

@@ -1,14 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="DkF-Vq-Cgo">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="DkF-Vq-Cgo">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
-        <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
-        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -469,14 +464,14 @@
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="groupCell" id="6Pf-ZL-dDD" customClass="GroupOrderTableViewCell" customModule="SMSAdminSwift" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="22" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="28" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="6Pf-ZL-dDD" id="7UL-ho-dhH">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="あああ" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yRb-H1-tUQ">
-                                                    <rect key="frame" x="0.0" y="8" width="300" height="11"/>
+                                                    <rect key="frame" x="0.0" y="11" width="300" height="11"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="300" id="bAc-Dp-8X4"/>
                                                     </constraints>
@@ -505,14 +500,14 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="groupHeaderCell" id="mnV-d6-RaJ" customClass="GroupOrderTableViewHeaderCell" customModule="SMSAdminSwift" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="66" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="72" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="mnV-d6-RaJ" id="ibN-af-bX7">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="グループ名" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RKY-mR-cag">
-                                                    <rect key="frame" x="0.0" y="8" width="53.5" height="11"/>
+                                                    <rect key="frame" x="0.0" y="11" width="53.5" height="11"/>
                                                     <fontDescription key="fontDescription" name="HiraKakuProN-W3" family="Hiragino Kaku Gothic ProN" pointSize="11"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -579,20 +574,20 @@
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="templateTableCell" id="Xtp-to-yeD" customClass="TemplateTableViewCell" customModule="SMSAdminSwift" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="22" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="28" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Xtp-to-yeD" id="2kq-Uk-Nk1">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="タイトル" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CTA-Xk-PQ1">
-                                                    <rect key="frame" x="8" y="12" width="44" height="11"/>
+                                                    <rect key="frame" x="15" y="15" width="44" height="11"/>
                                                     <fontDescription key="fontDescription" name="HiraKakuProN-W3" family="Hiragino Kaku Gothic ProN" pointSize="11"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="概要" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dlJ-8V-BHd">
-                                                    <rect key="frame" x="60" y="12" width="22" height="11"/>
+                                                    <rect key="frame" x="67" y="15" width="22" height="11"/>
                                                     <fontDescription key="fontDescription" name="HiraKakuProN-W3" family="Hiragino Kaku Gothic ProN" pointSize="11"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -612,20 +607,20 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="templateTableHeaderCell" id="XuI-AV-4mM" customClass="TemplateTableViewHeaderCell" customModule="SMSAdminSwift" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="66" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="72" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="XuI-AV-4mM" id="BNM-Ea-jeH">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="タイトル" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lpf-61-b5k">
-                                                    <rect key="frame" x="8" y="16" width="44" height="11"/>
+                                                    <rect key="frame" x="15" y="19" width="44" height="11"/>
                                                     <fontDescription key="fontDescription" name="HiraKakuProN-W3" family="Hiragino Kaku Gothic ProN" pointSize="11"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="概要" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PJL-TN-dx0">
-                                                    <rect key="frame" x="60" y="16" width="22" height="11"/>
+                                                    <rect key="frame" x="67" y="19" width="22" height="11"/>
                                                     <fontDescription key="fontDescription" name="HiraKakuProN-W3" family="Hiragino Kaku Gothic ProN" pointSize="11"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -681,13 +676,13 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="サマリー" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MUM-Y8-RWj">
-                                        <rect key="frame" x="17" y="218" width="44" height="11"/>
+                                        <rect key="frame" x="17" y="222" width="44" height="11"/>
                                         <fontDescription key="fontDescription" name="HiraKakuProN-W3" family="Hiragino Kaku Gothic ProN" pointSize="11"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="タイトルを入力してください" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gHk-DQ-7Fd">
-                                        <rect key="frame" x="17" y="180" width="284" height="30"/>
+                                        <rect key="frame" x="17" y="180" width="284" height="34"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="284" id="dgY-yK-xBI"/>
                                             <constraint firstAttribute="width" constant="300" id="t1n-hj-fcj"/>
@@ -701,7 +696,7 @@
                                         </variation>
                                     </textField>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rP7-E2-aIM">
-                                        <rect key="frame" x="17" y="237" width="284" height="26"/>
+                                        <rect key="frame" x="17" y="241" width="284" height="26"/>
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="26" id="UsQ-17-jpx"/>
@@ -713,13 +708,13 @@
                                         </connections>
                                     </textView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="テンプレート（短文）" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PQs-Qa-rng">
-                                        <rect key="frame" x="17" y="269" width="110" height="11"/>
+                                        <rect key="frame" x="17" y="273" width="110" height="11"/>
                                         <fontDescription key="fontDescription" name="HiraKakuProN-W3" family="Hiragino Kaku Gothic ProN" pointSize="11"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kc1-ZM-cyZ">
-                                        <rect key="frame" x="17" y="290" width="284" height="50"/>
+                                        <rect key="frame" x="17" y="294" width="284" height="50"/>
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="7mW-dp-16G"/>
@@ -731,13 +726,13 @@
                                         </connections>
                                     </textView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="テンプレート（長文）" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lbd-Lj-bZF">
-                                        <rect key="frame" x="17" y="348" width="110" height="11"/>
+                                        <rect key="frame" x="17" y="352" width="110" height="11"/>
                                         <fontDescription key="fontDescription" name="HiraKakuProN-W3" family="Hiragino Kaku Gothic ProN" pointSize="11"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" tag="99" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="o4n-vq-KyF">
-                                        <rect key="frame" x="17" y="365" width="284" height="150"/>
+                                        <rect key="frame" x="17" y="369" width="284" height="150"/>
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="150" id="lqI-2V-TP4"/>
@@ -830,14 +825,14 @@
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="hisotryTableCell" id="IvC-My-2Xj" customClass="HistoryTableViewCell" customModule="SMSAdminSwift" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="22" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="28" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="IvC-My-2Xj" id="DIY-bE-gL9">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2015/01/06" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OWF-ie-y0u">
-                                                    <rect key="frame" x="8" y="16" width="70" height="15.5"/>
+                                                    <rect key="frame" x="15" y="19" width="70" height="10"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="70" id="Ere-kF-TpN"/>
                                                     </constraints>
@@ -846,7 +841,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="24基本案内" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sj3-Ne-yEf">
-                                                    <rect key="frame" x="86" y="16" width="60" height="15.5"/>
+                                                    <rect key="frame" x="93" y="19" width="60" height="10"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="60" id="K06-t6-V3z"/>
                                                     </constraints>
@@ -855,7 +850,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="２６年度新人リスト" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J01-b3-Wd4">
-                                                    <rect key="frame" x="154" y="16" width="60" height="15.5"/>
+                                                    <rect key="frame" x="161" y="19" width="60" height="10"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="60" id="Xeh-s5-D8Z"/>
                                                     </constraints>
@@ -864,7 +859,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="LS" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ceh-UR-dgT">
-                                                    <rect key="frame" x="260" y="16" width="30" height="15.5"/>
+                                                    <rect key="frame" x="267" y="19" width="30" height="10"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="30" id="rL8-Zp-mXT"/>
                                                     </constraints>
@@ -873,7 +868,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="---" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vRo-Xy-7rN">
-                                                    <rect key="frame" x="222" y="16" width="30" height="15.5"/>
+                                                    <rect key="frame" x="229" y="19" width="30" height="10"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="30" id="ayZ-hk-Fh6"/>
                                                     </constraints>
@@ -908,9 +903,9 @@
                                             </constraints>
                                             <variation key="default">
                                                 <mask key="constraints">
-                                                    <exclude reference="z1J-TM-3pr"/>
                                                     <exclude reference="S5N-gu-3Qw"/>
                                                     <exclude reference="Ich-DV-w5O"/>
+                                                    <exclude reference="z1J-TM-3pr"/>
                                                     <exclude reference="OtP-66-vn0"/>
                                                     <exclude reference="cOt-oA-rrV"/>
                                                 </mask>
@@ -925,14 +920,14 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="hisotryTableHeaderCell" id="CLY-Uf-WaV" customClass="HistoryTableViewHeaderCell" customModule="SMSAdminSwift" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="66" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="72" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="CLY-Uf-WaV" id="b9o-U2-Hcs">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="送信日" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dE7-om-any">
-                                                    <rect key="frame" x="8" y="20.5" width="70" height="11"/>
+                                                    <rect key="frame" x="15" y="18" width="70" height="11"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="70" id="iHd-rB-OWX"/>
                                                     </constraints>
@@ -941,7 +936,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="タイトル" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RMy-LN-Cjy">
-                                                    <rect key="frame" x="86" y="20.5" width="60" height="11"/>
+                                                    <rect key="frame" x="93" y="18" width="60" height="11"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="60" id="FvF-vL-vXY"/>
                                                     </constraints>
@@ -950,7 +945,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="送信先" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kTi-nj-JHX">
-                                                    <rect key="frame" x="154" y="20.5" width="60" height="11"/>
+                                                    <rect key="frame" x="161" y="18" width="60" height="11"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="60" id="vBc-24-VJ6"/>
                                                     </constraints>
@@ -959,7 +954,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="件数" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kOi-0C-31n">
-                                                    <rect key="frame" x="222" y="20.5" width="30" height="11"/>
+                                                    <rect key="frame" x="229" y="18" width="30" height="11"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="30" id="5SI-wp-whx"/>
                                                     </constraints>
@@ -968,7 +963,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="種別" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tXB-qj-tJI">
-                                                    <rect key="frame" x="260" y="20.5" width="30" height="11"/>
+                                                    <rect key="frame" x="267" y="18" width="30" height="11"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="30" id="tbZ-rG-er5"/>
                                                     </constraints>
@@ -1001,8 +996,8 @@
                                             </constraints>
                                             <variation key="default">
                                                 <mask key="constraints">
-                                                    <exclude reference="fYQ-6B-2Ii"/>
                                                     <exclude reference="T6H-LF-d04"/>
+                                                    <exclude reference="fYQ-6B-2Ii"/>
                                                     <exclude reference="1MZ-Sv-EYc"/>
                                                 </mask>
                                             </variation>
@@ -1248,6 +1243,7 @@
                             </mask>
                         </variation>
                     </view>
+                    <navigationItem key="navigationItem" id="ztb-3i-tg2"/>
                     <connections>
                         <outlet property="endCount" destination="wlx-I7-hyU" id="zdd-Dv-HuA"/>
                         <outlet property="recipientListName" destination="rA0-y0-he5" id="OPg-KT-Xx8"/>
@@ -1268,7 +1264,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="DkF-Vq-Cgo" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="ouH-gf-7c8">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>

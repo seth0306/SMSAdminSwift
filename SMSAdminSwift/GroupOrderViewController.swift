@@ -26,13 +26,13 @@ class GroupOrderViewController: UIViewController,UITableViewDelegate,UITableView
         /* 保存ボタンを作成 */
         let right1 = UIBarButtonItem(title: "削除", style: .plain, target: self, action: #selector(GroupOrderViewController.deleteAllGroup))
         if let font = UIFont(name: "HiraKakuProN-W6", size: 14 ) {
-            right1.setTitleTextAttributes([NSFontAttributeName: font], for: UIControlState())
+            right1.setTitleTextAttributes([NSAttributedString.Key.font: font], for: UIControl.State())
         }
         
         /* 編集ボタンを作成 */
         let right2 = self.editButtonItem
         if let font = UIFont(name: "HiraKakuProN-W6", size: 14 ) {
-            right2.setTitleTextAttributes([NSFontAttributeName: font], for: UIControlState())
+            right2.setTitleTextAttributes([NSAttributedString.Key.font: font], for: UIControl.State())
         }
         right2.setValue("編集", forKey: "title")
         
@@ -135,8 +135,8 @@ class GroupOrderViewController: UIViewController,UITableViewDelegate,UITableView
     
     /*－－－－－－－－－－　テーブル関係　開始　－－－－－－－－－－*/
     //削除アイコンを消す
-    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
-        return UITableViewCellEditingStyle.none
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        return UITableViewCell.EditingStyle.none
     }
     func tableView(_ tableView: UITableView, shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool {
         return false
@@ -213,7 +213,7 @@ class GroupOrderViewController: UIViewController,UITableViewDelegate,UITableView
         self.navigationController?.popViewController(animated: true)
     }
     /* Entitiyの追加・更新処理 */
-    func deleteAllGroup() {
+    @objc func deleteAllGroup() {
         
         let dh = DataHandler()
         
@@ -246,7 +246,7 @@ class GroupOrderViewController: UIViewController,UITableViewDelegate,UITableView
             try managedContext.save()
         } catch let error1 as NSError {
             error = error1
-            print("Could not save \(error), \(error?.userInfo)")
+            print("Could not save \(String(describing:error)), \(String(describing: error?.userInfo))")
         }
         print("object saved")
         return groupObject
@@ -269,7 +269,7 @@ class GroupOrderViewController: UIViewController,UITableViewDelegate,UITableView
             try managedContext.save()
         } catch let error1 as NSError {
             error = error1
-            print("Could not update \(error), \(error!.userInfo)")
+            print("Could not update \(String(describing:error)), \(error!.userInfo)")
         }
         
         print("Object updated")

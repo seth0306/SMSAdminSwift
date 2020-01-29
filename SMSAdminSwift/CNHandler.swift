@@ -97,7 +97,7 @@ class CNHandler: NSObject {
                 /* 電話番号を取得　一番上のもの */
                 let fullname = contact.familyName + contact.givenName
                 if (fullname != "") {
-                    let index = fullname.characters.index(fullname.startIndex, offsetBy: 0)
+                    let index = fullname.index(fullname.startIndex, offsetBy: 0)
                     switch fullname[index] {
                     case "・","･","•":
                         if (typeofmethod == methodType.methodTypeLongSMS) {
@@ -177,7 +177,7 @@ class CNHandler: NSObject {
                     let fullname = contact.familyName + contact.givenName
                     /* 送信方式タイプ 名前が空白でない場合 */
                     if (fullname != "") {
-                        let index = fullname.characters.index(fullname.startIndex, offsetBy: 0)
+                        let index = fullname.index(fullname.startIndex, offsetBy: 0)
                         switch fullname[index] {
                         case "・","･","•":
                             if (myPhone != "") {

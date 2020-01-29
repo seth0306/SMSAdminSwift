@@ -68,7 +68,7 @@ class MainMenuViewController: UIViewController,UIAlertViewDelegate,UIPopoverPres
     
     override func viewWillAppear(_ animated: Bool) {
         let dh = DataHandler()
-        var dics:Dictionary<String,Int> = dh.countSentMail()
+        let dics:Dictionary<String,Int> = dh.countSentMail()
         mailCount.text = String(dics["EM"]!) + "通"
         lsCount.text = String(dics["LS"]!) + "通"
         ssCount.text = String(dics["SS"]!) + "通"

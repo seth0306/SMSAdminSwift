@@ -21,12 +21,12 @@ class DataHandler: NSObject {
             NSInferMappingModelAutomaticallyOption: true]
         
         let coordinator: NSPersistentStoreCoordinator? = NSPersistentStoreCoordinator(managedObjectModel: appDelegate.managedObjectModel)
-        var error: NSError? = nil
+        //var error: NSError? = nil
         let url = appDelegate.applicationDocumentsDirectory.appendingPathComponent("SMSAdminSwift.sqlite")
         do {
-            try coordinator!.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: url, options: options as! [AnyHashable: Any])
+            try coordinator!.addPersistentStore(ofType: NSSQLiteStoreType, configurationName: nil, at: url, options: options as? [AnyHashable: Any])
         } catch let error1 as NSError {
-            error = error1
+            print(error1.description)
         }
         catch {
             print("Unknown Error")
@@ -68,7 +68,7 @@ class DataHandler: NSObject {
             try managedContext.save()
         } catch let error1 as NSError {
             error = error1
-            print("Could not save \(error), \(error?.userInfo)")
+            print("Could not save \(String(describing:error)), \(String(describing:error?.userInfo))")
         }
         catch {
             print("Unknown Error")
@@ -101,7 +101,7 @@ class DataHandler: NSObject {
         
         /* Set search conditions */
         let fetchRequest:NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "History")
-        var error: NSError?
+        //var error: NSError?
         
         fetchRequest.predicate = predicate
         fetchRequest.resultType = .dictionaryResultType
@@ -124,7 +124,7 @@ class DataHandler: NSObject {
         do {
             fetchResults = try manageContext.fetch(fetchRequest)
         } catch let error1 as NSError {
-            error = error1
+            print(error1.description)
             fetchResults = nil
         }
         catch {
@@ -186,7 +186,7 @@ class DataHandler: NSObject {
             print(results.count)
             return results
         } else {
-            print("Could not fetch \(error) , \(error!.userInfo)")
+            print("Could not fetch \(String(describing:error)) , \(error!.userInfo)")
             return nil;
         }
     }
@@ -220,7 +220,7 @@ class DataHandler: NSObject {
             print(results.count)
             return results
         } else {
-            print("Could not fetch \(error) , \(error!.userInfo)")
+            print("Could not fetch \(String(describing:error)) , \(error!.userInfo)")
             return nil;
         }
     }
@@ -233,7 +233,7 @@ class DataHandler: NSObject {
         
         /* Set search conditions */
         let fetchRequest:NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: entity)
-        var error: NSError?
+        //var error: NSError?
         
         /* 検索条件設定 */
         let predicate = NSPredicate(format: "%K = %d",tcol,Int32(tval))
@@ -250,7 +250,7 @@ class DataHandler: NSObject {
         do {
             fetchResults = try manageContext.fetch(fetchRequest)
         } catch let error1 as NSError {
-            error = error1
+            print(error1.description)
             fetchResults = nil
         }
         catch {
@@ -263,7 +263,7 @@ class DataHandler: NSObject {
         if fetchResults!.count != 0 {
             return fetchResults!.first as? NSManagedObject
         } else {
-            //println("Could not fetch \(error) , \(error!.userInfo)")
+            //println("Could not fetch \(String(describing:error)) , \(error!.userInfo)")
             return nil;
         }
     }
@@ -275,7 +275,7 @@ class DataHandler: NSObject {
         
         /* Set search conditions */
         let fetchRequest:NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: entity)
-        var error: NSError?
+        //var error: NSError?
         
         /* 検索条件設定 */
         let predicate = NSPredicate(format: "%K = %@",tcol,tval)
@@ -292,7 +292,7 @@ class DataHandler: NSObject {
         do {
             fetchResults = try manageContext.fetch(fetchRequest)
         } catch let error1 as NSError {
-            error = error1
+            print(error1.description)
             fetchResults = nil
         }
         catch {
@@ -305,7 +305,7 @@ class DataHandler: NSObject {
         if fetchResults!.count != 0 {
             return fetchResults!.first as? NSManagedObject
         } else {
-            //println("Could not fetch \(error) , \(error!.userInfo)")
+            //println("Could not fetch \(String(describing:error)) , \(error!.userInfo)")
             return nil;
         }
     }
@@ -337,7 +337,7 @@ class DataHandler: NSObject {
             try managedContext.save()
         } catch let error1 as NSError {
             error = error1
-            print("Could not update \(error), \(error!.userInfo)")
+            print("Could not update \(String(describing:error)), \(error!.userInfo)")
         }
         catch {
             print("Unknown Error")
